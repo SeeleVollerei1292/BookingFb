@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Seele\\Documents\\Module-12\\bookingfootball\\Mvc\\Mvc.csproj": {}
+    "C:\\hoctap\\hoc_Tap\\Xuong_DA\\Dat_San_Bong\\hc\\bookingfootball\\Mvc\\Mvc.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Seele\\Documents\\Module-12\\bookingfootball\\Mvc\\Mvc.csproj": {
+    "C:\\hoctap\\hoc_Tap\\Xuong_DA\\Dat_San_Bong\\hc\\bookingfootball\\Mvc\\Mvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Seele\\Documents\\Module-12\\bookingfootball\\Mvc\\Mvc.csproj",
+        "projectUniqueName": "C:\\hoctap\\hoc_Tap\\Xuong_DA\\Dat_San_Bong\\hc\\bookingfootball\\Mvc\\Mvc.csproj",
         "projectName": "Mvc",
-        "projectPath": "C:\\Users\\Seele\\Documents\\Module-12\\bookingfootball\\Mvc\\Mvc.csproj",
-        "packagesPath": "C:\\Users\\Seele\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Seele\\Documents\\Module-12\\bookingfootball\\Mvc\\obj\\",
+        "projectPath": "C:\\hoctap\\hoc_Tap\\Xuong_DA\\Dat_San_Bong\\hc\\bookingfootball\\Mvc\\Mvc.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "C:\\hoctap\\hoc_Tap\\Xuong_DA\\Dat_San_Bong\\hc\\bookingfootball\\Mvc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Seele\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,8 +44,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.300"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -74,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

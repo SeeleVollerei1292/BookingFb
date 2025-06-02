@@ -1,4 +1,4 @@
-﻿namespace Mvc.Models
+﻿namespace bookingfootball.Db_QL
 {
     public class Sanbong
     {
