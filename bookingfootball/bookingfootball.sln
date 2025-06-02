@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36127.28 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bookingfootball", "bookingfootball\bookingfootball.csproj", "{135E1400-617B-4B3F-8661-5BD53D44995E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc", "Mvc\Mvc.csproj", "{B0C11DFD-448C-441B-8229-AE347B38D0AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{135E1400-617B-4B3F-8661-5BD53D44995E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135E1400-617B-4B3F-8661-5BD53D44995E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135E1400-617B-4B3F-8661-5BD53D44995E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135E1400-617B-4B3F-8661-5BD53D44995E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0C11DFD-448C-441B-8229-AE347B38D0AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C11DFD-448C-441B-8229-AE347B38D0AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C11DFD-448C-441B-8229-AE347B38D0AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C11DFD-448C-441B-8229-AE347B38D0AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0E40418-2033-48D3-AC2F-B791621770C1}
+	EndGlobalSection
+EndGlobal

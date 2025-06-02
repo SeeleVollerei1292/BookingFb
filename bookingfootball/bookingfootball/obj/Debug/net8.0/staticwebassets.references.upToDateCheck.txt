@@ -1,0 +1,4 @@
+C:\Users\Seele\Documents\Module-12\bookingfootball\Mvc\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Seele\Documents\Module-12\bookingfootball\Mvc\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Seele\Documents\Module-12\bookingfootball\Mvc\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Seele\Documents\Module-12\bookingfootball\Mvc\obj\Debug\net8.0\staticwebassets.build.json
