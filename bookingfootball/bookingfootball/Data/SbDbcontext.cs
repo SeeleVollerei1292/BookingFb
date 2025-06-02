@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Mvc.Models;
+﻿using bookingfootball.Db_QL;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Mvc.Data
 {
