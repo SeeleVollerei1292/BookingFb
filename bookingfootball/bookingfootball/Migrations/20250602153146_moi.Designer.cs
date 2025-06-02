@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mvc.Data;
 
@@ -11,9 +12,11 @@ using Mvc.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    partial class SbDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250602153146_moi")]
+    partial class moi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,9 +145,6 @@ namespace bookingfootball.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HoaDonChiTietId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -164,8 +164,6 @@ namespace bookingfootball.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HoaDonChiTietId");
 
                     b.HasIndex("NuocUongId");
 
@@ -831,12 +829,6 @@ namespace bookingfootball.Migrations
 
             modelBuilder.Entity("bookingfootball.Db_QL.DichVuDatBong", b =>
                 {
-                    b.HasOne("bookingfootball.Db_QL.HoaDonChiTiet", "HoaDonChiTiet")
-                        .WithMany("DichVuDatBongs")
-                        .HasForeignKey("HoaDonChiTietId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("bookingfootball.Db_QL.NuocUong", "NuocUong")
                         .WithMany()
                         .HasForeignKey("NuocUongId")
@@ -848,8 +840,6 @@ namespace bookingfootball.Migrations
                         .HasForeignKey("ThueSanId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("HoaDonChiTiet");
 
                     b.Navigation("NuocUong");
 
@@ -1017,11 +1007,6 @@ namespace bookingfootball.Migrations
                     b.Navigation("HoaDonChiTiets");
 
                     b.Navigation("LichSuHoaDons");
-                });
-
-            modelBuilder.Entity("bookingfootball.Db_QL.HoaDonChiTiet", b =>
-                {
-                    b.Navigation("DichVuDatBongs");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.KhachHang", b =>
