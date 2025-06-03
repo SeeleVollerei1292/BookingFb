@@ -23,7 +23,6 @@ namespace bookingfootball.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("bookingfootball.Db_QL.CT_HinhThucThanhToan", b =>
-
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -352,7 +351,6 @@ namespace bookingfootball.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GioiTinh")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HoTen")
@@ -361,10 +359,6 @@ namespace bookingfootball.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDienThoai")
                         .IsRequired()
@@ -508,7 +502,6 @@ namespace bookingfootball.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -528,10 +521,6 @@ namespace bookingfootball.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -756,7 +745,13 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NhanVienId")
+                    b.Property<int?>("NhanVienId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<string>("SoDienThoai")
@@ -772,8 +767,7 @@ namespace bookingfootball.Migrations
                     b.HasIndex("KhachHangId")
                         .IsUnique();
 
-                    b.HasIndex("NhanVienId")
-                        .IsUnique();
+                    b.HasIndex("NhanVienId");
 
                     b.ToTable("TaiKhoan");
                 });
@@ -1011,10 +1005,8 @@ namespace bookingfootball.Migrations
                         .IsRequired();
 
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
-                        .WithOne("TaiKhoan")
-                        .HasForeignKey("bookingfootball.Db_QL.TaiKhoan", "NhanVienId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("NhanVienId");
 
                     b.Navigation("KhachHang");
 
@@ -1069,9 +1061,6 @@ namespace bookingfootball.Migrations
                     b.Navigation("HoaDons");
 
                     b.Navigation("LichLamViecs");
-
-                    b.Navigation("TaiKhoan")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.PhieuGiamGia", b =>

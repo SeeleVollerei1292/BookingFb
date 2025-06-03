@@ -43,11 +43,6 @@ namespace Mvc.Data
                 .WithMany(nv => nv.DiemDanhs)
                 .HasForeignKey(dd => dd.NhanVienId);
 
-            modelBuilder.Entity<TaiKhoan>()
-                .HasOne(tk => tk.NhanVien)
-                .WithOne(nv => nv.TaiKhoan)
-                .HasForeignKey<TaiKhoan>(tk => tk.NhanVienId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<TaiKhoan>()
                 .HasOne(tk => tk.KhachHang)
