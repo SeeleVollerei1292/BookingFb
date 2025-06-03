@@ -304,6 +304,9 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayDenSan")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("NhanVienId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PhieuGiamGiaId")
                         .HasColumnType("int");
 
@@ -322,6 +325,8 @@ namespace bookingfootball.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("HoaDonId");
+
+                    b.HasIndex("NhanVienId");
 
                     b.HasIndex("PhieuGiamGiaId");
 
@@ -894,6 +899,12 @@ namespace bookingfootball.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
+                        .WithMany("HoaDonChiTiets")
+                        .HasForeignKey("NhanVienId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("bookingfootball.Db_QL.PhieuGiamGiaChiTiet", "PhieuGiamGia")
                         .WithMany("HoaDonChiTiets")
                         .HasForeignKey("PhieuGiamGiaId");
@@ -903,6 +914,8 @@ namespace bookingfootball.Migrations
                         .HasForeignKey("SanBongId");
 
                     b.Navigation("HoaDon");
+
+                    b.Navigation("NhanVien");
 
                     b.Navigation("PhieuGiamGia");
 
@@ -1049,6 +1062,8 @@ namespace bookingfootball.Migrations
             modelBuilder.Entity("bookingfootball.Db_QL.NhanVien", b =>
                 {
                     b.Navigation("DiemDanhs");
+
+                    b.Navigation("HoaDonChiTiets");
 
                     b.Navigation("HoaDons");
 

@@ -18,5 +18,6 @@
         public ICollection<DiemDanh> DiemDanhs { get; set; }
         public TaiKhoan TaiKhoan { get; set; }
         public ICollection<HoaDon> HoaDons { get; set; }
+        public ICollection<HoaDonChiTiet> HoaDonChiTiets { get; set; } 
     }
 }

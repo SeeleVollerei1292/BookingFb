@@ -9,6 +9,8 @@
         public Sanbong SanBong { get; set; } // Tham chiếu đến sân bóng
         public int? PhieuGiamGiaId { get; set; } // Mã phiếu giảm giá liên kết, có thể là null nếu không áp dụng
         public PhieuGiamGiaChiTiet PhieuGiamGia { get; set; } // Tham chiếu đến phiếu giảm giá chi tiết
+        public int NhanVienId { get; set; } // Mã nhân viên liên kết, có thể là duy nhất
+        public NhanVien NhanVien { get; set; } // Tham chiếu đến nhân viên
         public string MaChiTietHoaDon { get; set; } // Mã chi tiết hóa đơn, có thể là duy nhất
         public decimal TongTienDuocGiam { get; set; } // Tổng tiền được giảm, có thể là 0 nếu không áp dụng phiếu giảm giá
         public decimal TongTien { get; set; } // Tổng tiền của chi tiết hóa đơn, có thể là duy nhất

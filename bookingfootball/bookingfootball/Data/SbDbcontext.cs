@@ -135,6 +135,11 @@ namespace Mvc.Data
                 .WithMany(h => h.DichVuDatBongs)
                 .HasForeignKey(d => d.HoaDonChiTietId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<HoaDonChiTiet>()
+                .HasOne(h => h.NhanVien)
+                .WithMany(s => s.HoaDonChiTiets)
+                .HasForeignKey(h => h.NhanVienId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
         public DbSet<Sanbong> Sanbongs { get; set; }
         public DbSet<LoaiSan> LoaiSans { get; set; }
