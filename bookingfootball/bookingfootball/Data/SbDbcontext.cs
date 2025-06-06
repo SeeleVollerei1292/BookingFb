@@ -1,12 +1,10 @@
 ﻿using bookingfootball.Db_QL;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace bookingfootball.Data
 {
     public class SbDbcontext : DbContext
     {
-
         public SbDbcontext(DbContextOptions<SbDbcontext> options) : base(options)
         {
         }
@@ -32,7 +30,7 @@ namespace bookingfootball.Data
                 .HasOne(sb => sb.LoaiSan)
                 .WithMany(ls => ls.SanBongs)
                 .HasForeignKey(sb => sb.LoaiSanId);
-            
+
             modelBuilder.Entity<LichLamViec>()
                 .HasOne(lv => lv.NhanVien)
                 .WithMany(nv => nv.LichLamViecs)
@@ -42,7 +40,6 @@ namespace bookingfootball.Data
                 .HasOne(dd => dd.NhanVien)
                 .WithMany(nv => nv.DiemDanhs)
                 .HasForeignKey(dd => dd.NhanVienId);
-
 
             modelBuilder.Entity<TaiKhoan>()
                 .HasOne(tk => tk.KhachHang)
@@ -125,17 +122,20 @@ namespace bookingfootball.Data
                 .WithMany()
                 .HasForeignKey(c => c.HinhThucThanhToanId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<DichVuDatBong>()
                 .HasOne(d => d.HoaDonChiTiet)
                 .WithMany(h => h.DichVuDatBongs)
                 .HasForeignKey(d => d.HoaDonChiTietId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<HoaDonChiTiet>()
                 .HasOne(h => h.NhanVien)
                 .WithMany(s => s.HoaDonChiTiets)
                 .HasForeignKey(h => h.NhanVienId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+
         public DbSet<Sanbong> Sanbongs { get; set; }
         public DbSet<LoaiSan> LoaiSans { get; set; }
         public DbSet<Ca> Cas { get; set; }
@@ -150,13 +150,3 @@ namespace bookingfootball.Data
         public DbSet<HoaDonChiTiet> HoaDonChiTiets { get; set; }
         public DbSet<LichSuHoaDon> LichSuHoaDons { get; set; }
         public DbSet<DiaChiKhachHang> DiaChiKhachHangs { get; set; }
-        public DbSet<PhieuGiamGia> PhieuGiamGias { get; set; }
-        public DbSet<PhieuGiamGiaChiTiet> PhieuGiamGiaChiTiets { get; set; }
-        public DbSet<Thue> Thues { get; set; }
-        public DbSet<NuocUong> NuocUongs { get; set; }
-        public DbSet<DichVuDatBong> DichVuDatBongs { get; set; }
-        public DbSet<HinhThucThanhToan> HinhThucThanhToans { get; set; }
-        public DbSet<CT_HinhThucThanhToan> CT_HinhThucThanhToans { get; set; }
-
-    }
-}

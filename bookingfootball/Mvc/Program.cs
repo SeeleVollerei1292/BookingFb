@@ -1,3 +1,8 @@
+using bookingfootball.IRepository;
+using bookingfootball.IRepository.Repository;
+using Microsoft.EntityFrameworkCore;
+using Mvc.Data;
+
 
 using bookingfootball.Constract;
 using bookingfootball.Db_QL;
@@ -6,9 +11,26 @@ using Microsoft.AspNetCore.Identity;
 using Mvc.Areas.Admin.IServices;
 using Mvc.Areas.Admin.IServices.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDbContext<SbDbcontext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddScoped<IThongKeService, ThongKeService>();
+builder.Services.AddControllersWithViews();
+
 builder.Services.AddControllersWithViews().ConfigureApplicationPartManager(manager =>
 {
     // Loại bỏ assembly chứa controller API
@@ -57,11 +79,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();

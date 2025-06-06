@@ -4,11 +4,11 @@
     "Projects": [
       {
         "Path": "bookingfootball\\bookingfootball.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "Mvc\\Mvc.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       }
     ]
   }
