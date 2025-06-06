@@ -14,5 +14,6 @@
         public bool IsActive { get; set; } = true; // Trạng thái hoạt động của tài khoản
         public DateTime NgayTao { get; set; } = DateTime.Now; // Ngày tạo tài khoản
         public DateTime? NgayCapNhatCuoi { get; set; } // Ngày cập nhật cuối cùng (nếu có)
+
     }
 }

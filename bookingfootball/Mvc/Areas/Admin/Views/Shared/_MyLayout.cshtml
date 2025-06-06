@@ -1,5 +1,162 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport88 - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-wrapper {
+            flex: 1;
+            padding: 80px 20px 120px; /* chừa chỗ cho navbar và footer */
+        }
+
+        .navbar-custom {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            height: 76px;
+        }
+
+        .footer {
+            background-color: #003c71;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+            .footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                .footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+
+
+</head>
+
+<body>
+
+    <!-- Nút mở menu -->
+    <nav class="navbar navbar-light navbar-custom px-4">
+        <div class="container-fluid">
+            <button class="btn btn-outline-dark me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+                <i class="bi bi-list"></i> Menu
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo.png" alt="Sport88 Logo">
+            </a>
+            <span class="ms-auto">Xin chào, Nhân viên 1</span>
+        </div>
+    </nav>
+
+    <!-- Sidebar Offcanvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title fw-bold" id="offcanvasMenuLabel">Sport88 Menu</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="@Url.Action("Index", "Booking")">
+                        <i class="bi bi-calendar-check"></i> Đặt lịch
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-person-badge"></i> Giao ca
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="@Url.Action("Index","Nhanvien")" new { area="Admin" })>
+                        <i class="bi bi-person-badge"></i> Quản lý nhân viên
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="@Url.Action("Index","Nuocuong")" new { area="Admin" })>
+                        <i class="bi bi-cup-straw"></i> Quản lý nước uống
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="@Url.Action("Index", "Staff")">
+                        <i class="bi bi-person-check"></i> Checkin
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="main-wrapper overflow-auto">
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Sport88</h5>
+                    <p>A3.11 Block A Tòa nhà Sky Center 5B Phổ Quang, Phường 2, Quận Tân Bình, Thành phố Hồ Chí Minh, Việt Nam</p>
+                    <p><strong>☎</strong> 0904438369<br><strong>✉</strong> info@vietcas.vn</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quy định và chính sách</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Hướng dẫn sử dụng</a></li>
+                        <li><a href="#">Quy chế hoạt động</a></li>
+                        <li><a href="#">Thông tin về thanh toán</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Thông tin chăm sóc khách hàng</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Liên kết nhanh</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Trang chủ</a></li>
+                        <li><a href="#">Dành cho đối tác</a></li>
+                        <li><a href="#">Tin tức</a></li>
+                    </ul>
+                    <img src="/images/bo-cong-thuong.png" alt="Bộ Công Thương" class="img-fluid mt-2">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>
+
