@@ -1,6 +1,4 @@
-﻿
-using bookingfootball;
-using bookingfootball.Constract;
+﻿using bookingfootball.Constract;
 using bookingfootball.Db_QL;
 using bookingfootball.Interfaces;
 using bookingfootball.Persistence.Repositories;
@@ -8,9 +6,10 @@ using bookingfootball.Persistence.Repository;
 using bookingfootball.Service;
 using Microsoft.AspNetCore.Identity;
 
-namespace bookingfootball
+
+namespace bookingfootball.Depen
 {
-    public static  class DependencyInjection
+    public static class DependencyInjection
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {

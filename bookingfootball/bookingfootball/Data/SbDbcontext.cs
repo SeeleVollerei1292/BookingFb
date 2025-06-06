@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 
-namespace Mvc.Data
+namespace bookingfootball.Data
 {
     public class SbDbcontext : DbContext
     {

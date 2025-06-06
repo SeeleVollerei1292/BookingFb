@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bookingfootball.Controllers
-{[Route("auth")]
+{
+    [Route("auth")]
+    [ApiController]
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;

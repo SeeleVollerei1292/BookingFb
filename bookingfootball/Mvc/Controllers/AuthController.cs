@@ -88,7 +88,7 @@ namespace Mvc.Controllers
             // Có thể lưu token vào session nếu muốn
             HttpContext.Session.SetString("AccessToken", token.AccessToken);
 
-            return RedirectToAction("Info", "Auth");
+            return RedirectToAction("Index", "Nhanvien", new { area = "Admin" });
         }
 
         [HttpGet]

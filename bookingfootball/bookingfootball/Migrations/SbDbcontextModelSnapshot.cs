@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Mvc.Data;
+using bookingfootball.Data;
 
 #nullable disable
 
@@ -767,7 +767,9 @@ namespace bookingfootball.Migrations
                     b.HasIndex("KhachHangId")
                         .IsUnique();
 
-                    b.HasIndex("NhanVienId");
+                    b.HasIndex("NhanVienId")
+                        .IsUnique()
+                        .HasFilter("[NhanVienId] IS NOT NULL");
 
                     b.ToTable("TaiKhoans");
                 });
@@ -1005,8 +1007,8 @@ namespace bookingfootball.Migrations
                         .IsRequired();
 
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
-                        .WithMany()
-                        .HasForeignKey("NhanVienId");
+                        .WithOne("TaiKhoan")
+                        .HasForeignKey("bookingfootball.Db_QL.TaiKhoan", "NhanVienId");
 
                     b.Navigation("KhachHang");
 
@@ -1061,6 +1063,8 @@ namespace bookingfootball.Migrations
                     b.Navigation("HoaDons");
 
                     b.Navigation("LichLamViecs");
+
+                    b.Navigation("TaiKhoan");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.PhieuGiamGia", b =>

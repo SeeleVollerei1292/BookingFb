@@ -1,6 +1,6 @@
 ﻿using bookingfootball.Db_QL;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Data;
+using bookingfootball.Data;
 using System.Diagnostics;
 
 namespace bookingfootball.IRepository.Repository

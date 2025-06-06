@@ -1,14 +1,30 @@
 
+using bookingfootball.Constract;
+using bookingfootball.Db_QL;
+using bookingfootball.Service;
+using Microsoft.AspNetCore.Identity;
 using Mvc.Areas.Admin.IServices;
 using Mvc.Areas.Admin.IServices.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().ConfigureApplicationPartManager(manager =>
+{
+    // Loại bỏ assembly chứa controller API
+    var apiAssembly = typeof(bookingfootball.Controllers.AuthController).Assembly;
+    var part = manager.ApplicationParts.FirstOrDefault(p => p.Name == apiAssembly.GetName().Name);
+    if (part != null)
+    {
+        manager.ApplicationParts.Remove(part);
+    }
+}); 
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<INhanVienServices, NhanVienServices>();
 builder.Services.AddScoped<INuocuongServices, NuocuongServices>();
+builder.Services.AddScoped<IAuthAPIService, AuthAPIService>();
+
+//builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 

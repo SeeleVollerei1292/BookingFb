@@ -1,6 +1,8 @@
-﻿@model IEnumerable<bookingfootball.Db_QL.NhanVien>
+﻿@using bookingfootball.Db_QL
+@model IEnumerable<bookingfootball.Db_QL.NhanVien>
 @{
     var itemNv = ViewBag.EditModel as bookingfootball.Db_QL.NhanVien;
+
     ViewData["Title"] = "Danh Sách Nhân Viên";
     Layout = "_MyLayout";
 }
@@ -65,7 +67,12 @@
         <div class="col-lg-4">
             <div class="card card-custom p-4" style="max-height: 800px; overflow-y: auto;">
                 <h4 class="highlight-title">Thông Tin Nhân Viên</h4>
-                <form action="/Admin/Nhanvien/@(itemNv?.Id != null ? "Edit" : "Create"  )" method="post">
+                <form action="/Admin/Nhanvien/@(itemNv?.Id != null ? "Edit" : "Create")" method="post">
+                    @if (itemNv?.Id != null)
+                    {
+                        <input type="hidden" name="Id" value="@itemNv.Id" />
+                    }
+
                     <div class="mb-3">
                         <label class="form-label">Họ tên</label>
                         <input type="text" class="form-control" id="FullName" name="FullName" value="@itemNv?.FullName" placeholder="Họ tên" />
@@ -82,10 +89,10 @@
                         <label class="form-label">Tên đăng nhập</label>
                         <input type="text" class="form-control" id="Username" name="Username" value="@itemNv?.Username" placeholder="Tài khoản" />
                     </div>
-                    <div class="mb-3">
+                    @* <div class="mb-3">
                         <label class="form-label">Mật khẩu</label>
                         <input type="password" class="form-control" id="Password" name="Password" value="@itemNv?.Password" placeholder="Mật khẩu" />
-                    </div>
+                    </div> *@
                     <div class="mb-3">
                         <label class="form-label">Số điện thoại</label>
                         <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@itemNv?.PhoneNumber" placeholder="Số điện thoại" />
@@ -98,6 +105,14 @@
                         <label class="form-label">Số CCCD</label>
                         <input type="text" class="form-control" id="IdentityNumber" name="IdentityNumber" value="@itemNv?.IdentityNumber" placeholder="Số căn cước công dân " />
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Trạna thái</label>
+                        <select class="form-select" id="IsActive" name="IsActive">
+                            <option value="true" @(itemNv?.IsActive == true ? "selected" : "")>Hoạt động</option>
+                            <option value="false" @(itemNv?.IsActive == false ? "selected" : "")>Tạm khóa</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-success w-100">
                         <i class="bi bi-save me-1"></i>@(itemNv?.Id != null ? "Cập nhật" : "Thêm mới")
                     </button>
@@ -127,8 +142,8 @@
                             <th>Tài khoản</th>
                             <th>Email</th>
                             <th>SĐT</th>
-                            <th>Địa chỉ</th>
                             <th>Trạng thái</th>
+                            <th>Địa chỉ</th>
                             <th>Ngày tạo</th>
                             <th>Thao tác</th>
                         </tr>
@@ -158,6 +173,7 @@
                                     </td>
                                     <td>@item.Address</td>
                                     <td>@item.IdentityNumber</td>
+
                                     <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
                                     <td>
                                         <a href="/Admin/NhanVien/Edit?id=@item.Id" class="btn btn-sm btn-warning me-1">

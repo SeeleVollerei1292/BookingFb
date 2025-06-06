@@ -2,7 +2,7 @@
 using bookingfootball.Interfaces;
 using bookingfootball.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Data;
+using bookingfootball.Data;
 
 namespace bookingfootball.Persistence.Repository
 {

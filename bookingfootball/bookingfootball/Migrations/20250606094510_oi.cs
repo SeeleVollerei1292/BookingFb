@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace bookingfootball.Migrations
 {
     /// <inheritdoc />
-    public partial class a : Migration
+    public partial class oi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,7 +28,7 @@ namespace bookingfootball.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HinhThucThanhToan",
+                name: "HinhThucThanhToans",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -41,18 +41,17 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HinhThucThanhToan", x => x.Id);
+                    table.PrimaryKey("PK_HinhThucThanhToans", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "KhachHang",
+                name: "KhachHangs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HoTen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GioiTinh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GioiTinh = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SoDienThoai = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -60,7 +59,7 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KhachHang", x => x.Id);
+                    table.PrimaryKey("PK_KhachHangs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,7 +93,7 @@ namespace bookingfootball.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NhanVien",
+                name: "NhanViens",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -102,10 +101,9 @@ namespace bookingfootball.Migrations
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StaffCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -113,11 +111,11 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NhanVien", x => x.Id);
+                    table.PrimaryKey("PK_NhanViens", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "NuocUong",
+                name: "NuocUongs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -131,11 +129,11 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NuocUong", x => x.Id);
+                    table.PrimaryKey("PK_NuocUongs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PhieuGiamGia",
+                name: "PhieuGiamGias",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -153,11 +151,11 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PhieuGiamGia", x => x.Id);
+                    table.PrimaryKey("PK_PhieuGiamGias", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Thue",
+                name: "Thues",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -169,11 +167,11 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Thue", x => x.Id);
+                    table.PrimaryKey("PK_Thues", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DiaChiKhachHang",
+                name: "DiaChiKhachHangs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -189,11 +187,11 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiaChiKhachHang", x => x.Id);
+                    table.PrimaryKey("PK_DiaChiKhachHangs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DiaChiKhachHang_KhachHang_KhachHangId",
+                        name: "FK_DiaChiKhachHangs_KhachHangs_KhachHangId",
                         column: x => x.KhachHangId,
-                        principalTable: "KhachHang",
+                        principalTable: "KhachHangs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -220,7 +218,7 @@ namespace bookingfootball.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DiemDanh",
+                name: "DiemDanhs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -233,17 +231,17 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiemDanh", x => x.Id);
+                    table.PrimaryKey("PK_DiemDanhs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DiemDanh_NhanVien_NhanVienId",
+                        name: "FK_DiemDanhs_NhanViens_NhanVienId",
                         column: x => x.NhanVienId,
-                        principalTable: "NhanVien",
+                        principalTable: "NhanViens",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "HoaDon",
+                name: "HoaDons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -259,23 +257,23 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HoaDon", x => x.Id);
+                    table.PrimaryKey("PK_HoaDons", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HoaDon_KhachHang_KhachHangId",
+                        name: "FK_HoaDons_KhachHangs_KhachHangId",
                         column: x => x.KhachHangId,
-                        principalTable: "KhachHang",
+                        principalTable: "KhachHangs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HoaDon_NhanVien_NhanVienId",
+                        name: "FK_HoaDons_NhanViens_NhanVienId",
                         column: x => x.NhanVienId,
-                        principalTable: "NhanVien",
+                        principalTable: "NhanViens",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LichLamViec",
+                name: "LichLamViecs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -290,17 +288,17 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LichLamViec", x => x.Id);
+                    table.PrimaryKey("PK_LichLamViecs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LichLamViec_NhanVien_NhanVienId",
+                        name: "FK_LichLamViecs_NhanViens_NhanVienId",
                         column: x => x.NhanVienId,
-                        principalTable: "NhanVien",
+                        principalTable: "NhanViens",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TaiKhoan",
+                name: "TaiKhoans",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -308,32 +306,33 @@ namespace bookingfootball.Migrations
                     TenDangNhap = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MatKhau = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NhanVienId = table.Column<int>(type: "int", nullable: false),
+                    NhanVienId = table.Column<int>(type: "int", nullable: true),
                     KhachHangId = table.Column<int>(type: "int", nullable: false),
                     SoDienThoai = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NgayCapNhatCuoi = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    NgayCapNhatCuoi = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaiKhoan", x => x.Id);
+                    table.PrimaryKey("PK_TaiKhoans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TaiKhoan_KhachHang_KhachHangId",
+                        name: "FK_TaiKhoans_KhachHangs_KhachHangId",
                         column: x => x.KhachHangId,
-                        principalTable: "KhachHang",
+                        principalTable: "KhachHangs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TaiKhoan_NhanVien_NhanVienId",
+                        name: "FK_TaiKhoans_NhanViens_NhanVienId",
                         column: x => x.NhanVienId,
-                        principalTable: "NhanVien",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalTable: "NhanViens",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "PhieuGiamGiaChiTiet",
+                name: "PhieuGiamGiaChiTiets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -347,17 +346,17 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PhieuGiamGiaChiTiet", x => x.Id);
+                    table.PrimaryKey("PK_PhieuGiamGiaChiTiets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PhieuGiamGiaChiTiet_KhachHang_KhachHangId",
+                        name: "FK_PhieuGiamGiaChiTiets_KhachHangs_KhachHangId",
                         column: x => x.KhachHangId,
-                        principalTable: "KhachHang",
+                        principalTable: "KhachHangs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PhieuGiamGiaChiTiet_PhieuGiamGia_PhieuGiamGiaId",
+                        name: "FK_PhieuGiamGiaChiTiets_PhieuGiamGias_PhieuGiamGiaId",
                         column: x => x.PhieuGiamGiaId,
-                        principalTable: "PhieuGiamGia",
+                        principalTable: "PhieuGiamGias",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -398,7 +397,7 @@ namespace bookingfootball.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LichSuHoaDon",
+                name: "LichSuHoaDons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -413,17 +412,17 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LichSuHoaDon", x => x.Id);
+                    table.PrimaryKey("PK_LichSuHoaDons", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LichSuHoaDon_HoaDon_HoaDonId",
+                        name: "FK_LichSuHoaDons_HoaDons_HoaDonId",
                         column: x => x.HoaDonId,
-                        principalTable: "HoaDon",
+                        principalTable: "HoaDons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "HoaDonChiTiet",
+                name: "HoaDonChiTiets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -442,33 +441,33 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HoaDonChiTiet", x => x.Id);
+                    table.PrimaryKey("PK_HoaDonChiTiets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HoaDonChiTiet_HoaDon_HoaDonId",
+                        name: "FK_HoaDonChiTiets_HoaDons_HoaDonId",
                         column: x => x.HoaDonId,
-                        principalTable: "HoaDon",
+                        principalTable: "HoaDons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HoaDonChiTiet_NhanVien_NhanVienId",
+                        name: "FK_HoaDonChiTiets_NhanViens_NhanVienId",
                         column: x => x.NhanVienId,
-                        principalTable: "NhanVien",
+                        principalTable: "NhanViens",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_HoaDonChiTiet_PhieuGiamGiaChiTiet_PhieuGiamGiaId",
+                        name: "FK_HoaDonChiTiets_PhieuGiamGiaChiTiets_PhieuGiamGiaId",
                         column: x => x.PhieuGiamGiaId,
-                        principalTable: "PhieuGiamGiaChiTiet",
+                        principalTable: "PhieuGiamGiaChiTiets",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_HoaDonChiTiet_Sanbongs_SanBongId",
+                        name: "FK_HoaDonChiTiets_Sanbongs_SanBongId",
                         column: x => x.SanBongId,
                         principalTable: "Sanbongs",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "CT_HinhThucThanhToan",
+                name: "CT_HinhThucThanhToans",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -482,23 +481,23 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CT_HinhThucThanhToan", x => x.Id);
+                    table.PrimaryKey("PK_CT_HinhThucThanhToans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CT_HinhThucThanhToan_HinhThucThanhToan_HinhThucThanhToanId",
+                        name: "FK_CT_HinhThucThanhToans_HinhThucThanhToans_HinhThucThanhToanId",
                         column: x => x.HinhThucThanhToanId,
-                        principalTable: "HinhThucThanhToan",
+                        principalTable: "HinhThucThanhToans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CT_HinhThucThanhToan_HoaDonChiTiet_HoaDonChiTietId",
+                        name: "FK_CT_HinhThucThanhToans_HoaDonChiTiets_HoaDonChiTietId",
                         column: x => x.HoaDonChiTietId,
-                        principalTable: "HoaDonChiTiet",
+                        principalTable: "HoaDonChiTiets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DichVuDatBong",
+                name: "DichVuDatBongs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -514,110 +513,110 @@ namespace bookingfootball.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DichVuDatBong", x => x.Id);
+                    table.PrimaryKey("PK_DichVuDatBongs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DichVuDatBong_HoaDonChiTiet_HoaDonChiTietId",
+                        name: "FK_DichVuDatBongs_HoaDonChiTiets_HoaDonChiTietId",
                         column: x => x.HoaDonChiTietId,
-                        principalTable: "HoaDonChiTiet",
+                        principalTable: "HoaDonChiTiets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DichVuDatBong_NuocUong_NuocUongId",
+                        name: "FK_DichVuDatBongs_NuocUongs_NuocUongId",
                         column: x => x.NuocUongId,
-                        principalTable: "NuocUong",
+                        principalTable: "NuocUongs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DichVuDatBong_Thue_ThueSanId",
+                        name: "FK_DichVuDatBongs_Thues_ThueSanId",
                         column: x => x.ThueSanId,
-                        principalTable: "Thue",
+                        principalTable: "Thues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CT_HinhThucThanhToan_HinhThucThanhToanId",
-                table: "CT_HinhThucThanhToan",
+                name: "IX_CT_HinhThucThanhToans_HinhThucThanhToanId",
+                table: "CT_HinhThucThanhToans",
                 column: "HinhThucThanhToanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CT_HinhThucThanhToan_HoaDonChiTietId",
-                table: "CT_HinhThucThanhToan",
+                name: "IX_CT_HinhThucThanhToans_HoaDonChiTietId",
+                table: "CT_HinhThucThanhToans",
                 column: "HoaDonChiTietId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiaChiKhachHang_KhachHangId",
-                table: "DiaChiKhachHang",
+                name: "IX_DiaChiKhachHangs_KhachHangId",
+                table: "DiaChiKhachHangs",
                 column: "KhachHangId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DichVuDatBong_HoaDonChiTietId",
-                table: "DichVuDatBong",
+                name: "IX_DichVuDatBongs_HoaDonChiTietId",
+                table: "DichVuDatBongs",
                 column: "HoaDonChiTietId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DichVuDatBong_NuocUongId",
-                table: "DichVuDatBong",
+                name: "IX_DichVuDatBongs_NuocUongId",
+                table: "DichVuDatBongs",
                 column: "NuocUongId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DichVuDatBong_ThueSanId",
-                table: "DichVuDatBong",
+                name: "IX_DichVuDatBongs_ThueSanId",
+                table: "DichVuDatBongs",
                 column: "ThueSanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiemDanh_NhanVienId",
-                table: "DiemDanh",
+                name: "IX_DiemDanhs_NhanVienId",
+                table: "DiemDanhs",
                 column: "NhanVienId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HoaDon_KhachHangId",
-                table: "HoaDon",
-                column: "KhachHangId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HoaDon_NhanVienId",
-                table: "HoaDon",
-                column: "NhanVienId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HoaDonChiTiet_HoaDonId",
-                table: "HoaDonChiTiet",
+                name: "IX_HoaDonChiTiets_HoaDonId",
+                table: "HoaDonChiTiets",
                 column: "HoaDonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HoaDonChiTiet_NhanVienId",
-                table: "HoaDonChiTiet",
+                name: "IX_HoaDonChiTiets_NhanVienId",
+                table: "HoaDonChiTiets",
                 column: "NhanVienId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HoaDonChiTiet_PhieuGiamGiaId",
-                table: "HoaDonChiTiet",
+                name: "IX_HoaDonChiTiets_PhieuGiamGiaId",
+                table: "HoaDonChiTiets",
                 column: "PhieuGiamGiaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HoaDonChiTiet_SanBongId",
-                table: "HoaDonChiTiet",
+                name: "IX_HoaDonChiTiets_SanBongId",
+                table: "HoaDonChiTiets",
                 column: "SanBongId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LichLamViec_NhanVienId",
-                table: "LichLamViec",
-                column: "NhanVienId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LichSuHoaDon_HoaDonId",
-                table: "LichSuHoaDon",
-                column: "HoaDonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PhieuGiamGiaChiTiet_KhachHangId",
-                table: "PhieuGiamGiaChiTiet",
+                name: "IX_HoaDons_KhachHangId",
+                table: "HoaDons",
                 column: "KhachHangId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PhieuGiamGiaChiTiet_PhieuGiamGiaId",
-                table: "PhieuGiamGiaChiTiet",
+                name: "IX_HoaDons_NhanVienId",
+                table: "HoaDons",
+                column: "NhanVienId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LichLamViecs_NhanVienId",
+                table: "LichLamViecs",
+                column: "NhanVienId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LichSuHoaDons_HoaDonId",
+                table: "LichSuHoaDons",
+                column: "HoaDonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhieuGiamGiaChiTiets_KhachHangId",
+                table: "PhieuGiamGiaChiTiets",
+                column: "KhachHangId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhieuGiamGiaChiTiets_PhieuGiamGiaId",
+                table: "PhieuGiamGiaChiTiets",
                 column: "PhieuGiamGiaId");
 
             migrationBuilder.CreateIndex(
@@ -641,56 +640,57 @@ namespace bookingfootball.Migrations
                 column: "SanBongId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaiKhoan_KhachHangId",
-                table: "TaiKhoan",
+                name: "IX_TaiKhoans_KhachHangId",
+                table: "TaiKhoans",
                 column: "KhachHangId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaiKhoan_NhanVienId",
-                table: "TaiKhoan",
+                name: "IX_TaiKhoans_NhanVienId",
+                table: "TaiKhoans",
                 column: "NhanVienId",
-                unique: true);
+                unique: true,
+                filter: "[NhanVienId] IS NOT NULL");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CT_HinhThucThanhToan");
+                name: "CT_HinhThucThanhToans");
 
             migrationBuilder.DropTable(
-                name: "DiaChiKhachHang");
+                name: "DiaChiKhachHangs");
 
             migrationBuilder.DropTable(
-                name: "DichVuDatBong");
+                name: "DichVuDatBongs");
 
             migrationBuilder.DropTable(
-                name: "DiemDanh");
+                name: "DiemDanhs");
 
             migrationBuilder.DropTable(
-                name: "LichLamViec");
+                name: "LichLamViecs");
 
             migrationBuilder.DropTable(
-                name: "LichSuHoaDon");
+                name: "LichSuHoaDons");
 
             migrationBuilder.DropTable(
                 name: "SanCas");
 
             migrationBuilder.DropTable(
-                name: "TaiKhoan");
+                name: "TaiKhoans");
 
             migrationBuilder.DropTable(
-                name: "HinhThucThanhToan");
+                name: "HinhThucThanhToans");
 
             migrationBuilder.DropTable(
-                name: "HoaDonChiTiet");
+                name: "HoaDonChiTiets");
 
             migrationBuilder.DropTable(
-                name: "NuocUong");
+                name: "NuocUongs");
 
             migrationBuilder.DropTable(
-                name: "Thue");
+                name: "Thues");
 
             migrationBuilder.DropTable(
                 name: "Cas");
@@ -699,22 +699,22 @@ namespace bookingfootball.Migrations
                 name: "NgayTrongTuans");
 
             migrationBuilder.DropTable(
-                name: "HoaDon");
+                name: "HoaDons");
 
             migrationBuilder.DropTable(
-                name: "PhieuGiamGiaChiTiet");
+                name: "PhieuGiamGiaChiTiets");
 
             migrationBuilder.DropTable(
                 name: "Sanbongs");
 
             migrationBuilder.DropTable(
-                name: "NhanVien");
+                name: "NhanViens");
 
             migrationBuilder.DropTable(
-                name: "KhachHang");
+                name: "KhachHangs");
 
             migrationBuilder.DropTable(
-                name: "PhieuGiamGia");
+                name: "PhieuGiamGias");
 
             migrationBuilder.DropTable(
                 name: "LoaiSans");

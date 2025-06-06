@@ -1,6 +1,6 @@
 ﻿using bookingfootball.Db_QL;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Data;
+using bookingfootball.Data;
 
 namespace bookingfootball.IRepository.Repository
 {
@@ -70,7 +70,8 @@ namespace bookingfootball.IRepository.Repository
                 existingNv.FullName = nv.FullName;
                 existingNv.StaffCode = nv.StaffCode;
                 existingNv.Username = nv.Username;
-                existingNv.Password = nv.Password;
+                //existingNv.Password = nv.Password;
+                existingNv.IsActive = nv.IsActive;
                 existingNv.Email = nv.Email;
                 existingNv.PhoneNumber = nv.PhoneNumber;
                 existingNv.Address = nv.Address;
