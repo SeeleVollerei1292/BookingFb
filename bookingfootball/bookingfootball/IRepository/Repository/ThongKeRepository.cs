@@ -1,7 +1,8 @@
-﻿using bookingfootball.Db_QL;
+﻿using bookingfootball.Data;
+using bookingfootball.Db_QL;
 using bookingfootball.DTOs;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Data;
+
 
 namespace bookingfootball.IRepository.Repository
 {
@@ -19,7 +20,7 @@ namespace bookingfootball.IRepository.Repository
             {
                 // Lấy thông tin từ bảng HoaDonChiTiet và liên kết với HoaDon, LichSuHoaDon, Sanbong
                 return _context.HoaDonChiTiets
-                    .Join(_context.HoaDon, hdt => hdt.HoaDonId, hd => hd.Id, (hdt, hd) => new { hdt, hd })
+                    .Join(_context.HoaDons, hdt => hdt.HoaDonId, hd => hd.Id, (hdt, hd) => new { hdt, hd })
                     .Join(_context.LichSuHoaDons, x => x.hd.Id, lshd => lshd.HoaDonId, (x, lshd) => new { x, lshd })
                     .Where(x => x.lshd.IsActive == true)
                     .Join(_context.Sanbongs, x => x.x.hdt.SanBongId, s => s.Id, (x, s) => new { x, s })
@@ -38,7 +39,7 @@ namespace bookingfootball.IRepository.Repository
         {
             return await Task.Run(() =>
             {
-                return _context.HoaDon
+                return _context.HoaDons
                     .GroupBy(hd => hd.NgayLap.Date)
                     .Select(g => new DoanhThuTheoNgayDTO
                     {
@@ -54,7 +55,7 @@ namespace bookingfootball.IRepository.Repository
         {
             return await Task.Run(() =>
             {
-                return _context.HoaDon
+                return _context.HoaDons
                     .GroupBy(hd => new { hd.NgayLap.Month, hd.NgayLap.Year })
                     .Select(g => new DoanhThuTheoThangDTO
                     {
@@ -72,7 +73,7 @@ namespace bookingfootball.IRepository.Repository
         {
             return await Task.Run(() =>
             {
-                return _context.HoaDon
+                return _context.HoaDons
                     .GroupBy(hd => hd.NgayLap.Year)
                     .Select(g => new DoanhThuTheoNamDTO
                     {
@@ -126,7 +127,7 @@ namespace bookingfootball.IRepository.Repository
             return await Task.Run(() =>
             {
                 // Lấy danh sách hóa đơn đã thanh toán
-                var hoaDonDaThanhToan = _context.HoaDon
+                var hoaDonDaThanhToan = _context.HoaDons
                     .Join(_context.LichSuHoaDons, hd => hd.Id, lshd => lshd.HoaDonId, (hd, lshd) => new { hd, lshd })
                     .Where(x => x.lshd.IsActive == true);
 

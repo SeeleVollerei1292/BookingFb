@@ -1,0 +1,82 @@
+﻿@model Mvc.Request.RegisterRequest
+
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <!-- Cột bên trái: Hình ảnh -->
+        <div class="col-md-6 d-none d-md-block text-center">
+            <img src="https://cosanbong.vn/images/image/kich-thuoc-san5.jpg" alt="Register Image" class="img-fluid" style="max-height: 400px;">
+        </div>
+
+        <!-- Cột bên phải: Form đăng ký -->
+        <div class="col-md-6">
+            <div class="accordion-header">
+                <h2 class="text-center">Create your account</h2>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">@ViewBag.Message</div>
+            }
+            <partial name="_ValidationScriptsPartial" />
+
+            <form asp-action="Register" asp-controller="Auth" method="post">
+                <div class="form-group mb-3">
+                    <label>Họ tên</label>
+                    <input asp-for="HoTen" class="form-control" />
+                    <span asp-validation-for="HoTen" class="text-danger" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Số điện thoại</label>
+                    <input asp-for="SoDienThoai" class="form-control" />
+                    <span asp-validation-for="SoDienThoai" class="text-danger" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Tên đăng nhập</label>
+                    <input asp-for="TenDangNhap" class="form-control" />
+                    <span asp-validation-for="TenDangNhap" class="text-danger" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Mật khẩu</label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger" />
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 mb-2">Đăng ký</button>
+
+                <!-- OR -->
+                <div class="text-center my-2">or</div>
+
+                <button type="button" class="btn btn-warning w-100 mb-3">
+                    <img src="https://ei.phncdn.com/www-static/images/pornhub_logo_straight.svg?cache=2025060201" alt="Pỏnhub" style="height: 20px; margin-right: 8px;"> Sign up with Pỏnhub
+                </button>
+            </form>
+
+            <div class="text-center mt-3">
+                Already have an account?
+                <a asp-action="SignIn" asp-controller="Auth">Sign In now</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

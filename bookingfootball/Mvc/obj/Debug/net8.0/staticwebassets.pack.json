@@ -5,148 +5,60 @@
       "PackagePath": "staticwebassets\\Mvc.v0j256dwvb.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\css\\site.css",
-      "PackagePath": "staticwebassets\\css\\site.css"
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2023-08-27 170512.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2023-08-27 170512.png"
     },
     {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\favicon.ico",
-      "PackagePath": "staticwebassets\\favicon.ico"
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2024-01-26 211429.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2024-01-26 211429.png"
     },
     {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\js\\site.js",
-      "PackagePath": "staticwebassets\\js\\site.js"
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2025-06-01 115552.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2025-06-01 115552.png"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2025-06-04 101316.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2025-06-04 101316.png"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2025-06-04 151603.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2025-06-04 151603.png"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2025-06-04 230615.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2025-06-04 230615.png"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2025-06-05 144632.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2025-06-05 144632.png"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2025-06-06 135447.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2025-06-06 135447.png"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\Screenshot 2025-06-06 213559.png",
+      "PackagePath": "staticwebassets\\images\\Screenshot 2025-06-06 213559.png"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\th (1).jpg",
+      "PackagePath": "staticwebassets\\images\\th (1).jpg"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\th (2).jpg",
+      "PackagePath": "staticwebassets\\images\\th (2).jpg"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\images\\th.jpg",
+      "PackagePath": "staticwebassets\\images\\th.jpg"
+    },
+    {
+      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\img\\Group 1.png",
+      "PackagePath": "staticwebassets\\img\\Group 1.png"
     },
     {
       "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
-    },
-    {
-      "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
-      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
       "Id": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",

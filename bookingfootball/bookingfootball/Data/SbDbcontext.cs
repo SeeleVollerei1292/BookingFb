@@ -1,12 +1,10 @@
 ﻿using bookingfootball.Db_QL;
 using Microsoft.EntityFrameworkCore;
 
-
-namespace Mvc.Data
+namespace bookingfootball.Data
 {
     public class SbDbcontext : DbContext
     {
-
         public SbDbcontext(DbContextOptions<SbDbcontext> options) : base(options)
         {
         }
@@ -32,7 +30,7 @@ namespace Mvc.Data
                 .HasOne(sb => sb.LoaiSan)
                 .WithMany(ls => ls.SanBongs)
                 .HasForeignKey(sb => sb.LoaiSanId);
-            
+
             modelBuilder.Entity<LichLamViec>()
                 .HasOne(lv => lv.NhanVien)
                 .WithMany(nv => nv.LichLamViecs)
@@ -42,12 +40,6 @@ namespace Mvc.Data
                 .HasOne(dd => dd.NhanVien)
                 .WithMany(nv => nv.DiemDanhs)
                 .HasForeignKey(dd => dd.NhanVienId);
-
-            modelBuilder.Entity<TaiKhoan>()
-                .HasOne(tk => tk.NhanVien)
-                .WithOne(nv => nv.TaiKhoan)
-                .HasForeignKey<TaiKhoan>(tk => tk.NhanVienId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<TaiKhoan>()
                 .HasOne(tk => tk.KhachHang)
@@ -130,36 +122,34 @@ namespace Mvc.Data
                 .WithMany()
                 .HasForeignKey(c => c.HinhThucThanhToanId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<DichVuDatBong>()
                 .HasOne(d => d.HoaDonChiTiet)
                 .WithMany(h => h.DichVuDatBongs)
                 .HasForeignKey(d => d.HoaDonChiTietId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<HoaDonChiTiet>()
                 .HasOne(h => h.NhanVien)
                 .WithMany(s => s.HoaDonChiTiets)
                 .HasForeignKey(h => h.NhanVienId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+
         public DbSet<Sanbong> Sanbongs { get; set; }
         public DbSet<LoaiSan> LoaiSans { get; set; }
         public DbSet<Ca> Cas { get; set; }
         public DbSet<SanCa> SanCas { get; set; }
         public DbSet<NgayTrongTuan> NgayTrongTuans { get; set; }
-        public DbSet<LichLamViec> LichLamViecs { get; set; }
         public DbSet<NhanVien> NhanViens { get; set; }
+        public DbSet<LichLamViec> LichLamViecs { get; set; }
+        public DbSet<DiemDanh> DiemDanhs { get; set; }
         public DbSet<TaiKhoan> TaiKhoans { get; set; }
         public DbSet<KhachHang> KhachHangs { get; set; }
-        public DbSet<HoaDon> HoaDon { get; set; }
+        public DbSet<HoaDon> HoaDons { get; set; }
         public DbSet<HoaDonChiTiet> HoaDonChiTiets { get; set; }
-        public DbSet<DiaChiKhachHang> DiaChiKhachHangs { get; set; }
-        public DbSet<PhieuGiamGiaChiTiet> PhieuGiamGiaChiTiets { get; set; }
-        public DbSet<Thue> Thues { get; set; }
-        public DbSet<NuocUong> NuocUongs { get; set; }
-        public DbSet<DichVuDatBong> DichVuDatBongs { get; set; }
-        public DbSet<HinhThucThanhToan> HinhThucThanhToans { get; set; }
-        public DbSet<CT_HinhThucThanhToan> CT_HinhThucThanhToans { get; set; }
-        public DbSet<DiemDanh> DiemDanhs { get; set; }
         public DbSet<LichSuHoaDon> LichSuHoaDons { get; set; }
+        public DbSet<DiaChiKhachHang> DiaChiKhachHangs { get; set; }
+        public DbSet<NuocUong> NuocUongs { get; set; }
     }
 }

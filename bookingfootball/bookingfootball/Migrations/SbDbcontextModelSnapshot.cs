@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Mvc.Data;
+using bookingfootball.Data;
 
 #nullable disable
 
@@ -56,7 +56,7 @@ namespace bookingfootball.Migrations
 
                     b.HasIndex("HoaDonChiTietId");
 
-                    b.ToTable("CT_HinhThucThanhToans");
+                    b.ToTable("CT_HinhThucThanhToan");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.Ca", b =>
@@ -171,7 +171,7 @@ namespace bookingfootball.Migrations
 
                     b.HasIndex("ThueSanId");
 
-                    b.ToTable("DichVuDatBongs");
+                    b.ToTable("DichVuDatBong");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.DiemDanh", b =>
@@ -233,7 +233,7 @@ namespace bookingfootball.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HinhThucThanhToans");
+                    b.ToTable("HinhThucThanhToan");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.HoaDon", b =>
@@ -276,7 +276,7 @@ namespace bookingfootball.Migrations
 
                     b.HasIndex("NhanVienId");
 
-                    b.ToTable("HoaDon");
+                    b.ToTable("HoaDons");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.HoaDonChiTiet", b =>
@@ -351,7 +351,6 @@ namespace bookingfootball.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GioiTinh")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HoTen")
@@ -360,10 +359,6 @@ namespace bookingfootball.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDienThoai")
                         .IsRequired()
@@ -507,7 +502,6 @@ namespace bookingfootball.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -527,10 +521,6 @@ namespace bookingfootball.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -664,7 +654,7 @@ namespace bookingfootball.Migrations
 
                     b.HasIndex("PhieuGiamGiaId");
 
-                    b.ToTable("PhieuGiamGiaChiTiets");
+                    b.ToTable("PhieuGiamGiaChiTiet");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.SanCa", b =>
@@ -755,7 +745,13 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NhanVienId")
+                    b.Property<int?>("NhanVienId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<string>("SoDienThoai")
@@ -772,7 +768,8 @@ namespace bookingfootball.Migrations
                         .IsUnique();
 
                     b.HasIndex("NhanVienId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[NhanVienId] IS NOT NULL");
 
                     b.ToTable("TaiKhoans");
                 });
@@ -801,7 +798,7 @@ namespace bookingfootball.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Thues");
+                    b.ToTable("Thue");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.CT_HinhThucThanhToan", b =>
@@ -1011,9 +1008,7 @@ namespace bookingfootball.Migrations
 
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
                         .WithOne("TaiKhoan")
-                        .HasForeignKey("bookingfootball.Db_QL.TaiKhoan", "NhanVienId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("bookingfootball.Db_QL.TaiKhoan", "NhanVienId");
 
                     b.Navigation("KhachHang");
 
@@ -1069,8 +1064,7 @@ namespace bookingfootball.Migrations
 
                     b.Navigation("LichLamViecs");
 
-                    b.Navigation("TaiKhoan")
-                        .IsRequired();
+                    b.Navigation("TaiKhoan");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.PhieuGiamGia", b =>
