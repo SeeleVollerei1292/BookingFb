@@ -23,6 +23,7 @@ namespace bookingfootball.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("bookingfootball.Db_QL.CT_HinhThucThanhToan", b =>
+
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
