@@ -1,0 +1,340 @@
+﻿@using Mvc.Models
+@model ThongKeViewModel
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Thống Kê";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Thống Kê</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Admin</a></li>
+        <li class="breadcrumb-item active">Thống Kê</li>
+    </ol>
+
+    <!-- Form lọc thống kê -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-filter me-1"></i>
+            Lọc Thống Kê
+        </div>
+        <div class="card-body">
+            <form asp-action="FilterStatistics" method="post" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Từ ngày</label>
+                    <input type="date" name="fromDate" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Đến ngày</label>
+                    <input type="date" name="toDate" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary mt-4">Lọc</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tab thống kê -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#doanh-thu" data-bs-toggle="tab">Doanh Thu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#su-dung-san" data-bs-toggle="tab">Sử Dụng Sân</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <!-- Tab Doanh Thu -->
+                <div class="tab-pane active" id="doanh-thu">
+                    <div class="row">
+                        <!-- Biểu đồ doanh thu theo ngày -->
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-line me-1"></i>
+                                    Doanh Thu Theo Ngày
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="doanhThuNgayChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Biểu đồ doanh thu theo tháng -->
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-bar me-1"></i>
+                                    Doanh Thu Theo Tháng
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="doanhThuThangChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Biểu đồ doanh thu theo năm -->
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-pie me-1"></i>
+                                    Doanh Thu Theo Năm
+                                </div>
+                                <div class="class-body">
+                                    <canvas id="doanhThuNamChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Biểu đồ doanh thu theo sân -->
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-bar me-1"></i>
+                                    Doanh Thu Theo Sân
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="doanhThuSanChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Sử Dụng Sân -->
+                <div class="tab-pane" id="su-dung-san">
+                    <div class="row">
+                        <!-- Biểu đồ sử dụng sân -->
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-bar me-1"></i>
+                                    Sử Dụng Sân
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="suDungSanChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Biểu đồ thời gian cao điểm -->
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-line me-1"></i>
+                                    Thời Gian Cao Điểm
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="thoiGianCaoDiemChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @{
+        var doanhThuNgay = Model?.DoanhThuNgay;
+        var doanhThuThang = Model?.DoanhThuThang;
+        var doanhThuNam = Model?.DoanhThuNam;
+        var doanhThuTheoSan = Model?.DoanhThuTheoSan;
+
+        var doanhThuNgayLabels = (doanhThuNgay != null)
+            ? doanhThuNgay.Select(dt => dt.Ngay.ToString("dd/MM/yyyy")).ToList()
+            : new List<string>();
+
+        var doanhThuNgayValues = (doanhThuNgay != null)
+            ? doanhThuNgay.Select(dt => dt.DoanhThu).ToList()
+            : new List<decimal?>();
+
+        var doanhThuThangLabels = (doanhThuThang != null)
+            ? doanhThuThang.Select(dt => $"{dt.Thang}/{dt.Nam}").ToList()
+            : new List<string>();
+
+        var doanhThuThangValues = (doanhThuThang != null)
+            ? doanhThuThang.Select(dt => dt.DoanhThu).ToList()
+            : new List<decimal?>();
+
+        var doanhThuNamLabels = (doanhThuNam != null)
+            ? doanhThuNam.Select(dt => dt.Nam.ToString()).ToList()
+            : new List<string>();
+
+        var doanhThuNamValues = (doanhThuNam != null)
+            ? doanhThuNam.Select(dt => dt.DoanhThu).ToList()
+            : new List<decimal?>();
+
+        var doanhThuSanLabels = (doanhThuTheoSan != null)
+            ? doanhThuTheoSan.Select(dt => dt.TenSan).ToList()
+            : new List<string>();
+
+        var doanhThuSanValues = (doanhThuTheoSan != null)
+            ? doanhThuTheoSan.Select(dt => dt.DoanhThu).ToList()
+            : new List<decimal?>();
+
+    }
+
+    <script>
+            document.querySelector('form').addEventListener('submit', function (e) {
+            const fromDateInput = document.querySelector('input[name="fromDate"]');
+            const toDateInput = document.querySelector('input[name="toDate"]');
+
+            const fromDate = new Date(fromDateInput.value);
+            const toDate = new Date(toDateInput.value);
+
+            if (fromDateInput.value && toDateInput.value && fromDate > toDate) {
+                e.preventDefault(); // Ngăn gửi form
+                alert("Ngày bắt đầu không được lớn hơn ngày kết thúc.");
+            }
+        });
+        function createChart(ctx, type, data, options) {
+            if (!data.labels || data.labels.length === 0) {
+                $(ctx).closest('.card').find('.card-body').html(`
+                    <div class="alert alert-info">
+                        Không có dữ liệu để hiển thị
+                    </div>
+                `);
+                return null;
+            }
+
+            const hasValidData = data.datasets.some(dataset =>
+                dataset.data && dataset.data.length > 0 && dataset.data.some(value => value > 0)
+            );
+
+            if (!hasValidData) {
+                $(ctx).closest('.card').find('.card-body').html(`
+                    <div class="alert alert-warning">
+                        Không có dữ liệu hợp lệ để hiển thị
+                    </div>
+                `);
+                return null;
+            }
+
+            return new Chart(ctx, {
+                type: type,
+                data: data,
+                options: options
+            });
+        }
+
+        const doanhThuNgayData = {
+            labels: @Html.Raw(JsonConvert.SerializeObject(doanhThuNgayLabels)),
+            datasets: [{
+                label: 'Doanh Thu',
+                data: @Html.Raw(JsonConvert.SerializeObject(doanhThuNgayValues)),
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        };
+        createChart(document.getElementById('doanhThuNgayChart').getContext('2d'), 'line', doanhThuNgayData, {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'VNĐ ' + value.toLocaleString();
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Doanh Thu Theo Ngày' }
+            }
+        });
+
+        const doanhThuThangData = {
+            labels: @Html.Raw(JsonConvert.SerializeObject(doanhThuThangLabels)),
+            datasets: [{
+                label: 'Doanh Thu',
+                data: @Html.Raw(JsonConvert.SerializeObject(doanhThuThangValues)),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+        createChart(document.getElementById('doanhThuThangChart').getContext('2d'), 'bar', doanhThuThangData, {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'VNĐ ' + value.toLocaleString();
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Doanh Thu Theo Tháng' }
+            }
+        });
+
+        const doanhThuNamData = {
+            labels: @Html.Raw(JsonConvert.SerializeObject(doanhThuNamLabels)),
+            datasets: [{
+                label: 'Doanh Thu',
+                data: @Html.Raw(JsonConvert.SerializeObject(doanhThuNamValues)),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        };
+        createChart(document.getElementById('doanhThuNamChart').getContext('2d'), 'bar', doanhThuNamData, {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'VNĐ ' + value.toLocaleString();
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Doanh Thu Theo Năm' }
+            }
+        });
+
+        const doanhThuSanData = {
+            labels: @Html.Raw(JsonConvert.SerializeObject(doanhThuSanLabels)),
+            datasets: [{
+                label: 'Doanh Thu',
+                data: @Html.Raw(JsonConvert.SerializeObject(doanhThuSanValues)),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+        createChart(document.getElementById('doanhThuSanChart').getContext('2d'), 'bar', doanhThuSanData, {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'VNĐ ' + value.toLocaleString();
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Doanh Thu Theo Sân' }
+            }
+        });
+    </script>
+}

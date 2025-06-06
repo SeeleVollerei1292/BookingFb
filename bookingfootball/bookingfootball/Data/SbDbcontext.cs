@@ -146,6 +146,20 @@ namespace Mvc.Data
         public DbSet<Ca> Cas { get; set; }
         public DbSet<SanCa> SanCas { get; set; }
         public DbSet<NgayTrongTuan> NgayTrongTuans { get; set; }
-
+        public DbSet<LichLamViec> LichLamViecs { get; set; }
+        public DbSet<NhanVien> NhanViens { get; set; }
+        public DbSet<TaiKhoan> TaiKhoans { get; set; }
+        public DbSet<KhachHang> KhachHangs { get; set; }
+        public DbSet<HoaDon> HoaDon { get; set; }
+        public DbSet<HoaDonChiTiet> HoaDonChiTiets { get; set; }
+        public DbSet<DiaChiKhachHang> DiaChiKhachHangs { get; set; }
+        public DbSet<PhieuGiamGiaChiTiet> PhieuGiamGiaChiTiets { get; set; }
+        public DbSet<Thue> Thues { get; set; }
+        public DbSet<NuocUong> NuocUongs { get; set; }
+        public DbSet<DichVuDatBong> DichVuDatBongs { get; set; }
+        public DbSet<HinhThucThanhToan> HinhThucThanhToans { get; set; }
+        public DbSet<CT_HinhThucThanhToan> CT_HinhThucThanhToans { get; set; }
+        public DbSet<DiemDanh> DiemDanhs { get; set; }
+        public DbSet<LichSuHoaDon> LichSuHoaDons { get; set; }
     }
 }
