@@ -12,30 +12,29 @@ using bookingfootball.Interfaces;
 using bookingfootball.Persistence.Repository;
 using bookingfootball.Depen;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Cấu hình CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:3000")
-                .AllowAnyMethod()  // Cho phép tất cả phương thức (GET, POST, PUT, DELETE)
-                .AllowAnyHeader() // Cho phép tất cả header
-                .AllowCredentials() // Nếu dùng Cookie hoặc JWT
-                .WithExposedHeaders("Authorization");
-        });
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials()
+              .WithExposedHeaders("Authorization");
+    });
 });
+
+// Cấu hình Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-  
 })
-.AddCookie("Cookies") // Cookie authentication scheme
-
+// Nếu bạn không dùng cookie thì có thể bỏ dòng này
+.AddCookie("Cookies")
 .AddJwtBearer(options =>
 {
     var jwtKey = builder.Configuration["JwtSettings:SecurityKey"];
@@ -65,15 +64,32 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
-// Thêm dịch vụ Swagger
+
 builder.Services.AddSession(options =>
 {
-
     options.IdleTimeout = TimeSpan.FromSeconds(90);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+// Đăng ký DbContext
+builder.Services.AddDbContext<SbDbcontext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Đăng ký repository
+builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
+builder.Services.AddScoped<INuocuongRepository, NuocuongRepository>();
+
+builder.Services.AddHttpContextAccessor();
+
+// Chỉ gọi AddControllers 1 lần và cấu hình Json ở đây
+builder.Services.AddControllers()
+    .AddJsonOptions(opts => {
+        opts.JsonSerializerOptions.ReferenceHandler = null; // hoặc không set
+    });
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -89,7 +105,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
- // Middleware Authorization
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -101,7 +117,7 @@ builder.Services.AddScoped<INuocuongRepository, NuocuongRepository>();
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -110,9 +126,14 @@ if (app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseCors("AllowAll");
 app.UseSession();
-app.UseAuthentication(); // Middleware Authentication
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
+
+app.UseSession();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

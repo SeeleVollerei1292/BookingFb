@@ -22,7 +22,7 @@ namespace Mvc.Areas.Admin.IServices.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task<IEnumerable<NhanVien>> GetAllNhanVienAsync()
+        public async Task<IEnumerable<bookingfootball.Db_QL.NhanVien>> GetAllNhanVienAsync()
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<NhanVien>>("api/NhanVien");
 

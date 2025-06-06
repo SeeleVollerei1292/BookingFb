@@ -70,7 +70,6 @@ namespace bookingfootball.IRepository.Repository
                 existingNv.FullName = nv.FullName;
                 existingNv.StaffCode = nv.StaffCode;
                 existingNv.Username = nv.Username;
-                //existingNv.Password = nv.Password;
                 existingNv.IsActive = nv.IsActive;
                 existingNv.Email = nv.Email;
                 existingNv.PhoneNumber = nv.PhoneNumber;

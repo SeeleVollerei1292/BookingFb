@@ -15,6 +15,7 @@ namespace bookingfootball.Controllers
             _nhanVienRepository = nhanVienRepository;
         }
         [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GetAllNhanVien()
         {
             try
@@ -27,6 +28,7 @@ namespace bookingfootball.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving data: {ex.Message}");
             }
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetNhanVienById(int id)
         {
