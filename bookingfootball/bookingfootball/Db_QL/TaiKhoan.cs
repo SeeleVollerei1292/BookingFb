@@ -14,7 +14,9 @@
         public bool IsActive { get; set; } = true; // Trạng thái hoạt động của tài khoản
         public DateTime NgayTao { get; set; } = DateTime.Now; // Ngày tạo tài khoản
         public DateTime? NgayCapNhatCuoi { get; set; } // Ngày cập nhật cuối cùng (nếu có)
+
         public Role Role { get; set; } // Vai trò của tài khoản, có thể là Admin, Nhân viên, Khách hàng, v.v.
         public string? RefreshToken { get; set; }
+
     }
 }

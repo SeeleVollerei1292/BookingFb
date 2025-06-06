@@ -1,4 +1,7 @@
-﻿using bookingfootball;
+
+using bookingfootball.IRepository;
+using bookingfootball.IRepository.Repository;
+using bookingfootball;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -51,8 +54,6 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddInfrastructureServices();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
 // Thêm các dịch vụ API
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -90,8 +91,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<SbDbcontext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
+builder.Services.AddScoped<INuocuongRepository, NuocuongRepository>();
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 

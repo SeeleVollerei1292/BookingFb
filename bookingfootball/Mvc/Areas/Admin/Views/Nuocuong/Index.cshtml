@@ -1,0 +1,173 @@
+﻿@model IEnumerable<bookingfootball.Db_QL.NuocUong>
+@{
+    var itemEdit = ViewBag.EditModel as bookingfootball.Db_QL.NuocUong;
+    ViewData["Title"] = "Danh Sách Nước Uống";
+    Layout = "_MyLayout";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+<style>
+    .card-custom {
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .form-control, .btn {
+        border-radius: 10px;
+    }
+
+    .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .btn-outline-dark:hover {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f0f8ff;
+    }
+
+    .highlight-title {
+        font-weight: bold;
+        color: #0d6efd;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row g-4">
+        <!-- Form thêm nước uống -->
+        <div class="col-lg-4">
+            <div class="card card-custom p-4">
+                <h4 class="highlight-title">Thêm Nước Uống</h4>
+                <form action="/Admin/Nuocuong/@(itemEdit?.Id != null ? "Edit" : "Create")" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Id" value="@itemEdit?.Id" />
+                    <div class="form-group mb-2">
+                        <label for="TenNuocUong">Tên Nước Uống</label>
+                        <input name="TenNuocUong" class="form-control" value="@itemEdit?.TenNuocUong" placeholder="Tên nước uống..." />
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="GiaBan">Đơn Giá</label>
+                        <input name="GiaBan" min="0" type="text" class="form-control" value="@itemEdit?.GiaBan" />
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="Anh">Hình Ảnh Nước Uống</label>
+                        <input type="file" name="Anh" class="form-control" />
+                        @if (!string.IsNullOrEmpty(itemEdit?.Anh))
+                        {
+                            <img src="@itemEdit.Anh" style="width:60px; margin-top:5px;" />
+                        }
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="Soluong">Số Lượng</label>
+                        <input name="Soluong" min="0" type="number" class="form-control" value="@itemEdit?.Soluong" />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="GhiChu">Ghi Chú</label>
+                        <textarea name="GhiChu" class="form-control">@itemEdit?.GhiChu</textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="IsActive">Trạng Thái</label>
+                        <select name="IsActive" class="form-control">
+                            <option value="true" @(itemEdit?.IsActive == true ? "selected" : "")>Đang bán</option>
+                            <option value="false" @(itemEdit?.IsActive == false ? "selected" : "")>Ngừng bán</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-outline-success mt-2">
+                        @(itemEdit?.Id != null ? "Cập nhật" : "Lưu")
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Danh sách nước uống -->
+        <div class="col-lg-8">
+            <div class="card card-custom p-4">
+                <h4 class="highlight-title">Danh Sách Nước Uống</h4>
+                <div class="d-flex mb-3">
+                    <form action="/Admin/Nuocuong/Index" method="get" class="d-flex mb-3">
+                        <input type="text" name="searchString" class="form-control me-2" id="searchString" placeholder="Tìm theo tên nước..." value="@ViewBag.SearchString">
+                        <button type="submit" class="btn btn-outline-dark">
+                            <i class="bi bi-search me-1"></i> Tìm kiếm
+                        </button>
+                    </form>
+                </div>
+
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên nước</th>
+                            <th>Số lượng</th>
+                            <th>Giá bán</th>
+                            <th>Ảnh</th>
+                            <th>Ghi chú</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            int index = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@item.TenNuocUong</td>
+                                    <td>@item.Soluong</td>
+                                    <td>@item.GiaBan VND</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Anh))
+                                        {
+                                            <img src="@item.Anh" alt="Ảnh nước uống" style="width: 70px; height: auto; border-radius: 8px;" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Không có</span>
+                                        }
+                                    </td>
+                                    <td>@item.GhiChu</td>
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="badge bg-success">Đang bán</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Ngừng bán</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="/Admin/Nuocuong/Edit?id=@item.Id" class="btn btn-warning btn-sm me-1">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                       @*  <a href="/Admin/Nuocuong/Details?id=@item.Id" class="btn btn-info btn-sm me-1">
+                                            <i class="bi bi-eye"></i>
+                                        </a> *@
+                                        <form action="/Admin/Nuocuong/DeleteConfirmed?id=@item.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xoá?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
