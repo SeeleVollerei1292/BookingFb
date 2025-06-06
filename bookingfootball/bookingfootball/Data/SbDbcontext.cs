@@ -150,3 +150,6 @@ namespace bookingfootball.Data
         public DbSet<HoaDonChiTiet> HoaDonChiTiets { get; set; }
         public DbSet<LichSuHoaDon> LichSuHoaDons { get; set; }
         public DbSet<DiaChiKhachHang> DiaChiKhachHangs { get; set; }
+        public DbSet<NuocUong> NuocUongs { get; set; }
+    }
+}

@@ -1,7 +1,7 @@
 using bookingfootball.IRepository;
 using bookingfootball.IRepository.Repository;
 using Microsoft.EntityFrameworkCore;
-using Mvc.Data;
+
 
 
 using bookingfootball.Constract;
@@ -10,12 +10,15 @@ using bookingfootball.Service;
 using Microsoft.AspNetCore.Identity;
 using Mvc.Areas.Admin.IServices;
 using Mvc.Areas.Admin.IServices.Services;
+using bookingfootball.Data;
+using Mvc.Areas.Admin.IService;
+using Mvc.Areas.Admin.IService.Service;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
@@ -29,7 +32,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddScoped<IThongKeService, ThongKeService>();
-builder.Services.AddControllersWithViews();
+
 
 builder.Services.AddControllersWithViews().ConfigureApplicationPartManager(manager =>
 {

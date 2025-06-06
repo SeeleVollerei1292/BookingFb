@@ -69,9 +69,10 @@ builder.Services.AddDbContext<SbDbcontext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Đăng ký các repository
+builder.Services.AddInfrastructureServices();
 builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
 builder.Services.AddScoped<INuocuongRepository, NuocuongRepository>();
-
+builder.Services.AddScoped<IThongKeRepository, ThongKeRepository>();
 builder.Services.AddHttpContextAccessor();
 
 // Thêm Controllers + cấu hình JSON options tránh vòng tham chiếu

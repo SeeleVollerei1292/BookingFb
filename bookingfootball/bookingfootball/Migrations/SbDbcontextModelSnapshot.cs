@@ -56,7 +56,7 @@ namespace bookingfootball.Migrations
 
                     b.HasIndex("HoaDonChiTietId");
 
-                    b.ToTable("CT_HinhThucThanhToans");
+                    b.ToTable("CT_HinhThucThanhToan");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.Ca", b =>
@@ -171,7 +171,7 @@ namespace bookingfootball.Migrations
 
                     b.HasIndex("ThueSanId");
 
-                    b.ToTable("DichVuDatBongs");
+                    b.ToTable("DichVuDatBong");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.DiemDanh", b =>
@@ -233,7 +233,7 @@ namespace bookingfootball.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HinhThucThanhToans");
+                    b.ToTable("HinhThucThanhToan");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.HoaDon", b =>
@@ -619,7 +619,7 @@ namespace bookingfootball.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PhieuGiamGias");
+                    b.ToTable("PhieuGiamGia");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.PhieuGiamGiaChiTiet", b =>
@@ -654,7 +654,7 @@ namespace bookingfootball.Migrations
 
                     b.HasIndex("PhieuGiamGiaId");
 
-                    b.ToTable("PhieuGiamGiaChiTiets");
+                    b.ToTable("PhieuGiamGiaChiTiet");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.SanCa", b =>
@@ -798,7 +798,7 @@ namespace bookingfootball.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Thues");
+                    b.ToTable("Thue");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.CT_HinhThucThanhToan", b =>
