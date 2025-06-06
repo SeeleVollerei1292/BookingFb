@@ -1,4 +1,7 @@
-﻿using bookingfootball;
+
+using bookingfootball.IRepository;
+using bookingfootball.IRepository.Repository;
+using bookingfootball;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -6,30 +9,29 @@ using Microsoft.OpenApi.Models;
 using Mvc.Data;
 using System.Text;
 using System.Text.Json.Serialization;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Cấu hình CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:3000")
-                .AllowAnyMethod()  // Cho phép tất cả phương thức (GET, POST, PUT, DELETE)
-                .AllowAnyHeader() // Cho phép tất cả header
-                .AllowCredentials() // Nếu dùng Cookie hoặc JWT
-                .WithExposedHeaders("Authorization");
-        });
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials()
+              .WithExposedHeaders("Authorization");
+    });
 });
+
+// Cấu hình Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-  
 })
-.AddCookie("Cookies") // Cookie authentication scheme
-
+// Nếu bạn không dùng cookie thì có thể bỏ dòng này
+.AddCookie("Cookies")
 .AddJwtBearer(options =>
 {
     var jwtKey = builder.Configuration["JwtSettings:SecurityKey"];
@@ -49,26 +51,37 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
+
+// Thêm các service cần thiết
 builder.Services.AddInfrastructureServices();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
-// Thêm các dịch vụ API
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-});
 
-// Thêm dịch vụ Swagger
 builder.Services.AddSession(options =>
 {
-
     options.IdleTimeout = TimeSpan.FromSeconds(90);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+// Đăng ký DbContext
+builder.Services.AddDbContext<SbDbcontext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Đăng ký repository
+builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
+builder.Services.AddScoped<INuocuongRepository, NuocuongRepository>();
+
+builder.Services.AddHttpContextAccessor();
+
+// Chỉ gọi AddControllers 1 lần và cấu hình Json ở đây
+builder.Services.AddControllers()
+    .AddJsonOptions(opts => {
+        opts.JsonSerializerOptions.ReferenceHandler = null; // hoặc không set
+    });
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -84,28 +97,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
- // Middleware Authorization
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddDbContext<SbDbcontext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AllowAll");
-app.UseSession();
-app.UseAuthentication(); // Middleware Authentication
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
+
+app.UseSession();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
