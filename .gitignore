@@ -5,8 +5,26 @@
 /bookingfootball/.vs/bookingfootball
 
 /.vs/hc/v17
-.vs/
+
+/bookingfootball/bookingfootball/bin/Debug/net8.0/runtimes
+/bookingfootball/bookingfootball/obj/Debug/net8.0
+/bookingfootball/Mvc/bin/Debug/net8.0
+/bookingfootball/Mvc/obj/Debug/net8.0
+
+
 /bookingfootball/bookingfootball/obj/Debug/net8.0
 /bookingfootball/Mvc/obj/Debug/net8.0
 
+
 /bookingfootball/bookingfootball/bin/Debug/net8.0/runtimes
+
+
+.vs/
+/bookingfootball/bookingfootball/obj
+/bookingfootball/Mvc/obj/Debug/net8.0
+
+/bookingfootball/bookingfootball/bin
+/bookingfootball/Mvc/obj
+/bookingfootball/Mvc/bin
+
+

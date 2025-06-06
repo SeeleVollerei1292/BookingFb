@@ -1,0 +1,55 @@
+﻿@model Mvc.Request.LoginRequest
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <!-- Cột bên trái: Hình ảnh -->
+        <div class="col-md-6 d-none d-md-block text-center">
+            <img src="https://cosanbong.vn/images/image/kich-thuoc-san5.jpg" alt="Login Image" class="img-fluid" style="max-height: 400px;">
+        </div>
+
+        <!-- Cột bên phải: Form đăng nhập -->
+        <div class="col-md-6">
+            <div class="accordion-header">
+                <h2 class="text-center">Nice to see you again</h2>
+            </div>
+            <partial name="_ValidationScriptsPartial" />
+
+            <form asp-action="SignIn" method="post">
+                <div class="form-group mb-3">
+                    <label>Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Mật khẩu</label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-2">Đăng nhập</button>
+
+                <!-- OR -->
+                <div class="text-center my-2">or</div>
+
+                <button type="button" class="btn btn-warning w-100 mb-3">
+                    <img src="https://ei.phncdn.com/www-static/images/pornhub_logo_straight.svg?cache=2025060201" alt="Pỏnhub" style="height: 20px; margin-right: 8px;"> Sign in with Pỏnhub
+                </button>
+            </form>
+
+            <div class="text-center mt-3">
+                Don’t have an account?
+                <a asp-action="Register" asp-controller="Auth">Sign Up now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

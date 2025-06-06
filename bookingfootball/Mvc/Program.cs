@@ -1,9 +1,16 @@
-﻿using Mvc.Areas.Admin.IService.Service;
-using Mvc.Areas.Admin.IService;
 using bookingfootball.IRepository;
 using bookingfootball.IRepository.Repository;
 using Microsoft.EntityFrameworkCore;
 using Mvc.Data;
+
+
+using bookingfootball.Constract;
+using bookingfootball.Db_QL;
+using bookingfootball.Service;
+using Microsoft.AspNetCore.Identity;
+using Mvc.Areas.Admin.IServices;
+using Mvc.Areas.Admin.IServices.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +30,46 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddScoped<IThongKeService, ThongKeService>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews().ConfigureApplicationPartManager(manager =>
+{
+    // Loại bỏ assembly chứa controller API
+    var apiAssembly = typeof(bookingfootball.Controllers.AuthController).Assembly;
+    var part = manager.ApplicationParts.FirstOrDefault(p => p.Name == apiAssembly.GetName().Name);
+    if (part != null)
+    {
+        manager.ApplicationParts.Remove(part);
+    }
+}); 
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<INhanVienServices, NhanVienServices>();
+builder.Services.AddScoped<INuocuongServices, NuocuongServices>();
+builder.Services.AddScoped<IAuthAPIService, AuthAPIService>();
+
+//builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+
+// Add services to the container.
+
+// Thêm HttpClientFactory
+
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/Auth/SignIn";
+        options.LogoutPath = "/Auth/Logout";
+    });
+// Thêm session
+builder.Services.AddDistributedMemoryCache(); // Dùng bộ nhớ tạm để lưu session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian sống của session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,19 +84,22 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-//app.UseSwagger();
-//app.UseSwaggerUI(c =>
-//{
-//    c.SwaggerEndpoint("/swagger/v1/swagger.json", "bookingfootball v1");
-//    c.RoutePrefix = "swagger"; // Swagger sẽ hiển thị tại /swagger
-//});
+
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 
-    app.MapControllerRoute(
-                name: "areas",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-              );
-    app.MapControllerRoute(
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "areas",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+});
+
 app.Run();
