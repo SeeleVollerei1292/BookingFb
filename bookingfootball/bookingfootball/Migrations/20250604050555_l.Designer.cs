@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mvc.Data;
 
@@ -11,9 +12,11 @@ using Mvc.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    partial class SbDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250604050555_l")]
+    partial class l
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -767,7 +770,9 @@ namespace bookingfootball.Migrations
                     b.HasIndex("KhachHangId")
                         .IsUnique();
 
-                    b.HasIndex("NhanVienId");
+                    b.HasIndex("NhanVienId")
+                        .IsUnique()
+                        .HasFilter("[NhanVienId] IS NOT NULL");
 
                     b.ToTable("TaiKhoan");
                 });
@@ -1005,8 +1010,9 @@ namespace bookingfootball.Migrations
                         .IsRequired();
 
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
-                        .WithMany()
-                        .HasForeignKey("NhanVienId");
+                        .WithOne("TaiKhoan")
+                        .HasForeignKey("bookingfootball.Db_QL.TaiKhoan", "NhanVienId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("KhachHang");
 
@@ -1061,6 +1067,9 @@ namespace bookingfootball.Migrations
                     b.Navigation("HoaDons");
 
                     b.Navigation("LichLamViecs");
+
+                    b.Navigation("TaiKhoan")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.PhieuGiamGia", b =>

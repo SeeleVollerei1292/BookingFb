@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mvc.Data;
 
@@ -11,9 +12,11 @@ using Mvc.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    partial class SbDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250604050332_k")]
+    partial class k
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -745,7 +748,7 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("NhanVienId")
+                    b.Property<int>("NhanVienId")
                         .HasColumnType("int");
 
                     b.Property<string>("RefreshToken")
@@ -767,7 +770,8 @@ namespace bookingfootball.Migrations
                     b.HasIndex("KhachHangId")
                         .IsUnique();
 
-                    b.HasIndex("NhanVienId");
+                    b.HasIndex("NhanVienId")
+                        .IsUnique();
 
                     b.ToTable("TaiKhoan");
                 });
@@ -1005,8 +1009,10 @@ namespace bookingfootball.Migrations
                         .IsRequired();
 
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
-                        .WithMany()
-                        .HasForeignKey("NhanVienId");
+                        .WithOne("TaiKhoan")
+                        .HasForeignKey("bookingfootball.Db_QL.TaiKhoan", "NhanVienId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("KhachHang");
 
@@ -1061,6 +1067,9 @@ namespace bookingfootball.Migrations
                     b.Navigation("HoaDons");
 
                     b.Navigation("LichLamViecs");
+
+                    b.Navigation("TaiKhoan")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.PhieuGiamGia", b =>
