@@ -1,3 +1,4 @@
+
 using Mvc.Areas.Admin.IServices;
 using Mvc.Areas.Admin.IServices.Services;
 
@@ -8,6 +9,29 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<INhanVienServices, NhanVienServices>();
 builder.Services.AddScoped<INuocuongServices, NuocuongServices>();
+
+
+
+// Add services to the container.
+
+// Thêm HttpClientFactory
+
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/Auth/SignIn";
+        options.LogoutPath = "/Auth/Logout";
+    });
+// Thêm session
+builder.Services.AddDistributedMemoryCache(); // Dùng bộ nhớ tạm để lưu session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian sống của session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,7 +46,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>

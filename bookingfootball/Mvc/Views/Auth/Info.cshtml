@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Thông tin người dùng";
+}
+
+<h2>Thông tin người dùng</h2>
+
+<ul>
+    <li><strong>ID:</strong> @User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value</li>
+    <li><strong>Họ tên:</strong> @User.Identity.Name</li>
+    <li><strong>Email:</strong> @User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value</li>
+    <li><strong>Vai trò:</strong> @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</li>
+</ul>
+
+<a asp-action="Logout" class="btn btn-danger">Đăng xuất</a>
