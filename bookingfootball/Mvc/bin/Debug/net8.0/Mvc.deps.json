@@ -11,6 +11,7 @@
           "AutoMapper": "14.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.16",
           "Microsoft.EntityFrameworkCore": "8.0.16",
+          "Microsoft.EntityFrameworkCore.Design": "8.0.16",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.7",
           "Newtonsoft.Json": "13.0.3",
           "bookingfootball": "1.0.0"
@@ -1187,6 +1188,21 @@
         }
       },
       "Microsoft.EntityFrameworkCore.Analyzers/8.0.16": {},
+      "Microsoft.EntityFrameworkCore.Design/8.0.16": {
+        "dependencies": {
+          "Humanizer.Core": "2.14.1",
+          "Microsoft.CodeAnalysis.CSharp.Workspaces": "4.8.0",
+          "Microsoft.EntityFrameworkCore.Relational": "8.0.16",
+          "Microsoft.Extensions.DependencyModel": "8.0.2",
+          "Mono.TextTemplating": "2.3.1"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll": {
+            "assemblyVersion": "8.0.16.0",
+            "fileVersion": "8.0.1625.21606"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/8.0.16": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.16",
@@ -2488,6 +2504,13 @@
       "sha512": "sha512-2MaPx6EBsmE8AswQv2KKQ8m2NeP3JnqAfLQi3UPrIVsxlkSkJWg5xU6ie4rctIOl872f2QzGog57NrucfKAFbw==",
       "path": "microsoft.entityframeworkcore.analyzers/8.0.16",
       "hashPath": "microsoft.entityframeworkcore.analyzers.8.0.16.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Design/8.0.16": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Nw6XxySXnKoTHdlDvynpI55oGo4/VvfLbA7JLpZN4kUIuP1tSoJiZa+A5V2idFIyNtHE4NzBNELBlnyoJedBaQ==",
+      "path": "microsoft.entityframeworkcore.design/8.0.16",
+      "hashPath": "microsoft.entityframeworkcore.design.8.0.16.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Relational/8.0.16": {
       "type": "package",

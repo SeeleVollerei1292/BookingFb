@@ -4239,23 +4239,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Users\\tranx\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Source\\Repos\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
+      "projectUniqueName": "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
       "projectName": "bookingfootball",
-      "projectPath": "C:\\Users\\Admin\\Source\\Repos\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Source\\Repos\\BookingFb\\bookingfootball\\bookingfootball\\obj\\",
+      "projectPath": "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
+      "packagesPath": "C:\\Users\\tranx\\.nuget\\packages\\",
+      "outputPath": "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tranx\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4264,6 +4264,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
