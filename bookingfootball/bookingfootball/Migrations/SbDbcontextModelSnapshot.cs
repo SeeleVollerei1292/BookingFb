@@ -22,6 +22,45 @@ namespace bookingfootball.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Duong_API.Data.DoThue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("DonGia")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("HinhAnh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("HoaDonChiTietId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MoTa")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenDoThue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TrangThai")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HoaDonChiTietId");
+
+                    b.ToTable("DoThues");
+                });
+
             modelBuilder.Entity("bookingfootball.Db_QL.CT_HinhThucThanhToan", b =>
                 {
                     b.Property<int>("Id")
@@ -801,6 +840,16 @@ namespace bookingfootball.Migrations
                     b.ToTable("Thue");
                 });
 
+            modelBuilder.Entity("Duong_API.Data.DoThue", b =>
+                {
+                    b.HasOne("bookingfootball.Db_QL.HoaDonChiTiet", "HoaDonChiTiet")
+                        .WithMany("DoThues")
+                        .HasForeignKey("HoaDonChiTietId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("HoaDonChiTiet");
+                });
+
             modelBuilder.Entity("bookingfootball.Db_QL.CT_HinhThucThanhToan", b =>
                 {
                     b.HasOne("bookingfootball.Db_QL.HinhThucThanhToan", "HinhThucThanhToan")
@@ -1030,6 +1079,8 @@ namespace bookingfootball.Migrations
             modelBuilder.Entity("bookingfootball.Db_QL.HoaDonChiTiet", b =>
                 {
                     b.Navigation("DichVuDatBongs");
+
+                    b.Navigation("DoThues");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.KhachHang", b =>

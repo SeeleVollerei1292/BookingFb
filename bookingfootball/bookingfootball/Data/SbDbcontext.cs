@@ -1,4 +1,5 @@
 ﻿using bookingfootball.Db_QL;
+using Duong_API.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace bookingfootball.Data
@@ -134,6 +135,11 @@ namespace bookingfootball.Data
                 .WithMany(s => s.HoaDonChiTiets)
                 .HasForeignKey(h => h.NhanVienId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<DoThue>()
+                .HasOne(d => d.HoaDonChiTiet)
+                .WithMany(h => h.DoThues)
+                .HasForeignKey(d => d.HoaDonChiTietId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public DbSet<Sanbong> Sanbongs { get; set; }
@@ -151,5 +157,6 @@ namespace bookingfootball.Data
         public DbSet<LichSuHoaDon> LichSuHoaDons { get; set; }
         public DbSet<DiaChiKhachHang> DiaChiKhachHangs { get; set; }
         public DbSet<NuocUong> NuocUongs { get; set; }
+        public DbSet<DoThue> DoThues { get; set; }
     }
 }

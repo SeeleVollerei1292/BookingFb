@@ -84,16 +84,16 @@
         </div>
         <div class="offcanvas-body">
             <ul class="nav flex-column">
-                <li class="nav-item mb-2">
+                @* <li class="nav-item mb-2">
                     <a class="nav-link" href="@Url.Action("Index", "Booking")">
                         <i class="bi bi-calendar-check"></i> Đặt lịch
                     </a>
-                </li>
-                <li class="nav-item mb-2">
+                </li> *@
+                @* <li class="nav-item mb-2">
                     <a class="nav-link" href="#">
                         <i class="bi bi-person-badge"></i> Giao ca
                     </a>
-                </li>
+                </li> *@
                 <li class="nav-item mb-2">
                     <a class="nav-link" href="@Url.Action("Index","Nhanvien")" new { area="Admin" })>
                         <i class="bi bi-person-badge"></i> Quản lý nhân viên
@@ -105,10 +105,20 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
+                    <a class="nav-link" href="@Url.Action("Index", "Dothue")" new { area="Admin" })>
+                        <i class="bi bi-cup-straw"></i> Quản lý đồ thuê
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="@Url.Action("Index", "ThongKe")" new { area="Admin" })>
+                        <i class="bi bi-cup-straw"></i> Thống kê
+                    </a>
+                </li>
+                @* <li class="nav-item mb-2">
                     <a class="nav-link" href="@Url.Action("Index", "Staff")">
                         <i class="bi bi-person-check"></i> Checkin
                     </a>
-                </li>
+                </li> *@
                 <li class="nav-item mb-2">
 
 
