@@ -1,0 +1,160 @@
+﻿@model IEnumerable<bookingfootball.Db_QL.LoaiSan>
+@{
+    var itemEdit = ViewBag.EditModel as bookingfootball.Db_QL.LoaiSan;
+    ViewData["Title"] = "Quản Lý Loại Sân";
+    Layout = "_MyLayout";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+<style>
+    .card-custom {
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .form-control, .btn {
+        border-radius: 10px;
+    }
+
+    .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .btn-outline-dark:hover {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f0f8ff;
+    }
+
+    .highlight-title {
+        font-weight: bold;
+        color: #0d6efd;
+        margin-bottom: 20px;
+    }
+</style>
+<div class="container mt-5">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+    <div class="text-danger">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+    <div class="row g-4">
+        <!-- Form thêm/sửa loại sân -->
+        <div class="col-lg-4">
+            <div class="card card-custom p-4">
+                <h4 class="highlight-title">@((itemEdit != null) ? "Cập nhật Loại Sân" : "Thêm Loại Sân")</h4>
+                <form action="/Admin/LoaiSan/@(itemEdit != null ? $"Edit/{itemEdit.Id}" : "Create")" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Id" value="@(itemEdit?.Id ?? 0)" />
+                    <div class="form-group mb-2">
+                        <label for="TenLoaiSan">Tên Loại Sân</label>
+                        <input name="TenLoaiSan" class="form-control" value="@(itemEdit?.TenLoaiSan ?? "")" placeholder="Nhập tên loại sân..." required />
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="MoTa">Mô Tả</label>
+                        <textarea name="MoTa" class="form-control">@(itemEdit?.MoTa ?? "")</textarea>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="HinhAnh">Hình Ảnh (URL)</label>
+                        <input name="HinhAnh" class="form-control" value="@(itemEdit?.HinhAnh ?? "")" placeholder="Nhập URL hình ảnh..." />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="TrangThai">Trạng Thái</label>
+                        <select name="TrangThai" class="form-control" required>
+                            <option value="true" @(itemEdit?.TrangThai == true ? "selected" : "")>Hoạt động</option>
+                            <option value="false" @(itemEdit?.TrangThai == false ? "selected" : "")>Ngừng hoạt động</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-outline-success mt-2">
+                        @(itemEdit != null ? "Cập nhật" : "Lưu")
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- Danh sách loại sân -->
+        <div class="col-lg-8">
+            <div class="card card-custom p-4">
+                <h4 class="highlight-title">Danh Sách Loại Sân</h4>
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên Loại Sân</th>
+                            <th>Mô Tả</th>
+                            <th>Hình Ảnh</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int stt = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@stt</td>
+                                    <td>@item.TenLoaiSan</td>
+                                    <td>@item.MoTa</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.HinhAnh))
+                                        {
+                                            <img src="@item.HinhAnh" alt="@item.TenLoaiSan" style="max-width: 100px;" />
+                                        }
+                                        else
+                                        {
+                                            <span>Không có</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.TrangThai)
+                                        {
+                                            <span class="badge bg-success">Hoạt động</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Ngừng hoạt động</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "LoaiSan", new { area = "Admin", id = item.Id })" class="btn btn-warning btn-sm me-1">
+                                            <i class="bi bi-pencil-square"></i> Sửa
+                                        </a>
+                                        <form action="/Admin/LoaiSan/ToggleStatus?id=@item.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Bạn có chắc muốn thay đổi trạng thái?')">
+                                                <i class="bi bi-arrow-repeat"></i> Đổi trạng thái
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                stt++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}

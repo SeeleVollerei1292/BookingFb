@@ -1,15 +1,14 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sport88 - Login</title>
+    <title>Sport88 - @ViewData["Title"]</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <style>
         html, body {
-            height: 100%;
             margin: 0;
             padding: 0;
             font-family: 'Roboto', sans-serif;
@@ -23,8 +22,8 @@
         }
 
         .main-wrapper {
-            flex: 1;
-            padding: 80px 20px 120px; /* chừa chỗ cho navbar và footer */
+            flex: 1 0 auto;
+            padding: 80px 20px;
         }
 
         .navbar-custom {
@@ -38,7 +37,22 @@
             height: 76px;
         }
 
+        /* Sidebar cố định trên desktop */
+        .sidebar {
+            position: fixed;
+            top: 76px; /* Chừa chỗ cho navbar */
+            bottom: 0;
+            left: 0;
+            width: 250px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1020;
+        }
+
         .footer {
+            flex-shrink: 0;
             background-color: #003c71;
             color: white;
             padding: 1rem 0;
@@ -53,77 +67,133 @@
                 .footer a:hover {
                     text-decoration: underline;
                 }
+
+        /* Điều chỉnh main-wrapper trên desktop để tránh bị che bởi sidebar */
+        @@media (min-width: 768px) {
+            .main-wrapper
+
+        {
+            margin-left: 250px; /* Chiều rộng của sidebar */
+        }
+
+        }
+
+        /* Ẩn sidebar trên mobile */
+        @@media (max-width: 767.98px) {
+            .sidebar
+
+        {
+            display: none;
+        }
+
+        }
+
+        /* Ẩn nút menu trên desktop */
+        @@media (min-width: 768px) {
+            .menu-toggle
+
+        {
+            display: none;
+        }
+
+        }
     </style>
-
-
 </head>
-
 <body>
-
-    <!-- Nút mở menu -->
+    <!-- Navbar -->
     <nav class="navbar navbar-light navbar-custom px-4">
         <div class="container-fluid">
-            <button class="btn btn-outline-dark me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+            <button class="btn btn-outline-dark me-2 menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
                 <i class="bi bi-list"></i> Menu
             </button>
             <a class="navbar-brand" href="#">
-
-
                 <img src="~/img/Group 1.png" alt="Sport88 Logo" />
-
             </a>
-            <span class="ms-auto">Xin chào, Nhân viên 1</span>
+            <span class="ms-auto">Xin chào, Admin</span>
         </div>
     </nav>
 
-    <!-- Sidebar Offcanvas -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+    <!-- Sidebar cố định trên desktop -->
+    <div class="sidebar d-none d-md-block">
+        <h5 class="fw-bold mb-4">Sport88 Menu</h5>
+        <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="@Url.Action("Index", "Nhanvien", new { area = "Admin" })">
+                    <i class="bi bi-person-badge"></i> Quản lý nhân viên
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="@Url.Action("Index", "Nuocuong", new { area = "Admin" })">
+                    <i class="bi bi-cup-straw"></i> Quản lý nước uống
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="@Url.Action("Index", "Dothue", new { area = "Admin" })">
+                    <i class="bi bi-cup-straw"></i> Quản lý đồ thuê
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="@Url.Action("Index", "Sanbong", new { area = "Admin" })">
+                    <i class="bi bi-cup-straw"></i> Quản lý sân bóng
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="@Url.Action("Index", "LoaiSan", new { area = "Admin" })">
+                    <i class="bi bi-cup-straw"></i> Quản lý loại sân
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="@Url.Action("Index", "ThongKe", new { area = "Admin" })">
+                    <i class="bi bi-cup-straw"></i> Thống kê
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="/Auth/Logout">
+                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Sidebar Offcanvas cho mobile -->
+    <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title fw-bold" id="offcanvasMenuLabel">Sport88 Menu</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
             <ul class="nav flex-column">
-                @* <li class="nav-item mb-2">
-                    <a class="nav-link" href="@Url.Action("Index", "Booking")">
-                        <i class="bi bi-calendar-check"></i> Đặt lịch
-                    </a>
-                </li> *@
-                @* <li class="nav-item mb-2">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-person-badge"></i> Giao ca
-                    </a>
-                </li> *@
                 <li class="nav-item mb-2">
-                    <a class="nav-link" href="@Url.Action("Index","Nhanvien")" new { area="Admin" })>
+                    <a class="nav-link" href="@Url.Action("Index", "Nhanvien", new { area = "Admin" })">
                         <i class="bi bi-person-badge"></i> Quản lý nhân viên
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a class="nav-link" href="@Url.Action("Index","Nuocuong")" new { area="Admin" })>
+                    <a class="nav-link" href="@Url.Action("Index", "Nuocuong", new { area = "Admin" })">
                         <i class="bi bi-cup-straw"></i> Quản lý nước uống
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a class="nav-link" href="@Url.Action("Index", "Dothue")" new { area="Admin" })>
+                    <a class="nav-link" href="@Url.Action("Index", "Dothue", new { area = "Admin" })">
                         <i class="bi bi-cup-straw"></i> Quản lý đồ thuê
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a class="nav-link" href="@Url.Action("Index", "ThongKe")" new { area="Admin" })>
+                    <a class="nav-link" href="@Url.Action("Index", "Sanbong", new { area = "Admin" })">
+                        <i class="bi bi-cup-straw"></i> Quản lý sân bóng
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                <a class="nav-link" href="@Url.Action("Index", "LoaiSan", new { area = "Admin" })">
+                    <i class="bi bi-cup-straw"></i> Quản lý loại sân
+                </a>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="@Url.Action("Index", "ThongKe", new { area = "Admin" })">
                         <i class="bi bi-cup-straw"></i> Thống kê
                     </a>
                 </li>
-                @* <li class="nav-item mb-2">
-                    <a class="nav-link" href="@Url.Action("Index", "Staff")">
-                        <i class="bi bi-person-check"></i> Checkin
-                    </a>
-                </li> *@
                 <li class="nav-item mb-2">
-
-
                     <a class="nav-link" href="/Auth/Logout">
-
                         <i class="bi bi-box-arrow-right"></i> Đăng xuất
                     </a>
                 </li>
@@ -131,25 +201,21 @@
         </div>
     </div>
 
-
+    <!-- Main Content -->
     <div class="main-wrapper overflow-auto">
         <div class="container">
             <main role="main" class="pb-3">
                 @RenderBody()
-
-               
-                
             </main>
         </div>
     </div>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-
-
-                    <h5> <img src="~/img/Group 1.png" alt="Sport88 Logo" /></h5>
-
+                    <h5><img src="~/img/Group 1.png" alt="Sport88 Logo" /></h5>
                     <p>A3.11 Block A Tòa nhà Sky Center 5B Phổ Quang, Phường 2, Quận Tân Bình, Thành phố Hồ Chí Minh, Việt Nam</p>
                     <p><strong>☎</strong> 0904438369<br><strong>✉</strong> info@vietcas.vn</p>
                 </div>
@@ -170,20 +236,13 @@
                         <li><a href="#">Dành cho đối tác</a></li>
                         <li><a href="#">Tin tức</a></li>
                     </ul>
-
-
-                    <img class="certificate" src="https://cdn.dangkywebsitevoibocongthuong.com/wp-content/uploads/2018/06/logo.png" alt="logo-2" width="250" height="auto" loading="lazy" style="">
-
+                    <img class="certificate" src="https://cdn.dangkywebsitevoibocongthuong.com/wp-content/uploads/2018/06/logo.png" alt="logo-2" width="250" height="auto" loading="lazy">
                 </div>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
-
 </html>
-

@@ -1,0 +1,164 @@
+﻿@model IEnumerable<bookingfootball.Db_QL.Sanbong>
+@{
+    var itemEdit = ViewBag.EditModel as bookingfootball.Db_QL.Sanbong;
+    var loaiSanList = ViewBag.LoaiSanList as List<bookingfootball.Db_QL.LoaiSan>;
+    ViewData["Title"] = "Quản Lý Sân Bóng";
+    Layout = "_MyLayout";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+<style>
+    .card-custom {
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .form-control, .btn {
+        border-radius: 10px;
+    }
+
+    .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .btn-outline-dark:hover {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f0f8ff;
+    }
+
+    .highlight-title {
+        font-weight: bold;
+        color: #0d6efd;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container mt-5">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+    <div class="text-danger">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+    <div class="row g-4">
+        <!-- Form thêm/sửa sân bóng -->
+        <div class="col-lg-4">
+            <div class="card card-custom p-4">
+                <h4 class="highlight-title">@((itemEdit != null) ? "Cập nhật Sân Bóng" : "Thêm Sân Bóng")</h4>
+                <form action="/Admin/Sanbong/@(itemEdit != null ? $"Edit/{itemEdit.Id}" : "Create")" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Id" value="@(itemEdit?.Id ?? 0)" />
+                    <div class="form-group mb-2">
+                        <label for="TenSan">Tên Sân</label>
+                        <input name="TenSan" class="form-control" value="@(itemEdit?.TenSan ?? "")" placeholder="Nhập tên sân..." required />
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="LoaiSanId">Loại Sân</label>
+                        <select name="LoaiSanId" class="form-control" required>
+                            <option value="">-- Chọn loại sân --</option>
+                            @foreach (var loai in loaiSanList ?? new List<bookingfootball.Db_QL.LoaiSan>())
+                            {
+                                <option value="@loai.Id" @(itemEdit?.LoaiSanId == loai.Id ? "selected" : "")>@loai.TenLoaiSan</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="Gia">Giá Thuê (VNĐ)</label>
+                        <input name="Gia" type="number" class="form-control" value="@(itemEdit?.Gia.ToString() ?? "")" min="0" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="MoTa">Mô Tả</label>
+                        <textarea name="MoTa" class="form-control">@(itemEdit?.MoTa ?? "")</textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="TrangThai">Trạng Thái</label>
+                        <select name="TrangThai" class="form-control" required>
+                            <option value="true" @(itemEdit?.TrangThai == true ? "selected" : "")>Đang hoạt động</option>
+                            <option value="false" @(itemEdit?.TrangThai == false ? "selected" : "")>Ngừng hoạt động</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-outline-success mt-2">
+                        @(itemEdit != null ? "Cập nhật" : "Lưu")
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="card card-custom p-4">
+                <h4 class="highlight-title">Danh Sách Sân Bóng</h4>
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên Sân</th>
+                            <th>Loại Sân</th>
+                            <th>Giá</th>
+                            <th>Mô Tả</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int stt = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@stt</td>
+                                    <td>@item.TenSan</td>
+                                    <td>@item.LoaiSan?.TenLoaiSan</td>
+                                    <td>@item.Gia VND</td>
+                                    <td>@item.MoTa</td>
+                                    <td>
+                                        @if (item.TrangThai)
+                                        {
+                                            <span class="badge bg-success">Đang hoạt động</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Ngừng hoạt động</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "Sanbong", new { area = "Admin", id = item.Id })" class="btn btn-warning btn-sm me-1">
+                                            <i class="bi bi-pencil-square"></i> Sửa
+                                        </a>
+                                        <form action="/Admin/Sanbong/DeleteConfirmed?id=@item.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xoá sân này?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                stt++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}
