@@ -7730,23 +7730,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\MSI\\.nuget\\packages\\": {},
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\Mvc.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Source\\Repos\\BookingFb\\bookingfootball\\Mvc\\Mvc.csproj",
       "projectName": "Mvc",
-      "projectPath": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\Mvc.csproj",
-      "packagesPath": "C:\\Users\\MSI\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\Mvc\\obj\\",
+      "projectPath": "C:\\Users\\Admin\\Source\\Repos\\BookingFb\\bookingfootball\\Mvc\\Mvc.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Admin\\Source\\Repos\\BookingFb\\bookingfootball\\Mvc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\MSI\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -7761,8 +7761,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj": {
-              "projectPath": "C:\\Users\\MSI\\source\\repos\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj"
+            "C:\\Users\\Admin\\Source\\Repos\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj": {
+              "projectPath": "C:\\Users\\Admin\\Source\\Repos\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj"
             }
           }
         }
@@ -7775,9 +7775,9 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "all"
+        "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -7823,20 +7823,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.Text.Json' 7.0.3 has a known high severity vulnerability, https://github.com/advisories/GHSA-hh2w-p6rv-4g7w",
-      "libraryId": "System.Text.Json",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }

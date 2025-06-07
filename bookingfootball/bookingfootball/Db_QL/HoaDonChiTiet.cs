@@ -1,4 +1,6 @@
-﻿namespace bookingfootball.Db_QL
+﻿using Duong_API.Data;
+
+namespace bookingfootball.Db_QL
 {
     public class HoaDonChiTiet
     {
@@ -19,5 +21,6 @@
         public bool IsActive { get; set; } = true; // Trạng thái hoạt động của chi tiết hóa đơn, mặc định là true
         public string GhiChu { get; set; } // Ghi chú về chi tiết hóa đơn, có thể để trống
         public ICollection<DichVuDatBong> DichVuDatBongs { get; set; }
+        public ICollection<DoThue> DoThues { get; set; }
     }
 }

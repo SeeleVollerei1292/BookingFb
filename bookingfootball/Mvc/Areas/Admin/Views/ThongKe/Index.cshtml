@@ -145,198 +145,211 @@
 </div>
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    @{
-        var doanhThuNgay = Model?.DoanhThuNgay;
-        var doanhThuThang = Model?.DoanhThuThang;
-        var doanhThuNam = Model?.DoanhThuNam;
-        var doanhThuTheoSan = Model?.DoanhThuTheoSan;
-
-        var doanhThuNgayLabels = (doanhThuNgay != null)
-            ? doanhThuNgay.Select(dt => dt.Ngay.ToString("dd/MM/yyyy")).ToList()
-            : new List<string>();
-
-        var doanhThuNgayValues = (doanhThuNgay != null)
-            ? doanhThuNgay.Select(dt => dt.DoanhThu).ToList()
-            : new List<decimal?>();
-
-        var doanhThuThangLabels = (doanhThuThang != null)
-            ? doanhThuThang.Select(dt => $"{dt.Thang}/{dt.Nam}").ToList()
-            : new List<string>();
-
-        var doanhThuThangValues = (doanhThuThang != null)
-            ? doanhThuThang.Select(dt => dt.DoanhThu).ToList()
-            : new List<decimal?>();
-
-        var doanhThuNamLabels = (doanhThuNam != null)
-            ? doanhThuNam.Select(dt => dt.Nam.ToString()).ToList()
-            : new List<string>();
-
-        var doanhThuNamValues = (doanhThuNam != null)
-            ? doanhThuNam.Select(dt => dt.DoanhThu).ToList()
-            : new List<decimal?>();
-
-        var doanhThuSanLabels = (doanhThuTheoSan != null)
-            ? doanhThuTheoSan.Select(dt => dt.TenSan).ToList()
-            : new List<string>();
-
-        var doanhThuSanValues = (doanhThuTheoSan != null)
-            ? doanhThuTheoSan.Select(dt => dt.DoanhThu).ToList()
-            : new List<decimal?>();
-
-    }
 
     <script>
-            document.querySelector('form').addEventListener('submit', function (e) {
-            const fromDateInput = document.querySelector('input[name="fromDate"]');
-            const toDateInput = document.querySelector('input[name="toDate"]');
+            // Hàm tạo biểu đồ có kiểm tra dữ liệu
+            function createChart(ctx, type, data, options) {
+                if (!data.labels || data.labels.length === 0) {
+                    $(ctx).closest('.card').find('.card-body').html(`
+                        <div class="alert alert-info">
+                            Không có dữ liệu để hiển thị
+                        </div>
+                    `);
+                    return null;
+                }
 
-            const fromDate = new Date(fromDateInput.value);
-            const toDate = new Date(toDateInput.value);
+                const hasValidData = data.datasets.some(dataset =>
+                    dataset.data && dataset.data.length > 0 && dataset.data.some(value => value > 0)
+                );
 
-            if (fromDateInput.value && toDateInput.value && fromDate > toDate) {
-                e.preventDefault(); // Ngăn gửi form
-                alert("Ngày bắt đầu không được lớn hơn ngày kết thúc.");
-            }
-        });
-        function createChart(ctx, type, data, options) {
-            if (!data.labels || data.labels.length === 0) {
-                $(ctx).closest('.card').find('.card-body').html(`
-                    <div class="alert alert-info">
-                        Không có dữ liệu để hiển thị
-                    </div>
-                `);
-                return null;
-            }
+                if (!hasValidData) {
+                    $(ctx).closest('.card').find('.card-body').html(`
+                        <div class="alert alert-warning">
+                            Không có dữ liệu hợp lệ để hiển thị
+                        </div>
+                    `);
+                    return null;
+                }
 
-            const hasValidData = data.datasets.some(dataset =>
-                dataset.data && dataset.data.length > 0 && dataset.data.some(value => value > 0)
-            );
-
-            if (!hasValidData) {
-                $(ctx).closest('.card').find('.card-body').html(`
-                    <div class="alert alert-warning">
-                        Không có dữ liệu hợp lệ để hiển thị
-                    </div>
-                `);
-                return null;
+                return new Chart(ctx, {
+                    type: type,
+                    data: data,
+                    options: options
+                });
             }
 
-            return new Chart(ctx, {
-                type: type,
-                data: data,
-                options: options
+            // Doanh thu theo ngày (Line chart)
+            const doanhThuNgayData = {
+                labels: ['01/06/2025', '02/06/2025', '03/06/2025', '04/06/2025', '05/06/2025'],
+                datasets: [{
+                    label: 'Doanh Thu',
+                    data: [1200000, 1500000, 1800000, 1300000, 1700000],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            };
+            createChart(document.getElementById('doanhThuNgayChart').getContext('2d'), 'line', doanhThuNgayData, {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return 'VNĐ ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Doanh Thu Theo Ngày' }
+                }
             });
-        }
 
-        const doanhThuNgayData = {
-            labels: @Html.Raw(JsonConvert.SerializeObject(doanhThuNgayLabels)),
+            // Doanh thu theo tháng (Bar chart)
+            const doanhThuThangData = {
+                labels: ['01/2025', '02/2025', '03/2025', '04/2025', '05/2025'],
+                datasets: [{
+                    label: 'Doanh Thu',
+                    data: [15000000, 18000000, 17000000, 21000000, 23000000],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            };
+            createChart(document.getElementById('doanhThuThangChart').getContext('2d'), 'bar', doanhThuThangData, {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return 'VNĐ ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Doanh Thu Theo Tháng' }
+                }
+            });
+
+            // Doanh thu theo năm (Bar chart)
+            const doanhThuNamData = {
+                labels: ['2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: 'Doanh Thu',
+                    data: [100000000, 120000000, 140000000, 160000000],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
+            createChart(document.getElementById('doanhThuNamChart').getContext('2d'), 'bar', doanhThuNamData, {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return 'VNĐ ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Doanh Thu Theo Năm' }
+                }
+            });
+
+            // Doanh thu theo sân (Bar chart)
+            const doanhThuSanData = {
+                labels: ['Sân A', 'Sân B', 'Sân C', 'Sân D'],
+                datasets: [{
+                    label: 'Doanh Thu',
+                    data: [25000000, 20000000, 15000000, 18000000],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+            createChart(document.getElementById('doanhThuSanChart').getContext('2d'), 'bar', doanhThuSanData, {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return 'VNĐ ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Doanh Thu Theo Sân' }
+                }
+            });
+        const suDungSanData = {
+                labels: ['Sân A', 'Sân B', 'Sân C', 'Sân D'],
+                datasets: [{
+                    label: 'Số lượt sử dụng',
+                    data: [120, 95, 80, 110],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            };
+            createChart(document.getElementById('suDungSanChart').getContext('2d'), 'bar', suDungSanData, {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                            callback: function (value) {
+                                return value + ' lượt';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Tần Suất Sử Dụng Sân' }
+                }
+            });
+            const thoiGianCaoDiemData = {
+            labels: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
             datasets: [{
-                label: 'Doanh Thu',
-                data: @Html.Raw(JsonConvert.SerializeObject(doanhThuNgayValues)),
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
+                label: 'Số lượt đặt sân',
+                data: [5, 8, 4, 3, 6, 10, 15, 18, 7],
+                borderColor: 'rgba(255, 206, 86, 1)',
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                tension: 0.3,
+                fill: true
             }]
         };
-        createChart(document.getElementById('doanhThuNgayChart').getContext('2d'), 'line', doanhThuNgayData, {
+        createChart(document.getElementById('thoiGianCaoDiemChart').getContext('2d'), 'line', thoiGianCaoDiemData, {
             responsive: true,
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        callback: function(value) {
-                            return 'VNĐ ' + value.toLocaleString();
+                        precision: 0,
+                        callback: function (value) {
+                            return value + ' lượt';
                         }
                     }
                 }
             },
             plugins: {
                 legend: { position: 'top' },
-                title: { display: true, text: 'Doanh Thu Theo Ngày' }
+                title: { display: true, text: 'Thời Gian Cao Điểm Đặt Sân' }
             }
         });
 
-        const doanhThuThangData = {
-            labels: @Html.Raw(JsonConvert.SerializeObject(doanhThuThangLabels)),
-            datasets: [{
-                label: 'Doanh Thu',
-                data: @Html.Raw(JsonConvert.SerializeObject(doanhThuThangValues)),
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        };
-        createChart(document.getElementById('doanhThuThangChart').getContext('2d'), 'bar', doanhThuThangData, {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return 'VNĐ ' + value.toLocaleString();
-                        }
-                    }
-                }
-            },
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: true, text: 'Doanh Thu Theo Tháng' }
-            }
-        });
-
-        const doanhThuNamData = {
-            labels: @Html.Raw(JsonConvert.SerializeObject(doanhThuNamLabels)),
-            datasets: [{
-                label: 'Doanh Thu',
-                data: @Html.Raw(JsonConvert.SerializeObject(doanhThuNamValues)),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        };
-        createChart(document.getElementById('doanhThuNamChart').getContext('2d'), 'bar', doanhThuNamData, {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return 'VNĐ ' + value.toLocaleString();
-                        }
-                    }
-                }
-            },
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: true, text: 'Doanh Thu Theo Năm' }
-            }
-        });
-
-        const doanhThuSanData = {
-            labels: @Html.Raw(JsonConvert.SerializeObject(doanhThuSanLabels)),
-            datasets: [{
-                label: 'Doanh Thu',
-                data: @Html.Raw(JsonConvert.SerializeObject(doanhThuSanValues)),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        };
-        createChart(document.getElementById('doanhThuSanChart').getContext('2d'), 'bar', doanhThuSanData, {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return 'VNĐ ' + value.toLocaleString();
-                        }
-                    }
-                }
-            },
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: true, text: 'Doanh Thu Theo Sân' }
-            }
-        });
     </script>
 }
+
