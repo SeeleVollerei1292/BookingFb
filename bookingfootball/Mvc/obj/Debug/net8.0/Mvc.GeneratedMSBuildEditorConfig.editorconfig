@@ -1,19 +1,11 @@
 is_global = true
 build_property.TargetFramework = net8.0
-build_property.TargetFramework = net8.0
-build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
-build_property.UsingMicrosoftNETSdkWeb = true
-build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
-build_property.InvariantGlobalization = 
-build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
-build_property.EnforceExtendedAnalyzerRules = 
-build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Mvc
 build_property.RootNamespace = Mvc
@@ -78,18 +70,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/VS/bookingfb 222222222222222/BookingFb/bookingfootball/Mvc/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/VS/bookingfb 222222222222222/BookingFb/bookingfootball/Mvc/Views/SanBong/ConfirmBooking.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FuQm9uZ1xDb25maXJtQm9va2luZy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/VS/bookingfb 222222222222222/BookingFb/bookingfootball/Mvc/Views/SanBong/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FuQm9uZ1xEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/VS/bookingfb 222222222222222/BookingFb/bookingfootball/Mvc/Views/SanBong/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FuQm9uZ1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/VS/bookingfb 222222222222222/BookingFb/bookingfootball/Mvc/Views/Shared/Error.cshtml]

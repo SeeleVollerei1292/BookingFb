@@ -8,6 +8,6 @@
         public string Anh { get; set; } // Đường dẫn đến ảnh của nước uống, nếu có
         public decimal GiaBan { get; set; } // Giá bán của nước uống
         public bool IsActive { get; set; } = true; // Trạng thái hoạt động của nước uống, mặc định là true
-        public string? GhiChu { get; set; } // Ghi chú về nước uống, nếu cần
+        public string GhiChu { get; set; } // Ghi chú về nước uống, nếu cần
     }
 }

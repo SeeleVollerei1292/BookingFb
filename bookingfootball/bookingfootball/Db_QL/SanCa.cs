@@ -9,7 +9,7 @@
         public int NgayTrongTuanId { get; set; } // Mã ngày trong tuần, liên kết với bảng NgayTrongTuan
         public NgayTrongTuan NgayTrongTuan { get; set; } // Thông tin ngày trong tuần liên kết
         public Ca Ca { get; set; } // Thông tin ca liên kết
-        //public decimal Gia { get; set; } // Giá của sân ca, có thể là duy nhất
+        public decimal Gia { get; set; } // Giá của sân ca, có thể là duy nhất
 
         public bool IsActive { get; set; } = true; // Trạng thái hoạt động của sân ca, mặc định là true
     }
