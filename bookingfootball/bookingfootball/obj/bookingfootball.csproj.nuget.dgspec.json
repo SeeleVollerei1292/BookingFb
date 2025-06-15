@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj": {}
+    "D:\\VS\\bookingfb 222222222222222\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj": {}
   },
   "projects": {
-    "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj": {
+    "D:\\VS\\bookingfb 222222222222222\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
+        "projectUniqueName": "D:\\VS\\bookingfb 222222222222222\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
         "projectName": "bookingfootball",
-        "projectPath": "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
+        "projectPath": "D:\\VS\\bookingfb 222222222222222\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
         "packagesPath": "C:\\Users\\tranx\\.nuget\\packages\\",
-        "outputPath": "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\obj\\",
+        "outputPath": "D:\\VS\\bookingfb 222222222222222\\BookingFb\\bookingfootball\\bookingfootball\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

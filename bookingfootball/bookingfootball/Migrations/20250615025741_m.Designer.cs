@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookingfootball.Data;
 
@@ -11,9 +12,11 @@ using bookingfootball.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    partial class SbDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250615025741_m")]
+    partial class m
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,7 +199,7 @@ namespace bookingfootball.Migrations
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ThueSanId")
+                    b.Property<int>("ThueSanId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TongTien")
@@ -284,6 +287,7 @@ namespace bookingfootball.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("GhiChu")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("KhachHangId")
@@ -296,10 +300,10 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayLap")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("NhanVienId")
+                    b.Property<int>("NhanVienId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("TienCoc")
+                    b.Property<decimal>("TienCoc")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TongTien")
@@ -342,7 +346,7 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayDenSan")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("NhanVienId")
+                    b.Property<int>("NhanVienId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PhieuGiamGiaId")
@@ -351,13 +355,13 @@ namespace bookingfootball.Migrations
                     b.Property<int?>("SanBongId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("TienThueSan")
+                    b.Property<decimal>("TienThueSan")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TongTien")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("TongTienDuocGiam")
+                    b.Property<decimal>("TongTienDuocGiam")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -592,6 +596,7 @@ namespace bookingfootball.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("GiaBan")
@@ -900,7 +905,8 @@ namespace bookingfootball.Migrations
                     b.HasOne("bookingfootball.Db_QL.Thue", "Thues")
                         .WithMany()
                         .HasForeignKey("ThueSanId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("HoaDonChiTiet");
 
@@ -930,7 +936,9 @@ namespace bookingfootball.Migrations
 
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
                         .WithMany("HoaDons")
-                        .HasForeignKey("NhanVienId");
+                        .HasForeignKey("NhanVienId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("KhachHang");
 
@@ -948,7 +956,8 @@ namespace bookingfootball.Migrations
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
                         .WithMany("HoaDonChiTiets")
                         .HasForeignKey("NhanVienId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("bookingfootball.Db_QL.PhieuGiamGiaChiTiet", "PhieuGiamGia")
                         .WithMany("HoaDonChiTiets")

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c5bKogEATUs=",
+  "dgSpecHash": "lsAdjv6746c=",
   "success": true,
-  "projectFilePath": "D:\\VS\\aaaaaaaaaaaaaaaa\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
+  "projectFilePath": "D:\\VS\\bookingfb 222222222222222\\BookingFb\\bookingfootball\\bookingfootball\\bookingfootball.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tranx\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\tranx\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
