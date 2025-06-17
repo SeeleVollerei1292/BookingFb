@@ -8,6 +8,7 @@
         public LoaiSan? LoaiSan { get; set; }
         public string MoTa { get; set; }
         public int Gia { get; set; }
+        public string? HinhAnh { get; set; }
         public bool TrangThai { get; set; }
         public ICollection<SanCa>? SanCas { get; set; }
         public ICollection<HoaDonChiTiet>? HoaDonChiTiets { get; set; }
