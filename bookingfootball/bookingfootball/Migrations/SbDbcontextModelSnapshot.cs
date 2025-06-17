@@ -106,14 +106,14 @@ namespace bookingfootball.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
 
                     b.Property<string>("TenCa")
                         .IsRequired()
@@ -196,7 +196,7 @@ namespace bookingfootball.Migrations
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
-                    b.Property<int>("ThueSanId")
+                    b.Property<int?>("ThueSanId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TongTien")
@@ -284,7 +284,6 @@ namespace bookingfootball.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("GhiChu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("KhachHangId")
@@ -297,10 +296,10 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayLap")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NhanVienId")
+                    b.Property<int?>("NhanVienId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TienCoc")
+                    b.Property<decimal?>("TienCoc")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TongTien")
@@ -343,7 +342,7 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayDenSan")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NhanVienId")
+                    b.Property<int?>("NhanVienId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PhieuGiamGiaId")
@@ -352,13 +351,13 @@ namespace bookingfootball.Migrations
                     b.Property<int?>("SanBongId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TienThueSan")
+                    b.Property<decimal?>("TienThueSan")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TongTien")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("TongTienDuocGiam")
+                    b.Property<decimal?>("TongTienDuocGiam")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -593,7 +592,6 @@ namespace bookingfootball.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("GiaBan")
@@ -706,9 +704,6 @@ namespace bookingfootball.Migrations
                     b.Property<int>("CaId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Gia")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -739,6 +734,9 @@ namespace bookingfootball.Migrations
 
                     b.Property<int>("Gia")
                         .HasColumnType("int");
+
+                    b.Property<string>("HinhAnh")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("LoaiSanId")
                         .HasColumnType("int");
@@ -902,8 +900,7 @@ namespace bookingfootball.Migrations
                     b.HasOne("bookingfootball.Db_QL.Thue", "Thues")
                         .WithMany()
                         .HasForeignKey("ThueSanId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("HoaDonChiTiet");
 
@@ -933,9 +930,7 @@ namespace bookingfootball.Migrations
 
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
                         .WithMany("HoaDons")
-                        .HasForeignKey("NhanVienId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("NhanVienId");
 
                     b.Navigation("KhachHang");
 
@@ -953,8 +948,7 @@ namespace bookingfootball.Migrations
                     b.HasOne("bookingfootball.Db_QL.NhanVien", "NhanVien")
                         .WithMany("HoaDonChiTiets")
                         .HasForeignKey("NhanVienId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("bookingfootball.Db_QL.PhieuGiamGiaChiTiet", "PhieuGiamGia")
                         .WithMany("HoaDonChiTiets")

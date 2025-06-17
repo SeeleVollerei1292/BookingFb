@@ -51,6 +51,8 @@ builder.Services.AddScoped<INhanVienServices, NhanVienServices>();
 builder.Services.AddScoped<INuocuongServices, NuocuongServices>();
 builder.Services.AddScoped<IAuthAPIService, AuthAPIService>();
 builder.Services.AddScoped<IDoThueService, DoThueServices>();
+builder.Services.AddScoped<ISancaService, SancaService>();
+builder.Services.AddScoped<ICaServices, CaServices>();
 
 //builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -104,7 +106,7 @@ app.UseEndpoints(endpoints =>
 
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}"
+        pattern: "{controller=SanBong}/{action=Index}/{id?}"
     );
 });
 

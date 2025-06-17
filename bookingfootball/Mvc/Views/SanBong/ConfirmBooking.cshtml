@@ -1,0 +1,130 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Xác Nhận Đặt Sân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+
+<style>
+    .card-custom {
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    .highlight-title {
+        font-weight: 700;
+        color: #0d6efd;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .summary-section {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+
+        .summary-section p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+    .table th, .table td {
+        vertical-align: middle;
+        padding: 1rem;
+    }
+
+    .table th {
+        font-weight: 600;
+    }
+
+    .table ul {
+        margin: 0;
+        padding-left: 1.5rem;
+    }
+
+        .table ul li {
+            margin-bottom: 0.5rem;
+        }
+
+    .btn-back {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+</style>
+<div class="container mt-5 mb-5">
+    <h2 class="highlight-title">Xác Nhận Đặt Sân</h2>
+    <div class="card card-custom p-4">
+        <div class="summary-section">
+            <p><strong>Mã Hóa Đơn:</strong> HD-@Model.HoaDonId</p>
+            <p><strong>Tên Sân:</strong> @Model.TenSan</p>
+            <p><strong>Giá Thuê:</strong> @((int)Model.Gia).ToString("N0") VNĐ/giờ</p>
+            <p><strong>Ngày Đặt:</strong> @Model.Date</p>
+            <p><strong>Tổng Tiền:</strong> @((decimal)Model.TongTien).ToString("N0") VNĐ</p>
+            @if (!string.IsNullOrEmpty(Model.GhiChu))
+            {
+                <p><strong>Ghi Chú:</strong> @Model.GhiChu</p>
+            }
+        </div>
+
+        <h4 class="mb-4">Chi Tiết Đặt Sân</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tên Ca</th>
+                        <th>Giờ</th>
+                        <th>Đồ Thuê</th>
+                        <th>Nước Uống</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ca in Model.Cas)
+                    {
+                        <tr>
+                            <td>@ca.TenCa</td>
+                            <td>@ca.StartTime - @ca.EndTime</td>
+                            <td>
+                                <ul>
+                                    @if (ca.DoThues != null && ca.DoThues.Any())
+                                    {
+                                        foreach (var dt in ca.DoThues)
+                                        {
+                                            <li>@dt.TenDoThue (@dt.DonGia.ToString("N0") VNĐ)</li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li>Không có</li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    @if (ca.NuocUongs != null && ca.NuocUongs.Any())
+                                    {
+                                        foreach (var nu in ca.NuocUongs)
+                                        {
+                                            <li>@nu.TenNuocUong x@nu.Quantity (@(nu.GiaBan* nu.Quantity).ToString("N0") VNĐ)</li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li>Không có</li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end mt-4">
+            <a href="@Url.Action("Index", "SanBong")" class="btn btn-secondary btn-back">Quay Lại</a>
+        </div>
+    </div>
+</div>
