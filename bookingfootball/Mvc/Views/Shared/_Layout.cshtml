@@ -233,6 +233,10 @@
             <a href="#">Tuyển dụng</a>
             <a href="#">Liên hệ</a>
             <a href="/SanBong/Index">Đặt sân</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+               <a class="nav-link" href="/LichSu/LichSuDatSan">Lịch sử đặt sân</a>
+            }
         </nav>
 
 

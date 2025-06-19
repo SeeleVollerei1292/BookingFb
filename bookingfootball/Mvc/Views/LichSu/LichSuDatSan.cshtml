@@ -1,0 +1,23 @@
+﻿@model List<Mvc.Models.LichSuDatSanViewModel>
+
+<h2>Lịch Sử Đặt Sân</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên sân</th>
+            <th>Giá (VNĐ/giờ)</th>
+            <th>Mô tả</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TenSan</td>
+                <td>@item.Gia.ToString("N0")</td>
+                <td>@item.MoTa</td>
+            </tr>
+        }
+    </tbody>
+</table>
