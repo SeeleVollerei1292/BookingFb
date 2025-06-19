@@ -15,6 +15,7 @@ using Mvc.Areas.Admin.IService;
 using Mvc.Areas.Admin.IService.Service;
 using DuongPia.Areas.Admin.IServices;
 using DuongPia.Areas.Admin.IServices.Services;
+using bookingfootball.Repository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +52,9 @@ builder.Services.AddScoped<INhanVienServices, NhanVienServices>();
 builder.Services.AddScoped<INuocuongServices, NuocuongServices>();
 builder.Services.AddScoped<IAuthAPIService, AuthAPIService>();
 builder.Services.AddScoped<IDoThueService, DoThueServices>();
+builder.Services.AddScoped<ICaNhanVienRepo, CaNhanVienRepo>();
+builder.Services.AddScoped<ICaNhanVienService, CaNhanVienService>();
+
 
 //builder.Services.AddScoped<IAuthService, AuthService>();
 
