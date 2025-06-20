@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookingfootball.Data;
 
@@ -11,9 +12,11 @@ using bookingfootball.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    partial class SbDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250620020111_sss")]
+    partial class sss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,13 +196,10 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayDat")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("NuocUongId")
+                    b.Property<int>("NuocUongId")
                         .HasColumnType("int");
 
                     b.Property<int>("SoLuong")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SoLuongDoThue")
                         .HasColumnType("int");
 
                     b.Property<int?>("ThueSanId")
@@ -906,7 +906,8 @@ namespace bookingfootball.Migrations
                     b.HasOne("bookingfootball.Db_QL.NuocUong", "NuocUong")
                         .WithMany()
                         .HasForeignKey("NuocUongId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("bookingfootball.Db_QL.Thue", "Thues")
                         .WithMany()

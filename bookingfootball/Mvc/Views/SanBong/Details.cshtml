@@ -53,6 +53,7 @@
         padding: 10px 20px;
     }
 </style>
+
 <div class="container mt-5">
     <!-- Field Details -->
     <h2 class="text-center highlight-title">Chi Tiết Sân - @Model.TenSan</h2>
@@ -156,7 +157,7 @@
         </table>
         <div class="mb-3">
             <label for="ghiChu" class="form-label">Ghi Chú</label>
-            <textarea id="ghiChu" class="form-control" rows="4"> nhập ghi chú</textarea>
+            <textarea id="ghiChu" class="form-control" rows="4">nhập ghi chú</textarea>
         </div>
         <div class="text-end">
             <button class="btn btn-primary btn-book" id="bookButton" disabled>Đặt Sân</button>
@@ -183,6 +184,15 @@
             },
             dateClick: function (info) {
                 var selectedDate = info.dateStr;
+                    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    var clickedDate = new Date(info.date);
+    clickedDate.setHours(0, 0, 0, 0);
+
+    if (clickedDate < today) {
+        alert("Không thể đặt sân vào ngày đã qua.");
+        return;
+    }
                 $('#selectedDate').text(selectedDate);
                 $('#slotList').empty();
                 $('#noSlotsMessage').addClass('d-none');
@@ -237,6 +247,7 @@
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input service-checkbox dothue-checkbox" value="${dt.id}" id="dothue_${ca.caId}_${dt.id}" data-ca-id="${ca.caId}">
                                 <label class="form-check-label" for="dothue_${ca.caId}_${dt.id}">${dt.tenDoThue} (${dt.donGia.toLocaleString('vi-VN')} VNĐ)</label>
+                                <input type="number" class="form-control service-quantity dothue-quantity" id="dothue_qty_${ca.caId}_${dt.id}" min="1" max="${dt.soLuong}" style="width: 80px; display: inline-block;" disabled>
                             </div>
                         `).join('') : '<p>Không có đồ thuê</p>';
 
@@ -244,7 +255,7 @@
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input service-checkbox nuocuong-checkbox" value="${nu.id}" id="nuocuong_${ca.caId}_${nu.id}" data-ca-id="${ca.caId}">
                                 <label class="form-check-label" for="nuocuong_${ca.caId}_${nu.id}">${nu.tenNuocUong} (${nu.giaBan.toLocaleString('vi-VN')} VNĐ)</label>
-                                <input type="number" class="form-control service-quantity nuocuong-quantity" id="nuocuong_qty_${ca.caId}_${nu.id}" min="0" max="${nu.soluong}" style="width: 80px; display: inline-block;" disabled>
+                                <input type="number" class="form-control service-quantity nuocuong-quantity" id="nuocuong_qty_${ca.caId}_${nu.id}" min="1" max="${nu.soluong}" style="width: 80px; display: inline-block;" disabled>
                             </div>
                         `).join('') : '<p>Không có nước uống</p>';
 
@@ -284,8 +295,8 @@
                     });
 
                     // Enable quantity inputs when checkboxes are checked
-                    $('.nuocuong-checkbox').change(function () {
-                        var qtyInput = $(this).closest('.form-check').find('.nuocuong-quantity');
+                    $('.service-checkbox').change(function () {
+                        var qtyInput = $(this).closest('.form-check').find('.service-quantity');
                         qtyInput.prop('disabled', !this.checked);
                         if (!this.checked) qtyInput.val(0);
                     });
@@ -295,28 +306,43 @@
                             return parseInt($(this).data('ca-id'));
                         }).get();
                         var selections = $('#selectedSlotsBody tr').map(function () {
-                            var caId = $(this).data('ca-id');
-                            var doThueIds = $(this).find('.dothue-checkbox:checked').map(function () {
-                                return parseInt($(this).val());
+                            var caId = parseInt($(this).data('ca-id'));
+                            var doThueSelections = $(this).find('.dothue-checkbox:checked').map(function () {
+                                var doThueId = parseInt($(this).val());
+                                var quantity = parseInt($(this).closest('.form-check').find('.dothue-quantity').val() || 0);
+                                return { id: doThueId, quantity: quantity };
                             }).get();
                             var nuocUongSelections = $(this).find('.nuocuong-checkbox:checked').map(function () {
                                 var nuocUongId = parseInt($(this).val());
                                 var quantity = parseInt($(this).closest('.form-check').find('.nuocuong-quantity').val() || 0);
                                 return { id: nuocUongId, quantity: quantity };
                             }).get();
-                            return { caId: caId, doThueIds: doThueIds, nuocUongSelections: nuocUongSelections };
+                            return {
+                                caId: caId,
+                                doThueIds: doThueSelections,
+                                nuocUongSelections: nuocUongSelections
+                            };
                         }).get();
 
+                        if (!selectedCaIds.length) {
+                            alert('Vui lòng chọn ít nhất một ca.');
+                            return;
+                        }
                         if (selections.some(s => s.nuocUongSelections.some(nu => nu.quantity <= 0))) {
                             alert('Vui lòng nhập số lượng nước uống lớn hơn 0.');
                             return;
                         }
+                        if (selections.some(s => s.doThueIds.some(dt => dt.quantity <= 0))) {
+                            alert('Vui lòng nhập số lượng đồ thuê lớn hơn 0.');
+                            return;
+                        }
 
                         var ghiChu = $('#ghiChu').val();
+                        var date = response.data.date;
 
                         $.post('/SanBong/ConfirmAndBook', {
                             sanBongId: @Model.Id,
-                            date: response.data.date,
+                            date: date,
                             caIds: selectedCaIds,
                             selections: selections,
                             ghiChu: ghiChu
@@ -329,7 +355,7 @@
                             }
                         }).fail(function (xhr, status, error) {
                             console.error('ConfirmAndBook Error:', status, error);
-                            alert('Đã xảy ra lỗi khi đặt sân.');
+                            alert('Đã xảy ra lỗi khi đặt sân: ' + error);
                         });
                     });
                 } else {
