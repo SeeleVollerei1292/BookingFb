@@ -1,0 +1,120 @@
+﻿@model Tuple<IEnumerable<bookingfootball.DTOs.CaNhanVienDTO>, bookingfootball.DTOs.CaNhanVienDTO>
+@{
+    ViewData["Title"] = "Lịch Làm Việc Nhân Viên";
+    Layout = "_MyLayout";
+    var list = Model.Item1;
+    var formModel = Model.Item2 ?? new bookingfootball.DTOs.CaNhanVienDTO();
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+<div class="container mt-5">
+    <div class="row g-4">
+        <!-- FORM -->
+        <div class="col-lg-4">
+            <div class="card p-4 shadow">
+                <h4 class="mb-3 text-primary">
+                    @(formModel.Id == 0 ? "Thêm Lịch Làm Việc" : "Cập Nhật Lịch Làm Việc")
+                </h4>
+                <form method="post" action="/Admin/CaNhanVien/@(formModel.Id != 0 ? "Edit" : "Create")">
+
+                    @if (formModel.Id != 0)
+                    {
+                        <input type="hidden" name="Id" value="@formModel.Id" />
+                    }
+
+                    <div class="mb-3">
+                        <label for="NhanVienId" class="form-label">Mã Nhân Viên</label>
+                        <input name="NhanVienId" class="form-control" value="@formModel.NhanVienId" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Ngay" class="form-label">Ngày Làm Việc</label>
+                        <input name="Ngay" type="date" class="form-control" value="@(formModel.Ngay == default ? DateTime.Now.ToString("yyyy-MM-dd") : formModel.Ngay.ToString("yyyy-MM-dd"))" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ThoiGianBatDau" class="form-label">Thời Gian Bắt Đầu</label>
+                        <input name="ThoiGianBatDau" type="time" class="form-control"
+                               value="@formModel.ThoiGianBatDau.ToString(@"hh\:mm")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ThoiGianKetThuc" class="form-label">Thời Gian Kết Thúc</label>
+                        <input name="ThoiGianKetThuc" type="time" class="form-control" value="@(formModel.ThoiGianKetThuc.ToString(@"hh\:mm"))" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ViTri" class="form-label">Vị Trí</label>
+                        <input name="ViTri" class="form-control" value="@formModel.ViTri" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="GhiChu" class="form-label">Ghi Chú</label>
+                        <textarea name="GhiChu" class="form-control">@formModel.GhiChu</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">
+                        @(formModel.Id == 0 ? "Lưu" : "Cập Nhật")
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="col-lg-8">
+            <div class="card p-4 shadow">
+                <h4 class="mb-3 text-primary">Danh Sách Lịch Làm Việc</h4>
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên Nhân Viên</th>
+                            <th>Vị Trí</th>
+                            <th>Ngày</th>
+                            <th>Bắt Đầu</th>
+                            <th>Kết Thúc</th>
+                            <th>Ghi Chú</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (list != null && list.Any())
+                        {
+                            int index = 1;
+                            foreach (var item in list)
+                            {
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@item.TenNhanVien</td>
+                                    <td>@item.ViTri</td>
+                                    <td>@item.Ngay.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.ThoiGianBatDau.ToString(@"hh\:mm")</td>
+                                    <td>@item.ThoiGianKetThuc.ToString(@"hh\:mm")</td>
+                                    <td>@item.GhiChu</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-warning" href="@Url.Action("Index", "CaNhanVien", new { area = "Admin", id = item.Id })">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form method="post" action="/Admin/CaNhanVien/Delete?id=@item.Id" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
