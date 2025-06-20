@@ -43,7 +43,4 @@ namespace bookingfootball.Controllers
             return Ok(user);
         }
     }
-
-
-
 }

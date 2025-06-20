@@ -4,7 +4,7 @@
     "Projects": [
       {
         "Path": "bookingfootball\\bookingfootball.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       },
       {
         "Path": "Mvc\\Mvc.csproj",
