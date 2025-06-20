@@ -428,11 +428,11 @@ namespace bookingfootball.Migrations
                     b.Property<int>("NhanVienId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("ThoiGianBatDau")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ThoiGianBatDau")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("ThoiGianKetThuc")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ThoiGianKetThuc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ViTri")
                         .IsRequired()

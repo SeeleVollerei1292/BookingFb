@@ -12,7 +12,6 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Duong_API.IRepository;
 using Duong_API.IRepository.Repository;
-using bookingfootball.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,7 +76,6 @@ builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
 builder.Services.AddScoped<INuocuongRepository, NuocuongRepository>();
 builder.Services.AddScoped<IThongKeRepository, ThongKeRepository>();
 builder.Services.AddScoped<IDoThueRepository, DoThueRepository>();
-builder.Services.AddScoped<ICaNhanVienRepo, CaNhanVienRepo>();
 builder.Services.AddHttpContextAccessor();
 
 // Thêm Controllers + cấu hình JSON options tránh vòng tham chiếu

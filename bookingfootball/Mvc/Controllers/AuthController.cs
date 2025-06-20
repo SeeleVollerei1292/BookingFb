@@ -88,7 +88,7 @@ namespace Mvc.Controllers
             // Có thể lưu token vào session nếu muốn
             HttpContext.Session.SetString("AccessToken", token.AccessToken);
 
-            if (Convert.ToInt32(user.Role) == 0)
+            if (Convert.ToInt32(user.Role) == 3)
             {
                 return RedirectToAction("Index", "SanBong", new { area = "Admin" });
             }
