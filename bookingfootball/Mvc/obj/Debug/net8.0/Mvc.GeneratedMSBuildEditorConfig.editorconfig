@@ -1,117 +1,109 @@
 is_global = true
 build_property.TargetFramework = net8.0
-build_property.TargetFramework = net8.0
-build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
-build_property.UsingMicrosoftNETSdkWeb = true
-build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
-build_property.InvariantGlobalization = 
-build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
-build_property.EnforceExtendedAnalyzerRules = 
-build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Mvc
 build_property.RootNamespace = Mvc
-build_property.ProjectDir = D:\FPT Polytechnic\ThucTap\DuAnT12\bookingfootball\Mvc\
+build_property.ProjectDir = D:\VS\booking fb phuong\BookingFb\bookingfootball\Mvc\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\FPT Polytechnic\ThucTap\DuAnT12\bookingfootball\Mvc
+build_property.MSBuildProjectDirectory = D:\VS\booking fb phuong\BookingFb\bookingfootball\Mvc
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Areas/Admin/Views/Dothue/Index.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Areas/Admin/Views/Dothue/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRG90aHVlXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Areas/Admin/Views/LoaiSan/Index.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Areas/Admin/Views/LoaiSan/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTG9haVNhblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Areas/Admin/Views/Nhanvien/Index.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Areas/Admin/Views/Nhanvien/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTmhhbnZpZW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Areas/Admin/Views/Nuocuong/Index.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Areas/Admin/Views/Nuocuong/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTnVvY3VvbmdcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Areas/Admin/Views/SanBong/Index.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Areas/Admin/Views/SanBong/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2FuQm9uZ1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Areas/Admin/Views/Shared/_MyLayout.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Areas/Admin/Views/Shared/_MyLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9NeUxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Areas/Admin/Views/ThongKe/Index.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Areas/Admin/Views/ThongKe/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGhvbmdLZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Areas/Admin/Views/_ViewStart.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Areas/Admin/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/Auth/Info.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/Auth/Info.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxJbmZvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/Auth/Register.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/Auth/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/Auth/SignIn.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/Auth/SignIn.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxTaWduSW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/Home/Index.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/Home/Privacy.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/LichSu/LichSuDatSan.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/LichSu/LichSuDatSan.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGljaFN1XExpY2hTdURhdFNhbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/SanBong/ConfirmBooking.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/SanBong/ConfirmBooking.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FuQm9uZ1xDb25maXJtQm9va2luZy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/SanBong/Details.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/SanBong/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FuQm9uZ1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/SanBong/Index.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/SanBong/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FuQm9uZ1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/Shared/Error.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/_ViewImports.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/_ViewStart.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/FPT Polytechnic/ThucTap/DuAnT12/bookingfootball/Mvc/Views/Shared/_Layout.cshtml]
+[D:/VS/booking fb phuong/BookingFb/bookingfootball/Mvc/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-djzr31a0jt

@@ -161,54 +161,129 @@ namespace Mvc.Controllers
                 return Json(new { success = false, message = "Sân bóng không tồn tại hoặc không hoạt động." });
             }
 
-            decimal tongTien = 0;
+            // Kiểm tra tính khả dụng của ca
+            var cas = await _context.Cas
+                .Where(c => caIds.Contains(c.Id) && c.IsActive)
+                .ToListAsync();
+            if (!cas.Any())
+            {
+                return Json(new { success = false, message = "Không có ca hợp lệ được chọn." });
+            }
 
-            // Lấy danh sách Ca
-            var cas = await _context.Cas.Where(c => caIds.Contains(c.Id)).ToListAsync();
+            decimal tongTien = 0;
+            // Tính chi phí thuê sân
             foreach (var ca in cas)
             {
-                // Kiểm tra null nếu StartTime hoặc EndTime là nullable
-                if (ca.StartTime != null && ca.EndTime != null)
+                var duration = (ca.EndTime - ca.StartTime).TotalHours;
+                if (duration > 0)
                 {
-                    var duration = (ca.EndTime - ca.StartTime).TotalHours;
                     tongTien += (decimal)duration * sanbong.Gia;
                 }
             }
 
-            // DoThue cost
-            var doThueIds = selections
-                ?.SelectMany(s => s.DoThueIds ?? new List<int>())
-                .Distinct()
-                .ToList() ?? new List<int>();
-
-            var doThues = await _context.DoThues
-                .Where(dt => doThueIds.Contains(dt.Id))
-                .ToListAsync();
-
-            foreach (var dt in doThues)
-            {
-                tongTien += dt.DonGia;
-            }
-
-            // NuocUong cost
-            var nuocUongSelections = selections?
-                .SelectMany(s => s.NuocUongSelections ?? new List<NuocUongSelection>())
-                .GroupBy(nu => nu.Id)
-                .ToDictionary(g => g.Key, g => g.Sum(nu => nu.Quantity)) ?? new Dictionary<int, int>();
-
-            var nuocUongs = await _context.NuocUongs
-                .Where(nu => nuocUongSelections.Keys.Contains(nu.Id))
-                .ToListAsync();
-
-            foreach (var nu in nuocUongs)
-            {
-                if (nuocUongSelections.TryGetValue(nu.Id, out var quantity))
+            // Xử lý dịch vụ
+            var doThueSelections = (selections ?? new List<BookingSelection>())
+                .SelectMany(s => (s.DoThueIds ?? new List<DoThueSelection>()).Select(dt => new
                 {
-                    tongTien += nu.GiaBan * quantity;
+                    s.CaId,
+                    DoThueId = dt.Id,
+                    SoLuongDoThue = dt.Quantity
+                }))
+                .Where(dt => dt.SoLuongDoThue > 0)
+                .Distinct()
+                .ToList();
+
+            var nuocUongSelections = (selections ?? new List<BookingSelection>())
+                .SelectMany(s => (s.NuocUongSelections ?? new List<NuocUongSelection>()).Select(nu => new
+                {
+                    s.CaId,
+                    NuocUongId = nu.Id,
+                    SoLuong = nu.Quantity
+                }))
+                .Where(nu => nu.SoLuong > 0)
+                .GroupBy(nu => new { nu.CaId, nu.NuocUongId })
+                .Select(g => new
+                {
+                    g.Key.CaId,
+                    g.Key.NuocUongId,
+                    SoLuong = g.Sum(nu => nu.SoLuong)
+                })
+                .ToList();
+
+            // Lấy danh sách hợp lệ
+            var validDoThueIds = doThueSelections.Select(s => s.DoThueId).Distinct().ToList();
+            var validNuocUongIds = nuocUongSelections.Select(s => s.NuocUongId).Distinct().ToList();
+            var doThues = await _context.DoThues
+                .Where(dt => validDoThueIds.Contains(dt.Id) && dt.TrangThai)
+                .ToListAsync();
+            var nuocUongs = await _context.NuocUongs
+                .Where(nu => validNuocUongIds.Contains(nu.Id) && nu.IsActive)
+                .ToListAsync();
+
+            // Nhóm dịch vụ theo CaId
+            var dichVuGroups = (from sel in selections ?? new List<BookingSelection>()
+                                let doThueItems = doThueSelections.Where(ds => ds.CaId == sel.CaId).ToList()
+                                let nuocUongItems = nuocUongSelections.Where(ns => ns.CaId == sel.CaId).ToList()
+                                from dt in doThueItems.DefaultIfEmpty()
+                                from nu in nuocUongItems.DefaultIfEmpty()
+                                where dt != null || nu != null
+                                select new
+                                {
+                                    CaId = sel.CaId,
+                                    DoThueId = dt?.DoThueId,
+                                    SoLuongDoThue = dt?.SoLuongDoThue ?? 0,
+                                    NuocUongId = nu?.NuocUongId,
+                                    SoLuongNuocUong = nu?.SoLuong ?? 0
+                                })
+                                .GroupBy(x => new { x.CaId, x.DoThueId, x.NuocUongId })
+                                .Select(g => new
+                                {
+                                    g.Key.CaId,
+                                    g.Key.DoThueId,
+                                    SoLuongDoThue = g.Sum(x => x.SoLuongDoThue),
+                                    g.Key.NuocUongId,
+                                    SoLuongNuocUong = g.Sum(x => x.SoLuongNuocUong)
+                                })
+                                .Where(x => x.SoLuongDoThue > 0 || x.SoLuongNuocUong > 0)
+                                .ToList();
+
+            decimal dichVuCost = 0;
+            var dichVuDatBongs = new List<DichVuDatBong>();
+            foreach (var group in dichVuGroups)
+            {
+                decimal groupCost = 0;
+                var doThue = group.DoThueId.HasValue ? doThues.FirstOrDefault(dt => dt.Id == group.DoThueId.Value) : null;
+                var nuocUong = group.NuocUongId.HasValue ? nuocUongs.FirstOrDefault(nu => nu.Id == group.NuocUongId.Value) : null;
+
+                if (doThue != null)
+                {
+                    groupCost += doThue.DonGia * group.SoLuongDoThue;
+                }
+                if (nuocUong != null)
+                {
+                    groupCost += nuocUong.GiaBan * group.SoLuongNuocUong;
+                }
+
+                if (groupCost > 0)
+                {
+                    var dichVu = new DichVuDatBong
+                    {
+                        NuocUongId = group.NuocUongId ?? 0, // Sửa thành null nếu model cho phép
+                        DoThueId = group.DoThueId,
+                        SoLuong = group.SoLuongNuocUong,
+                        SoLuongDoThue = group.SoLuongDoThue,
+                        TongTien = groupCost,
+                        NgayDat = DateTime.Now,
+                        GhiChu = ghiChu ?? string.Empty,
+                        IsActive = true
+                    };
+                    dichVuDatBongs.Add(dichVu);
+                    dichVuCost += groupCost;
                 }
             }
+            tongTien += dichVuCost;
 
-            // Create HoaDon
+            // Tạo HoaDon
             var hoaDon = new HoaDon
             {
                 KhachHangId = khachHangId,
@@ -217,12 +292,12 @@ namespace Mvc.Controllers
                 NgayLap = DateTime.Now,
                 TongTien = tongTien,
                 TongTienThanhToan = tongTien,
-                GhiChu = ghiChu,
+                GhiChu = ghiChu ?? string.Empty,
                 LichSuHoaDons = new List<LichSuHoaDon>(),
                 HoaDonChiTiets = new List<HoaDonChiTiet>()
             };
 
-            // Create HoaDonChiTiet
+            // Tạo HoaDonChiTiet
             var hoaDonChiTiet = new HoaDonChiTiet
             {
                 HoaDon = hoaDon,
@@ -233,107 +308,50 @@ namespace Mvc.Controllers
                 TienThueSan = sanbong.Gia,
                 NgayDenSan = DateTime.ParseExact(date, "dd/MM/yyyy", null),
                 GhiChu = ghiChu,
-                DichVuDatBongs = new List<DichVuDatBong>(),
+                DichVuDatBongs = dichVuDatBongs,
                 DoThues = doThues
             };
 
-            // Create DichVuDatBong for NuocUong
-            foreach (var nu in nuocUongSelections)
+            // Gán HoaDonChiTietId
+            foreach (var dichVu in dichVuDatBongs)
             {
-                var dichVu = new DichVuDatBong
-                {
-                    NuocUongId = nu.Key,
-                    SoLuong = nu.Value,
-                    TongTien = nuocUongs.First(n => n.Id == nu.Key).GiaBan * nu.Value,
-                    NgayDat = DateTime.Now,
-                    GhiChu = ghiChu,
-                    HoaDonChiTiet = hoaDonChiTiet
-                };
-                hoaDonChiTiet.DichVuDatBongs.Add(dichVu);
+                dichVu.HoaDonChiTiet = hoaDonChiTiet;
             }
 
-            hoaDon.HoaDonChiTiets.Add(hoaDonChiTiet);
-            _context.HoaDons.Add(hoaDon);
-            await _context.SaveChangesAsync();
-
-            // Structure booking data for confirmation page
-            var bookingData = new
+            // Transaction
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                HoaDonId = hoaDon.Id,
-                SanBongId = sanbong.Id,
-                TenSan = sanbong.TenSan,
-                Gia = sanbong.Gia,
-                Date = date,
-                Cas = cas.Select(c => new
-                {
-                    c.Id,
-                    c.TenCa,
-                    StartTime = c.StartTime.ToString("HH:mm"),
-                    EndTime = c.EndTime.ToString("HH:mm"),
-                    DoThues = selections.Where(s => s.CaId == c.Id)
-                        .SelectMany(s => s.DoThueIds)
-                        .Distinct()
-                        .Join(doThues, id => id, dt => dt.Id, (id, dt) => new
-                        {
-                            dt.Id,
-                            dt.TenDoThue,
-                            dt.DonGia
-                        }),
-                    NuocUongs = selections.Where(s => s.CaId == c.Id)
-                        .SelectMany(s => s.NuocUongSelections)
-                        .GroupBy(nu => nu.Id)
-                        .Select(g => new
-                        {
-                            Id = g.Key,
-                            TenNuocUong = nuocUongs.First(nu => nu.Id == g.Key).TenNuocUong,
-                            GiaBan = nuocUongs.First(nu => nu.Id == g.Key).GiaBan,
-                            Quantity = g.Sum(nu => nu.Quantity)
-                        })
-                }),
-                GhiChu = ghiChu,
-                TongTien = tongTien
-            };
-            //TempData["ConfirmedBooking"] = JsonSerializer.Serialize(bookingData);
-
-            return Json(new { success = true, message = "Đặt sân thành công!", redirectUrl = Url.Action("ConfirmBooking") });
-        }
-
-        [HttpGet]
-        public IActionResult ConfirmBooking()
-        {
-            if (TempData["ConfirmedBooking"] == null)
-                return RedirectToAction("Index");
-
-            var json = TempData["ConfirmedBooking"]?.ToString();
-
-            if (!string.IsNullOrEmpty(json))
+                hoaDon.HoaDonChiTiets.Add(hoaDonChiTiet);
+                _context.HoaDons.Add(hoaDon);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception ex)
             {
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-
-                try
-                {
-                    var booking = JsonSerializer.Deserialize<CaDatSanViewModel>(json, options);
-                    return View(booking);
-                }
-                catch
-                {
-                    // log lỗi hoặc xử lý tùy ý
-                    return RedirectToAction("Index");
-                }
+                await transaction.RollbackAsync();
+                Console.WriteLine($"Lỗi khi lưu dữ liệu: {ex.Message}");
+                return Json(new { success = false, message = "Đã xảy ra lỗi khi lưu dữ liệu đặt sân: " + ex.Message });
             }
 
-            return RedirectToAction("Index");
+            return Json(new
+            {
+                success = true,
+                message = "Đặt sân thành công!",
+                redirectUrl = Url.Action("Index")
+            });
         }
-
-
         public class BookingSelection
         {
             public int CaId { get; set; }
-            public List<int> DoThueIds { get; set; }
+            public List<DoThueSelection> DoThueIds { get; set; }
             public List<NuocUongSelection> NuocUongSelections { get; set; }
+        }
+
+        public class DoThueSelection
+        {
+            public int Id { get; set; }
+            public int Quantity { get; set; }
         }
 
         public class NuocUongSelection
@@ -341,38 +359,5 @@ namespace Mvc.Controllers
             public int Id { get; set; }
             public int Quantity { get; set; }
         }
-    }
-
-    public class CaDatSanViewModel
-    {
-        public string TenSan { get; set; }
-        public int Gia { get; set; }
-        public DateTime Date { get; set; }
-        public decimal TongTien { get; set; }
-        public string? GhiChu { get; set; }
-        public string? HoaDonId { get; set; }
-        public List<CaDetail> Cas { get; set; }
-    }
-
-    public class CaDetail
-    {
-        public string TenCa { get; set; }
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
-        public List<DoThueDetail>? DoThues { get; set; }
-        public List<NuocUongDetail>? NuocUongs { get; set; }
-    }
-
-    public class DoThueDetail
-    {
-        public string TenDoThue { get; set; }
-        public int DonGia { get; set; }
-    }
-
-    public class NuocUongDetail
-    {
-        public string TenNuocUong { get; set; }
-        public int Quantity { get; set; }
-        public decimal GiaBan { get; set; }
     }
 }
