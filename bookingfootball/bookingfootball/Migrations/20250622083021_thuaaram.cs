@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace bookingfootball.Migrations
 {
     /// <inheritdoc />
-    public partial class kol : Migration
+    public partial class thuaaram : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,7 +70,7 @@ namespace bookingfootball.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenLoaiSan = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HinhAnh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HinhAnh = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TrangThai = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -125,7 +125,7 @@ namespace bookingfootball.Migrations
                     Anh = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GiaBan = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -203,8 +203,11 @@ namespace bookingfootball.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenSan = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LoaiSanId = table.Column<int>(type: "int", nullable: false),
-                    MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LoaiSanId = table.Column<int>(type: "int", nullable: true),
+                    MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gia = table.Column<int>(type: "int", nullable: false),
+                    HinhAnh = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TrangThai = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -213,8 +216,7 @@ namespace bookingfootball.Migrations
                         name: "FK_Sanbongs_LoaiSans_LoaiSanId",
                         column: x => x.LoaiSanId,
                         principalTable: "LoaiSans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -246,14 +248,14 @@ namespace bookingfootball.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NhanVienId = table.Column<int>(type: "int", nullable: false),
+                    NhanVienId = table.Column<int>(type: "int", nullable: true),
                     KhachHangId = table.Column<int>(type: "int", nullable: false),
                     MaHoaDon = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NgayLap = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TongTien = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TienCoc = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TienCoc = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TongTienThanhToan = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -268,8 +270,7 @@ namespace bookingfootball.Migrations
                         name: "FK_HoaDons_NhanViens_NhanVienId",
                         column: x => x.NhanVienId,
                         principalTable: "NhanViens",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -281,8 +282,8 @@ namespace bookingfootball.Migrations
                     NhanVienId = table.Column<int>(type: "int", nullable: false),
                     ViTri = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ngay = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ThoiGianBatDau = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ThoiGianKetThuc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ThoiGianBatDau = table.Column<TimeSpan>(type: "time", nullable: false),
+                    ThoiGianKetThuc = table.Column<TimeSpan>(type: "time", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -370,7 +371,6 @@ namespace bookingfootball.Migrations
                     SanBongId = table.Column<int>(type: "int", nullable: false),
                     CaId = table.Column<int>(type: "int", nullable: false),
                     NgayTrongTuanId = table.Column<int>(type: "int", nullable: false),
-                    Gia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -430,11 +430,11 @@ namespace bookingfootball.Migrations
                     HoaDonId = table.Column<int>(type: "int", nullable: false),
                     SanBongId = table.Column<int>(type: "int", nullable: true),
                     PhieuGiamGiaId = table.Column<int>(type: "int", nullable: true),
-                    NhanVienId = table.Column<int>(type: "int", nullable: false),
+                    NhanVienId = table.Column<int>(type: "int", nullable: true),
                     MaChiTietHoaDon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TongTienDuocGiam = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TongTienDuocGiam = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TongTien = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TienThueSan = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TienThueSan = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     NgayDenSan = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -497,13 +497,40 @@ namespace bookingfootball.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DoThues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TenDoThue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HinhAnh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SoLuong = table.Column<int>(type: "int", nullable: false),
+                    DonGia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TrangThai = table.Column<bool>(type: "bit", nullable: false),
+                    HoaDonChiTietId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoThues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DoThues_HoaDonChiTiets_HoaDonChiTietId",
+                        column: x => x.HoaDonChiTietId,
+                        principalTable: "HoaDonChiTiets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DichVuDatBong",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NuocUongId = table.Column<int>(type: "int", nullable: false),
-                    ThueSanId = table.Column<int>(type: "int", nullable: false),
+                    NuocUongId = table.Column<int>(type: "int", nullable: true),
+                    DoThueId = table.Column<int>(type: "int", nullable: true),
+                    ThueSanId = table.Column<int>(type: "int", nullable: true),
+                    SoLuongDoThue = table.Column<int>(type: "int", nullable: true),
                     SoLuong = table.Column<int>(type: "int", nullable: false),
                     TongTien = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     NgayDat = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -514,6 +541,11 @@ namespace bookingfootball.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DichVuDatBong", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DichVuDatBong_DoThues_DoThueId",
+                        column: x => x.DoThueId,
+                        principalTable: "DoThues",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DichVuDatBong_HoaDonChiTiets_HoaDonChiTietId",
                         column: x => x.HoaDonChiTietId,
@@ -550,6 +582,11 @@ namespace bookingfootball.Migrations
                 column: "KhachHangId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DichVuDatBong_DoThueId",
+                table: "DichVuDatBong",
+                column: "DoThueId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DichVuDatBong_HoaDonChiTietId",
                 table: "DichVuDatBong",
                 column: "HoaDonChiTietId");
@@ -568,6 +605,11 @@ namespace bookingfootball.Migrations
                 name: "IX_DiemDanhs_NhanVienId",
                 table: "DiemDanhs",
                 column: "NhanVienId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoThues_HoaDonChiTietId",
+                table: "DoThues",
+                column: "HoaDonChiTietId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HoaDonChiTiets_HoaDonId",
@@ -684,7 +726,7 @@ namespace bookingfootball.Migrations
                 name: "HinhThucThanhToan");
 
             migrationBuilder.DropTable(
-                name: "HoaDonChiTiets");
+                name: "DoThues");
 
             migrationBuilder.DropTable(
                 name: "NuocUongs");
@@ -697,6 +739,9 @@ namespace bookingfootball.Migrations
 
             migrationBuilder.DropTable(
                 name: "NgayTrongTuans");
+
+            migrationBuilder.DropTable(
+                name: "HoaDonChiTiets");
 
             migrationBuilder.DropTable(
                 name: "HoaDons");

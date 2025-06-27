@@ -51,7 +51,7 @@ namespace Mvc.Controllers
                 return View("SignIn");
             }
 
-            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync();   
             var token = JsonConvert.DeserializeObject<Token>(responseContent);
 
             // Gọi API /current-user

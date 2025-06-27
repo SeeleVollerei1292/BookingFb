@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Mvc.Controllers
 {
+    
     public class SanBongController : Controller
     {
         private readonly SbDbcontext _context;

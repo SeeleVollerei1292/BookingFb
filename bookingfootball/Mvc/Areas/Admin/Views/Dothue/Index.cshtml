@@ -76,8 +76,8 @@
                         <textarea name="MoTa" class="form-control">@itemEdit?.MoTa</textarea>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="IsActive">Trạng Thái</label>
-                        <select name="IsActive" class="form-control">
+                        <label for="TrangThai">Trạng Thái</label>
+                        <select name="TrangThai" class="form-control">
                             <option value="true" @(itemEdit?.TrangThai == true ? "selected" : "")>Đang cho thuê</option>
                             <option value="false" @(itemEdit?.TrangThai == false ? "selected" : "")>Tạm ngưng</option>
                         </select>
@@ -138,11 +138,11 @@
                                     <td>
                                         @if (item.TrangThai)
                                         {
-                                            <span class="badge bg-success">Tạm ngưng</span>
+                                            <span class="badge bg-success">Đang cho thuê</span>
                                         }
                                         else
                                         {
-                                            <span class="badge bg-secondary">Đang cho thuê</span>
+                                            <span class="badge bg-secondary">Tạm ngưng</span>
                                         }
                                     </td>
                                     <td>

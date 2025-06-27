@@ -39,7 +39,7 @@ namespace bookingfootball.IRepository.Repository
                     throw new KeyNotFoundException($"NhanVien with id {id} not found");
                 }
                 nv.IsActive = false;
-                _context.NhanViens.Update(nv);
+                _context.NhanViens.Remove(nv);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

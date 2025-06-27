@@ -90,19 +90,13 @@ namespace bookingfootball.IRepository.Repository
 
         public async Task DeleteSanCaAsync(int id)
         {
-            try
-            {
-                var sanCa = await _context.SanCas.FindAsync(id);
-                if (sanCa == null)
-                    throw new Exception("Không tìm thấy SanCa để xóa.");
+            var sanCa = await _context.SanCas.FindAsync(id);
+            if (sanCa == null)
+                throw new Exception("Không tìm thấy SanCa để xoá.");
 
-                _context.SanCas.Remove(sanCa);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Đã xảy ra lỗi khi xóa SanCa: " + ex.Message, ex);
-            }
+            // Chuyển sang soft-delete
+            _context.SanCas.Remove(sanCa);
+            await _context.SaveChangesAsync();
         }
     }
 }

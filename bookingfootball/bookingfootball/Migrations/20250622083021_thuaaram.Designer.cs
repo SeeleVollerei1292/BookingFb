@@ -12,8 +12,8 @@ using bookingfootball.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    [Migration("20250619144957_suaTG")]
-    partial class suaTG
+    [Migration("20250622083021_thuaaram")]
+    partial class thuaaram
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,14 +109,14 @@ namespace bookingfootball.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TenCa")
                         .IsRequired()
@@ -180,6 +180,9 @@ namespace bookingfootball.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("DoThueId")
+                        .HasColumnType("int");
+
                     b.Property<string>("GhiChu")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -193,10 +196,13 @@ namespace bookingfootball.Migrations
                     b.Property<DateTime>("NgayDat")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NuocUongId")
+                    b.Property<int?>("NuocUongId")
                         .HasColumnType("int");
 
                     b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SoLuongDoThue")
                         .HasColumnType("int");
 
                     b.Property<int?>("ThueSanId")
@@ -206,6 +212,8 @@ namespace bookingfootball.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DoThueId");
 
                     b.HasIndex("HoaDonChiTietId");
 
@@ -431,11 +439,11 @@ namespace bookingfootball.Migrations
                     b.Property<int>("NhanVienId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ThoiGianBatDau")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("ThoiGianBatDau")
+                        .HasColumnType("time");
 
-                    b.Property<DateTime>("ThoiGianKetThuc")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("ThoiGianKetThuc")
+                        .HasColumnType("time");
 
                     b.Property<string>("ViTri")
                         .IsRequired()
@@ -888,6 +896,10 @@ namespace bookingfootball.Migrations
 
             modelBuilder.Entity("bookingfootball.Db_QL.DichVuDatBong", b =>
                 {
+                    b.HasOne("Duong_API.Data.DoThue", "Dothue")
+                        .WithMany()
+                        .HasForeignKey("DoThueId");
+
                     b.HasOne("bookingfootball.Db_QL.HoaDonChiTiet", "HoaDonChiTiet")
                         .WithMany("DichVuDatBongs")
                         .HasForeignKey("HoaDonChiTietId")
@@ -897,13 +909,14 @@ namespace bookingfootball.Migrations
                     b.HasOne("bookingfootball.Db_QL.NuocUong", "NuocUong")
                         .WithMany()
                         .HasForeignKey("NuocUongId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("bookingfootball.Db_QL.Thue", "Thues")
                         .WithMany()
                         .HasForeignKey("ThueSanId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Dothue");
 
                     b.Navigation("HoaDonChiTiet");
 
