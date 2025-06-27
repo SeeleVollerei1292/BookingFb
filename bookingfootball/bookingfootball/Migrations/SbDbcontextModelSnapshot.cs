@@ -106,14 +106,14 @@ namespace bookingfootball.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TenCa")
                         .IsRequired()

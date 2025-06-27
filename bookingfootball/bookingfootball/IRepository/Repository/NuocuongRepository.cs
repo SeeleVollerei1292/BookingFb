@@ -35,7 +35,7 @@ namespace bookingfootball.IRepository.Repository
                     throw new KeyNotFoundException($"NuocUong with id {id} not found");
                 }
                 nuocUong.IsActive = false; 
-                _sbDbcontext.NuocUongs.Update(nuocUong);
+                _sbDbcontext.NuocUongs.Remove(nuocUong);
                 await _sbDbcontext.SaveChangesAsync();
             } catch
             (Exception ex)

@@ -15,10 +15,10 @@ namespace Mvc.Areas.Admin.Controllers
         }
 		private async Task LoadDropdowns()
 		{
-			ViewBag.Cas = await _sancaService.GetCasAsync();
-			ViewBag.SanBongs = await _sancaService.GetSanBongsAsync();
-			ViewBag.ThuTuans = await _sancaService.GetThuTuansAsync();
-		}
+            ViewBag.Cas = await _sancaService.GetCasAsync();
+            ViewBag.SanBongs = await _sancaService.GetSanBongsAsync();
+            ViewBag.ThuTuans = await _sancaService.GetThuTuansAsync();
+        }
 
 		public async Task<IActionResult> Index()
 		{
@@ -42,7 +42,10 @@ namespace Mvc.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(sanCa);
+                await LoadDropdowns();
+                ViewBag.EditModel = null; // Tránh hiểu nhầm Edit mode
+                var sanCas = await _sancaService.GetSanCasAsync();
+                return View("Index", sanCas);
             }
 
             try
@@ -52,8 +55,11 @@ namespace Mvc.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                await LoadDropdowns(); // Cần reload dropdown
                 ViewBag.Error = ex.Message;
-                return View(sanCa);
+                ViewBag.EditModel = null;
+                var sanCas = await _sancaService.GetSanCasAsync();
+                return View("Index", sanCas);
             }
         }
 
@@ -82,15 +88,15 @@ namespace Mvc.Areas.Admin.Controllers
             }
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            var sanCa = await _sancaService.GetSanCaByIdAsync(id);
-            if (sanCa == null)
-            {
-                return NotFound();
-            }
-            return View(sanCa);
-        }
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    var sanCa = await _sancaService.GetSanCaByIdAsync(id);
+        //    if (sanCa == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(sanCa);
+        //}
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

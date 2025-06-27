@@ -250,7 +250,8 @@
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                         <form action="/Admin/SanCa/Delete?id=@item.Id" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa không?')">
-                                            <button type="submit" class="btn btn-sm btn-danger">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa không?')">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
