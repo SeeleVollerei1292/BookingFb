@@ -14,15 +14,35 @@ namespace Mvc.Areas.Admin.Controllers
             _nuocuongServices = nuocuongServices;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string trangThai, int? giaMin, int? giaMax)
         {
             if (!string.IsNullOrEmpty(searchString))
             {
                 var nuocUongs = await _nuocuongServices.GetAllNuocUongAsync();
                 var filteredNuocUongs = nuocUongs.Where(n => n.TenNuocUong.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 return View(filteredNuocUongs);
-            }
+            }   
             var list = await _nuocuongServices.GetAllNuocUongAsync();
+            if (!string.IsNullOrEmpty(trangThai))
+            {
+                bool isActive = bool.Parse(trangThai);
+                list = list.Where(n => n.IsActive == isActive).ToList();
+            }
+            if (giaMin.HasValue)
+            {
+                list = list.Where(n => n.GiaBan >= giaMin.Value).ToList();
+            }
+
+            if (giaMax.HasValue)
+            {
+                list = list.Where(n => n.GiaBan <= giaMax.Value).ToList();
+            }
+
+            // Gửi lại dữ liệu về View để giữ giá trị form
+            ViewBag.SearchString = searchString;
+            ViewBag.TrangThai = trangThai;
+            ViewBag.GiaMin = giaMin;
+            ViewBag.GiaMax = giaMax;
             return View(list);
         }
         [HttpGet]

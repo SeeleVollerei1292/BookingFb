@@ -95,11 +95,32 @@
             <div class="card card-custom p-4">
                 <h4 class="highlight-title">Danh Sách Nước Uống</h4>
                 <div class="d-flex mb-3">
-                    <form action="/Admin/Nuocuong/Index" method="get" class="d-flex mb-3">
-                        <input type="text" name="searchString" class="form-control me-2" id="searchString" placeholder="Tìm theo tên nước..." value="@ViewBag.SearchString">
-                        <button type="submit" class="btn btn-outline-dark">
-                            <i class="bi bi-search me-1"></i> Tìm kiếm
-                        </button>
+                    <form action="/Admin/Nuocuong/Index" method="get" class="row row-cols-lg-auto g-2 align-items-center mb-3">
+                        <div class="col">
+                            <input type="text" name="searchString" class="form-control" placeholder="Tìm theo tên nước..." value="@ViewBag.SearchString" />
+                        </div>
+
+                        <div class="col">
+                            <select name="trangThai" class="form-control">
+                                <option value="">-- Trạng thái --</option>
+                                <option value="true" @(ViewBag.TrangThai == "true" ? "selected" : "")>Đang bán</option>
+                                <option value="false" @(ViewBag.TrangThai == "false" ? "selected" : "")>Ngừng bán</option>
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <input type="number" name="giaMin" class="form-control" placeholder="Giá từ..." value="@ViewBag.GiaMin" />
+                        </div>
+
+                        <div class="col">
+                            <input type="number" name="giaMax" class="form-control" placeholder="Giá đến..." value="@ViewBag.GiaMax" />
+                        </div>
+
+                        <div class="col">
+                            <button type="submit" class="btn btn-outline-dark">
+                                <i class="bi bi-funnel me-1"></i> Lọc
+                            </button>
+                        </div>
                     </form>
                 </div>
 
