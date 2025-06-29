@@ -14,10 +14,36 @@ namespace DuongPia.Areas.Admin.Controllers
             _doThueService = doThueService;
         }
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string trangThai, int? giaMin, int? giaMax)
         {
-            var doThues = await _doThueService.GetAllAsync();
-            return View(doThues);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var nuocUongs = await _doThueService.GetAllAsync();
+                var filteredNuocUongs = nuocUongs.Where(n => n.TenDoThue.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                return View(filteredNuocUongs);
+            }
+            var list = await _doThueService.GetAllAsync();
+            if (!string.IsNullOrEmpty(trangThai))
+            {
+                bool status = bool.Parse(trangThai);
+                list = list.Where(x => x.TrangThai == status).ToList();
+            }
+            if (giaMin.HasValue)
+            {
+                list = list.Where(x => x.DonGia >= giaMin.Value).ToList();
+            }
+
+            if (giaMax.HasValue)
+            {
+                list = list.Where(x => x.DonGia <= giaMax.Value).ToList();
+            }
+            ViewBag.SearchString = searchString;
+            ViewBag.TrangThai = trangThai;
+            ViewBag.GiaMin = giaMin;
+            ViewBag.GiaMax = giaMax;
+            return View(list);
+
         }
         [HttpGet]
         public IActionResult Create()
