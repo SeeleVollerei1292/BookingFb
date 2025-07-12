@@ -1,0 +1,107 @@
+﻿@model Mvc.Models.OrderViewModel
+@{
+    ViewData["Title"] = "Thanh Toán Hóa Đơn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+    .card-custom {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .highlight-title {
+        font-weight: bold;
+        color: #0d6efd;
+        margin-bottom: 20px;
+    }
+
+    .btn-confirm {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center highlight-title">Thanh Toán Hóa Đơn</h2>
+    <div class="card card-custom p-4">
+        @if (string.IsNullOrEmpty(Model.PaymentUrl) || Model.HoaDonId <= 0)
+        {
+            <p class="error-message">Lỗi: Không thể tạo URL thanh toán hoặc mã hóa đơn không hợp lệ. Vui lòng thử lại.</p>
+        }
+        else
+        {
+            <h4 class="highlight-title">Chi Tiết Hóa Đơn</h4>
+            <table class="table table-bordered" id="orderTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tên Sân</th>
+                        <th>Giá</th>
+                        <th>Ngày</th>
+                        <th>Tên Ca</th>
+                        <th>Giờ</th>
+                        <th>Nước Uống</th>
+                        <th>Đồ Thuê</th>
+                        <th>Tổng Tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ca in Model.Booking.Cas)
+                    {
+                        <tr>
+                            <td>@Model.Booking.TenSan</td>
+                            <td>@Model.Booking.Gia.ToString("N0") VNĐ/giờ</td>
+                            <td>@ca.Date</td>
+                            <td>@ca.TenCa</td>
+                            <td>@ca.StartTime - @ca.EndTime</td>
+                            <td>
+                                @(ca.NuocUongSelections.Any()
+                                                        ? string.Join(", ", ca.NuocUongSelections.Select(nu => $"{nu.TenNuocUong} (x{nu.Quantity})"))
+                                                        : "Chưa chọn")
+                                                                  </td>
+                                                                  <td>
+                                @(ca.DoThueSelections.Any()
+                                                        ? string.Join(", ", ca.DoThueSelections.Select(dt => $"{dt.TenDoThue} (x{dt.Quantity})"))
+                                                        : "Chưa chọn")
+                    </td>
+                    <td>
+                        @{
+                                    var duration = (TimeSpan.Parse(ca.EndTime) - TimeSpan.Parse(ca.StartTime)).TotalHours;
+                                    var slotCost = (decimal)duration * Model.Booking.Gia;
+                                    var nuocUongCost = ca.NuocUongSelections.Sum(nu => nu.GiaBan * nu.Quantity);
+                                    var doThueCost = ca.DoThueSelections.Sum(dt => dt.DonGia * dt.Quantity);
+                                    var totalCost = slotCost + nuocUongCost + doThueCost;
+                                }
+                                @totalCost.ToString("N0") VNĐ
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-end mt-3">
+                <h5>Tổng Tiền Tất Cả Ca: @Model.Booking.TongTien.ToString("N0") VNĐ</h5>
+            </div>
+            <div class="text-end mt-3">
+                <a href="@Html.Raw(Model.PaymentUrl)" class="btn btn-primary btn-confirm">Thanh Toán Qua VNPay</a>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+ 
+</script>

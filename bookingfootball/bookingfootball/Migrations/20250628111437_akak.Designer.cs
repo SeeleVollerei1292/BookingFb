@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookingfootball.Data;
 
@@ -11,9 +12,11 @@ using bookingfootball.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    partial class SbDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250628111437_akak")]
+    partial class akak
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -324,15 +327,6 @@ namespace bookingfootball.Migrations
 
                     b.Property<decimal?>("TongTienThanhToan")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TrangThaiHoaDon")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TrangThaiThanhToan")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VNPayTransactionId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

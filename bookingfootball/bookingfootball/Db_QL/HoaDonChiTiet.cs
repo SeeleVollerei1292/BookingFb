@@ -9,6 +9,8 @@ namespace bookingfootball.Db_QL
         public HoaDon HoaDon { get; set; } // Tham chiếu đến hóa đơn
         public int? SanBongId { get; set; } // Mã sân bóng liên kết
         public Sanbong SanBong { get; set; } // Tham chiếu đến sân bóng
+        public int? SanCaId { get; set; } 
+        public SanCa SanCa { get; set; } 
         public int? PhieuGiamGiaId { get; set; } // Mã phiếu giảm giá liên kết, có thể là null nếu không áp dụng
         public PhieuGiamGiaChiTiet ? PhieuGiamGia { get; set; } // Tham chiếu đến phiếu giảm giá chi tiết
         public int ? NhanVienId { get; set; } // Mã nhân viên liên kết, có thể là duy nhất

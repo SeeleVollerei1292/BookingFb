@@ -16,6 +16,7 @@ using Mvc.Areas.Admin.IService.Service;
 using DuongPia.Areas.Admin.IServices;
 using DuongPia.Areas.Admin.IServices.Services;
 using bookingfootball.Repository;
+using VNPAY.NET;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -83,8 +84,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
-
+// thêm dòng này
+builder.Services.AddScoped<IVnpay, Vnpay>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

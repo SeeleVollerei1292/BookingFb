@@ -11,10 +11,17 @@
         public DateTime NgayLap { get; set; } // Ngày lập hóa đơn
         public decimal TongTien { get; set; } // Tổng tiền của hóa đơn
         public decimal ? TienCoc { get; set; } // Tiền cọc của hóa đơn
-
-        public decimal TongTienThanhToan { get; set; } // Tổng tiền thanh toán của hóa đơn
+        public string? TenNguoiDat { get; set; }
+        public string? Email { get; set; }
+        public int? SoDienThoaiNguoiDat { get; set; }
+        public decimal? TongTienThanhToan { get; set; } // Tổng tiền thanh toán của hóa đơn
         public string ? GhiChu  { get; set; } // Ghi chú về hóa đơn, có thể để trống
+        public  TrangThaiHoaDon TrangThaiHoaDon { get; set; } // Trạng thái của hóa đơn (Chưa thanh toán, Đã thanh toán, Đã hủy)
+        public string? VNPayTransactionId { get; set; } // Store VNPay transaction ID
+        public string? TrangThaiThanhToan { get; set; }
         public ICollection<LichSuHoaDon> LichSuHoaDons { get; set; }
         public ICollection<HoaDonChiTiet> HoaDonChiTiets { get; set; }
+        public ICollection<ThoiGianDatSan> ThoiGianDatSans { get; set; }
+
     }
 }

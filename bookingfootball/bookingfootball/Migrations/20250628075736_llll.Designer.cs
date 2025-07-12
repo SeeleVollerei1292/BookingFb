@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookingfootball.Data;
 
@@ -11,9 +12,11 @@ using bookingfootball.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    partial class SbDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250628075736_llll")]
+    partial class llll
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,9 +294,6 @@ namespace bookingfootball.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
 
@@ -310,10 +310,11 @@ namespace bookingfootball.Migrations
                     b.Property<int?>("NhanVienId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SoDienThoaiNguoiDat")
+                    b.Property<int>("SoDienThoaiNguoiDat")
                         .HasColumnType("int");
 
                     b.Property<string>("TenNguoiDat")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("TienCoc")
@@ -322,17 +323,8 @@ namespace bookingfootball.Migrations
                     b.Property<decimal>("TongTien")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("TongTienThanhToan")
+                    b.Property<decimal>("TongTienThanhToan")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TrangThaiHoaDon")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TrangThaiThanhToan")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VNPayTransactionId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -377,9 +369,6 @@ namespace bookingfootball.Migrations
                     b.Property<int?>("SanBongId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SanCaId")
-                        .HasColumnType("int");
-
                     b.Property<decimal?>("TienThueSan")
                         .HasColumnType("decimal(18,2)");
 
@@ -398,8 +387,6 @@ namespace bookingfootball.Migrations
                     b.HasIndex("PhieuGiamGiaId");
 
                     b.HasIndex("SanBongId");
-
-                    b.HasIndex("SanCaId");
 
                     b.ToTable("HoaDonChiTiets");
                 });
@@ -847,32 +834,6 @@ namespace bookingfootball.Migrations
                     b.ToTable("TaiKhoans");
                 });
 
-            modelBuilder.Entity("bookingfootball.Db_QL.ThoiGianDatSan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("IdHoaDon")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdSanCa")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("NgayDat")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdHoaDon");
-
-                    b.HasIndex("IdSanCa");
-
-                    b.ToTable("ThoiGianDatSans");
-                });
-
             modelBuilder.Entity("bookingfootball.Db_QL.Thue", b =>
                 {
                     b.Property<int>("Id")
@@ -1020,10 +981,6 @@ namespace bookingfootball.Migrations
                         .WithMany("HoaDonChiTiets")
                         .HasForeignKey("SanBongId");
 
-                    b.HasOne("bookingfootball.Db_QL.SanCa", "SanCa")
-                        .WithMany()
-                        .HasForeignKey("SanCaId");
-
                     b.Navigation("HoaDon");
 
                     b.Navigation("NhanVien");
@@ -1031,8 +988,6 @@ namespace bookingfootball.Migrations
                     b.Navigation("PhieuGiamGia");
 
                     b.Navigation("SanBong");
-
-                    b.Navigation("SanCa");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.LichLamViec", b =>
@@ -1129,25 +1084,6 @@ namespace bookingfootball.Migrations
                     b.Navigation("NhanVien");
                 });
 
-            modelBuilder.Entity("bookingfootball.Db_QL.ThoiGianDatSan", b =>
-                {
-                    b.HasOne("bookingfootball.Db_QL.HoaDon", "HoaDon")
-                        .WithMany("ThoiGianDatSans")
-                        .HasForeignKey("IdHoaDon")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("bookingfootball.Db_QL.SanCa", "SanCa")
-                        .WithMany()
-                        .HasForeignKey("IdSanCa")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HoaDon");
-
-                    b.Navigation("SanCa");
-                });
-
             modelBuilder.Entity("bookingfootball.Db_QL.Ca", b =>
                 {
                     b.Navigation("SanCas");
@@ -1158,8 +1094,6 @@ namespace bookingfootball.Migrations
                     b.Navigation("HoaDonChiTiets");
 
                     b.Navigation("LichSuHoaDons");
-
-                    b.Navigation("ThoiGianDatSans");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.HoaDonChiTiet", b =>

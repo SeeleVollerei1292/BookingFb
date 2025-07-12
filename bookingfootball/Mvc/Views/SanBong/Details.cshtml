@@ -8,8 +8,8 @@
     var nuocUongs = ViewBag.NuocUongs as List<bookingfootball.Db_QL.NuocUong> ?? new List<bookingfootball.Db_QL.NuocUong>();
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+<<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 
 <style>
@@ -40,8 +40,18 @@
         margin-bottom: 20px;
     }
 
-    .accordion-button {
-        font-weight: bold;
+    .slot-checkbox:disabled {
+        cursor: not-allowed;
+    }
+
+    .calendar-container, .mini-calendar {
+        max-width: 100%;
+        height: 400px; /* Ensure calendar has a defined height */
+    }
+
+    .mini-calendar {
+        max-width: 300px;
+        height: 250px;
     }
 
     .service-checkbox, .service-quantity {
@@ -52,6 +62,21 @@
         font-size: 1.2rem;
         padding: 10px 20px;
     }
+
+    .selected-dates-list {
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+    .fc-prev-button, .fc-next-button {
+        background-color: #0d6efd;
+        border: none;
+        color: white;
+    }
+
+        .fc-prev-button:hover, .fc-next-button:hover {
+            background-color: #0b5ed7;
+        }
 </style>
 
 <div class="container mt-5">
@@ -116,7 +141,7 @@
     <!-- Calendar -->
     <div class="card card-custom p-4 mt-4">
         <h4 class="highlight-title">Chọn Ngày Đặt Sân</h4>
-        <div id="calendar"></div>
+        <div id="calendar" class="calendar-container"></div>
     </div>
 
     <!-- Modal for Selecting Time Slots -->
@@ -124,16 +149,55 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="slotModalLabel">Chọn Ca - <span id="selectedDate"></span></h5>
+                    <h5 class="modal-title" id="slotModalLabel">Chọn Ca và Ngày</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="slotList" class="row"></div>
-                    <div id="noSlotsMessage" class="text-center d-none">Không có ca nào hoạt động trong ngày này.</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Ca khả dụng</h6>
+                            <div id="slotList" class="row row-cols-2 g-3"></div>
+                            <div id="noSlotsMessage" class="text-center d-none">Không có ca nào hoạt động.</div>
+                            <div class="mt-3">
+                                <label for="slotFilter" class="form-label">Lọc Ca</label>
+                                <select id="slotFilter" class="form-select">
+                                    <option value="day">Theo ngày</option>
+                                    <option value="multi">Nhiều ngày</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Lịch chọn ngày</h6>
+                            <div id="miniCalendar" class="mini-calendar"></div>
+                            <div class="mt-3 selected-dates-list">
+                                <h6>Ngày đã chọn:</h6>
+                                <ul id="selectedDatesList" class="list-group"></ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="confirmSlots">Chọn</button>
+                    <button type="button" class="btn btn-primary" id="confirmSlots">Lưu Ca</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Selecting Services -->
+    <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serviceModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="serviceList"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="confirmServices">Lưu Dịch Vụ</button>
                 </div>
             </div>
         </div>
@@ -141,7 +205,11 @@
 
     <!-- Selected Slots -->
     <div class="card card-custom p-4 mt-4" id="selectedSlotsCard" style="display: none;">
-        <h4 class="highlight-title">Chi Tiết Ca Đã Chọn</h4>
+        <h4 class="highlight-title">Chi Tiết Đặt Sân</h4>
+        <div class="mb-3">
+            <button class="btn btn-primary me-2" id="addNuocUong">Thêm Nước Uống</button>
+            <button class="btn btn-primary" id="addDoThue">Thêm Đồ Thuê</button>
+        </div>
         <table class="table table-bordered" id="selectedSlotsTable">
             <thead class="table-dark">
                 <tr>
@@ -150,14 +218,20 @@
                     <th>Ngày</th>
                     <th>Tên Ca</th>
                     <th>Giờ</th>
-                    <th>Dịch Vụ</th>
+                    <th>Nước Uống</th>
+                    <th>Đồ Thuê</th>
+                    <th>Tổng Tiền</th>
+                    <th>Thao Tác</th>
                 </tr>
             </thead>
             <tbody id="selectedSlotsBody"></tbody>
         </table>
+        <div class="text-end mt-3 total-cost">
+            <h5>Tổng Tiền Tất Cả Ca: <span id="grandTotal">0</span> VNĐ</h5>
+        </div>
         <div class="mb-3">
             <label for="ghiChu" class="form-label">Ghi Chú</label>
-            <textarea id="ghiChu" class="form-control" rows="4">nhập ghi chú</textarea>
+            <textarea id="ghiChu" class="form-control" rows="4">Nhập ghi chú</textarea>
         </div>
         <div class="text-end">
             <button class="btn btn-primary btn-book" id="bookButton" disabled>Đặt Sân</button>
@@ -165,203 +239,642 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js" integrity="sha256-7PzqEueJBFV8r8bFVMz4p8nV1sMKlLVh1M2g2o7G2Z0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/vi.js" integrity="sha256-OgV3D8eJ+ZmZ0v1G3W7z4i5p5V2y5z3z4i5p5V2y5z3z4i5p5V2y5z3z4i5p5V" crossorigin="anonymous"></script>
+
 <script>
     var doThues = @Html.Raw(Json.Serialize(doThues.Select(dt => new { dt.Id, dt.TenDoThue, dt.DonGia, dt.SoLuong })));
     var nuocUongs = @Html.Raw(Json.Serialize(nuocUongs.Select(nu => new { nu.Id, nu.TenNuocUong, nu.GiaBan, nu.Soluong })));
+    var selectedSlots = [];
+    var currentCaId = null;
+    var currentDate = null;
+    var selectedDates = [];
+
+    // Debugging: Log initial data
+    console.log('doThues:', doThues);
+    console.log('nuocUongs:', nuocUongs);
+
+    // Hàm kiểm tra định dạng ngày hợp lệ
+    function isValidDate(dateStr) {
+        if (!dateStr) return false;
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!regex.test(dateStr)) return false;
+        const date = new Date(dateStr);
+        return date instanceof Date && !isNaN(date) && date.getFullYear() >= 2000;
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
+        console.log('DOMContentLoaded fired');
+
+        // Verify calendar element exists
         var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'vi',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,dayGridWeek'
-            },
-            dateClick: function (info) {
-                var selectedDate = info.dateStr;
+        if (!calendarEl) {
+            console.error('Calendar element not found');
+            alert('Không tìm thấy phần tử lịch. Vui lòng kiểm tra HTML.');
+            return;
+        }
+        console.log('Calendar element found:', calendarEl);
+
+        // Main Calendar
+        try {
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'vi',
+                height: '400px', // Set explicit height
+                aspectRatio: 1.35, // Ensure proper aspect ratio
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek'
+                },
+                dateClick: function (info) {
+                    console.log('Date clicked:', info.dateStr);
+                    var selectedDate = info.dateStr;
                     var today = new Date();
-    today.setHours(0, 0, 0, 0);
-    var clickedDate = new Date(info.date);
-    clickedDate.setHours(0, 0, 0, 0);
+                    today.setHours(0, 0, 0, 0);
+                    var clickedDate = new Date(info.date);
+                    clickedDate.setHours(0, 0, 0, 0);
 
-    if (clickedDate < today) {
-        alert("Không thể đặt sân vào ngày đã qua.");
-        return;
-    }
-                $('#selectedDate').text(selectedDate);
-                $('#slotList').empty();
-                $('#noSlotsMessage').addClass('d-none');
-
-                $.get('/SanBong/GetAvailableSlots', { sanBongId: @Model.Id, date: selectedDate }, function (slots) {
-                    if (slots.length > 0) {
-                        slots.forEach(function (slot) {
-                            $('#slotList').append(`
-                                <div class="col-md-4 mb-2">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input slot-checkbox" value="${slot.caId}" id="slot_${slot.caId}">
-                                        <label class="form-check-label" for="slot_${slot.caId}">
-                                            ${slot.tenCa} (${slot.startTime} - ${slot.endTime})
-                                        </label>
-                                    </div>
-                                </div>
-                            `);
-                        });
-                    } else {
-                        $('#noSlotsMessage').removeClass('d-none');
+                    if (clickedDate < today) {
+                        alert("Không thể đặt sân vào ngày đã qua.");
+                        return;
                     }
+
+                    selectedDates = [selectedDate];
+                    updateSelectedDatesList();
+                    loadSlots(selectedDate);
+                    $('#slotFilter').val('day');
                     $('#slotModal').modal('show');
-                });
-            }
-        });
-        calendar.render();
+                },
+                events: function (fetchInfo, successCallback) {
+                    var events = selectedSlots.map(slot => ({
+                        start: slot.date,
+                        title: slot.tenCa,
+                        allDay: true
+                    }));
+                    console.log('Calendar events:', events);
+                    successCallback(events);
+                }
+            });
+            console.log('Calendar initialized');
+            calendar.render();
+            console.log('Calendar rendered');
+        } catch (error) {
+            console.error('Calendar initialization error:', error);
+            alert('Đã xảy ra lỗi khi khởi tạo lịch: ' + error.message);
+        }
 
-        $('#confirmSlots').click(function () {
-            var selectedCaIds = $('.slot-checkbox:checked').map(function () { return parseInt($(this).val()); }).get();
-            var selectedDate = $('#selectedDate').text();
+        // Mini Calendar trong Modal
+        var miniCalendarEl = document.getElementById('miniCalendar');
+        if (!miniCalendarEl) {
+            console.error('Mini calendar element not found');
+            return;
+        }
+        console.log('Mini calendar element found:', miniCalendarEl);
 
-            if (selectedCaIds.length === 0) {
-                alert('Vui lòng chọn ít nhất một ca.');
+        try {
+            var miniCalendar = new FullCalendar.Calendar(miniCalendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'vi',
+                height: '250px',
+                aspectRatio: 1,
+                headerToolbar: {
+                    left: 'prev',
+                    center: 'title',
+                    right: 'next'
+                },
+                selectable: true,
+                select: function (info) {
+                    if ($('#slotFilter').val() !== 'multi') return;
+
+                    console.log('Mini calendar select:', info.startStr, info.endStr);
+                    var startDate = new Date(info.startStr);
+                    var endDate = new Date(info.endStr);
+                    endDate.setDate(endDate.getDate() - 1);
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    selectedDates = [];
+                    for (var d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+                        if (d >= today) {
+                            var dateStr = d.toISOString().split('T')[0];
+                            if (isValidDate(dateStr)) {
+                                selectedDates.push(dateStr);
+                            }
+                        }
+                    }
+
+                    if (selectedDates.length === 0) {
+                        alert("Không thể chọn ngày đã qua.");
+                        return;
+                    }
+
+                    updateSelectedDatesList();
+                    loadSlots(selectedDates[0]);
+                    miniCalendar.gotoDate(selectedDates[0]);
+                },
+                dateClick: function (info) {
+                    if ($('#slotFilter').val() === 'multi') return;
+
+                    console.log('Mini calendar date clicked:', info.dateStr);
+                    var selectedDate = info.dateStr;
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    var clickedDate = new Date(info.date);
+                    clickedDate.setHours(0, 0, 0, 0);
+
+                    if (clickedDate < today) {
+                        alert("Không thể chọn ngày đã qua.");
+                        return;
+                    }
+
+                    if (!isValidDate(selectedDate)) {
+                        alert("Ngày không hợp lệ.");
+                        return;
+                    }
+
+                    selectedDates = [selectedDate];
+                    updateSelectedDatesList();
+                    loadSlots(selectedDate);
+                    miniCalendar.gotoDate(selectedDate);
+                },
+                eventContent: function (arg) {
+                    var dateStr = arg.event.start.toISOString().split('T')[0];
+                    var slotsForDate = selectedSlots.filter(s => s.date === dateStr);
+                    var count = slotsForDate.length;
+                    return { html: `<div>${count > 0 ? count + ' ca' : ''}</div>` };
+                },
+                events: function (fetchInfo, successCallback) {
+                    var events = selectedSlots.map(slot => ({
+                        start: slot.date,
+                        title: slot.tenCa,
+                        allDay: true
+                    }));
+                    console.log('Mini calendar events:', events);
+                    successCallback(events);
+                }
+            });
+
+            $('#slotModal').on('shown.bs.modal', function () {
+                console.log('Slot modal shown');
+                if (selectedDates.length > 0) {
+                    miniCalendar.gotoDate(selectedDates[0]);
+                }
+                miniCalendar.render();
+                console.log('Mini calendar rendered');
+            });
+        } catch (error) {
+            console.error('Mini calendar initialization error:', error);
+            alert('Đã xảy ra lỗi khi khởi tạo lịch mini: ' + error.message);
+        }
+
+        // Cập nhật selectable dựa trên slotFilter
+        $('#slotFilter').change(function () {
+            var filter = $(this).val();
+            console.log('Slot filter changed:', filter);
+            miniCalendar.setOption('selectable', filter === 'multi');
+            var selectedDate = selectedDates[0];
+            if (!selectedDate || !isValidDate(selectedDate)) {
+                alert("Vui lòng chọn một ngày hợp lệ.");
                 return;
             }
 
-            $.post('/SanBong/BookSlots', {
-                sanBongId: @Model.Id,
-                date: selectedDate,
-                caIds: selectedCaIds
-            }, function (response) {
-                if (response.success) {
-                    $('#slotModal').modal('hide');
-                    alert(response.message);
+            if (filter === 'multi') {
+                selectedDates = selectedDates.length > 0 ? selectedDates : [selectedDate];
+            } else {
+                selectedDates = [selectedDate];
+            }
+            updateSelectedDatesList();
+            loadSlots(selectedDate);
+        });
 
-                    $('#selectedSlotsCard').show();
-                    $('#selectedSlotsBody').empty();
-                    $('#bookButton').prop('disabled', false);
+        // Cập nhật danh sách ngày đã chọn
+        function updateSelectedDatesList() {
+            $('#selectedDatesList').empty();
+            selectedDates.forEach(date => {
+                var slotsForDate = selectedSlots.filter(s => s.date === date);
+                var count = slotsForDate.length;
+                $('#selectedDatesList').append(`
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${date} <span class="badge bg-primary">${count} ca</span>
+                        <button class="btn btn-sm btn-danger remove-date" data-date="${date}">Xóa</button>
+                    </li>
+                `);
+            });
 
-                    response.data.cas.forEach(function (ca) {
-                        var doThueCheckboxes = doThues.length > 0 ? doThues.map(dt => `
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input service-checkbox dothue-checkbox" value="${dt.id}" id="dothue_${ca.caId}_${dt.id}" data-ca-id="${ca.caId}">
-                                <label class="form-check-label" for="dothue_${ca.caId}_${dt.id}">${dt.tenDoThue} (${dt.donGia.toLocaleString('vi-VN')} VNĐ)</label>
-                                <input type="number" class="form-control service-quantity dothue-quantity" id="dothue_qty_${ca.caId}_${dt.id}" min="1" max="${dt.soLuong}" style="width: 80px; display: inline-block;" disabled>
-                            </div>
-                        `).join('') : '<p>Không có đồ thuê</p>';
+            $(document).off('click', '.remove-date').on('click', '.remove-date', function () {
+                var date = $(this).data('date');
+                console.log('Removing date:', date);
+                selectedDates = selectedDates.filter(d => d !== date);
+                selectedSlots = selectedSlots.filter(s => s.date !== date);
+                updateSelectedDatesList();
+                miniCalendar.refetchEvents();
+                loadSlots(selectedDates[0]);
+                updateSelectedSlotsTable({
+                    tenSan: '@Model.TenSan',
+                    gia: @Model.Gia,
+                    dates: selectedDates,
+                    cas: selectedSlots
+                });
+            });
+        }
 
-                        var nuocUongInputs = nuocUongs.length > 0 ? nuocUongs.map(nu => `
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input service-checkbox nuocuong-checkbox" value="${nu.id}" id="nuocuong_${ca.caId}_${nu.id}" data-ca-id="${ca.caId}">
-                                <label class="form-check-label" for="nuocuong_${ca.caId}_${nu.id}">${nu.tenNuocUong} (${nu.giaBan.toLocaleString('vi-VN')} VNĐ)</label>
-                                <input type="number" class="form-control service-quantity nuocuong-quantity" id="nuocuong_qty_${ca.caId}_${nu.id}" min="1" max="${nu.soluong}" style="width: 80px; display: inline-block;" disabled>
-                            </div>
-                        `).join('') : '<p>Không có nước uống</p>';
+            // Load danh sách ca
+    function loadSlots(date) {
+        if (!isValidDate(date)) {
+            console.error('Invalid date passed to loadSlots:', date);
+            $('#slotList').empty();
+            $('#noSlotsMessage').removeClass('d-none').text('Ngày không hợp lệ.');
+            return;
+        }
 
-                        $('#selectedSlotsBody').append(`
-                            <tr data-ca-id="${ca.caId}">
-                                <td>${response.data.tenSan}</td>
-                                <td>${response.data.gia.toLocaleString('vi-VN')} VNĐ/giờ</td>
-                                <td>${response.data.date}</td>
-                                <td>${ca.tenCa}</td>
-                                <td>${ca.startTime} - ${ca.endTime}</td>
-                                <td>
-                                    <div class="accordion" id="accordion_${ca.caId}">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingDoThue_${ca.caId}">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDoThue_${ca.caId}">
-                                                    Đồ Thuê
-                                                </button>
-                                            </h2>
-                                            <div id="collapseDoThue_${ca.caId}" class="accordion-collapse collapse" data-bs-parent="#accordion_${ca.caId}">
-                                                <div class="accordion-body">${doThueCheckboxes}</div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingNuocUong_${ca.caId}">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNuocUong_${ca.caId}">
-                                                    Nước Uống
-                                                </button>
-                                            </h2>
-                                            <div id="collapseNuocUong_${ca.caId}" class="accordion-collapse collapse" data-bs-parent="#accordion_${ca.caId}">
-                                                <div class="accordion-body">${nuocUongInputs}</div>
-                                            </div>
-                                        </div>
+        $('#slotList').empty();
+        $('#noSlotsMessage').addClass('d-none');
+
+        var filter = $('#slotFilter').val();
+        var datesToLoad = filter === 'multi' ? selectedDates : [date];
+
+        // Lưu trạng thái checkbox cho các ngày khác
+        var slotCheckStates = {};
+        $('.slot-checkbox').each(function () {
+            var caId = $(this).val();
+            var sanCaId = $(this).data('sanca-id');
+            var slotDate = $(this).data('date');
+            slotCheckStates[`${caId}_${sanCaId}_${slotDate}`] = $(this).is(':checked');
+        });
+
+        console.log('Loading slots for dates:', datesToLoad, 'filter:', filter);
+
+        // Gọi API GetAvailableSlots cho từng ngày
+        var slotPromises = datesToLoad.map(d =>
+            $.get('/SanBong/GetAvailableSlots', { sanBongId: @Model.Id, date: d, filter: filter })
+                .then(slots => ({ date: d, slots: slots }))
+        );
+
+        Promise.all(slotPromises).then(results => {
+            let allSlots = [];
+            results.forEach(result => {
+                result.slots.forEach(slot => {
+                    slot.date = result.date; // Gắn ngày vào slot
+                    allSlots.push(slot);
+                });
+            });
+
+            console.log('GetAvailableSlots Response:', allSlots);
+            if (allSlots.length > 0) {
+                var uniqueSlots = [];
+                var slotKeys = new Set();
+                allSlots.forEach(slot => {
+                    var key = `${slot.caId}_${slot.sanCaId}_${slot.date}`;
+                    if (!slotKeys.has(key)) {
+                        slotKeys.add(key);
+                        uniqueSlots.push(slot);
+                    }
+                });
+
+                var rowCount = Math.ceil(uniqueSlots.length / 2);
+                for (var i = 0; i < rowCount; i++) {
+                    var rowHtml = '<div class="row mb-3">';
+                    for (var j = 0; j < 2; j++) {
+                        var index = i * 2 + j;
+                        if (index < uniqueSlots.length) {
+                            var slot = uniqueSlots[index];
+                            var isChecked = slotCheckStates[`${slot.caId}_${slot.sanCaId}_${slot.date}`] ||
+                                            selectedSlots.some(s => s.caId === slot.caId && s.sanCaId === slot.sanCaId && s.date === slot.date);
+                            rowHtml += `
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input slot-checkbox"
+                                               value="${slot.caId}" data-sanca-id="${slot.sanCaId}"
+                                               id="slot_${slot.caId}_${slot.sanCaId}_${slot.date}"
+                                               ${slot.isActive ? '' : 'disabled'} ${isChecked && slot.isActive ? 'checked' : ''}
+                                               data-date="${slot.date}">
+                                        <label class="form-check-label" for="slot_${slot.caId}_${slot.sanCaId}_${slot.date}">
+                                            ${slot.tenCa} (${slot.startTime} - ${slot.endTime}) - ${slot.date} ${slot.isActive ? '' : '(Đã được đặt)'}
+                                        </label>
                                     </div>
-                                </td>
-                            </tr>
-                        `);
-                    });
-
-                    // Enable quantity inputs when checkboxes are checked
-                    $('.service-checkbox').change(function () {
-                        var qtyInput = $(this).closest('.form-check').find('.service-quantity');
-                        qtyInput.prop('disabled', !this.checked);
-                        if (!this.checked) qtyInput.val(0);
-                    });
-
-                    $('#bookButton').click(function () {
-                        var selectedCaIds = $('#selectedSlotsBody tr').map(function () {
-                            return parseInt($(this).data('ca-id'));
-                        }).get();
-                        var selections = $('#selectedSlotsBody tr').map(function () {
-                            var caId = parseInt($(this).data('ca-id'));
-                            var doThueSelections = $(this).find('.dothue-checkbox:checked').map(function () {
-                                var doThueId = parseInt($(this).val());
-                                var quantity = parseInt($(this).closest('.form-check').find('.dothue-quantity').val() || 0);
-                                return { id: doThueId, quantity: quantity };
-                            }).get();
-                            var nuocUongSelections = $(this).find('.nuocuong-checkbox:checked').map(function () {
-                                var nuocUongId = parseInt($(this).val());
-                                var quantity = parseInt($(this).closest('.form-check').find('.nuocuong-quantity').val() || 0);
-                                return { id: nuocUongId, quantity: quantity };
-                            }).get();
-                            return {
-                                caId: caId,
-                                doThueIds: doThueSelections,
-                                nuocUongSelections: nuocUongSelections
-                            };
-                        }).get();
-
-                        if (!selectedCaIds.length) {
-                            alert('Vui lòng chọn ít nhất một ca.');
-                            return;
+                                </div>
+                            `;
                         }
-                        if (selections.some(s => s.nuocUongSelections.some(nu => nu.quantity <= 0))) {
-                            alert('Vui lòng nhập số lượng nước uống lớn hơn 0.');
-                            return;
-                        }
-                        if (selections.some(s => s.doThueIds.some(dt => dt.quantity <= 0))) {
-                            alert('Vui lòng nhập số lượng đồ thuê lớn hơn 0.');
-                            return;
-                        }
+                    }
+                    rowHtml += '</div>';
+                    $('#slotList').append(rowHtml);
+                }
 
-                        var ghiChu = $('#ghiChu').val();
-                        var date = response.data.date;
+                $('.slot-checkbox:disabled').on('click', function () {
+                    alert('Ca này đã hết chỗ.');
+                });
 
-                        $.post('/SanBong/ConfirmAndBook', {
-                            sanBongId: @Model.Id,
-                            date: date,
-                            caIds: selectedCaIds,
-                            selections: selections,
-                            ghiChu: ghiChu
-                        }, function (res) {
-                            if (res.success) {
-                                alert(res.message);
-                                window.location.href = res.redirectUrl;
-                            } else {
-                                alert(res.message);
-                            }
-                        }).fail(function (xhr, status, error) {
-                            console.error('ConfirmAndBook Error:', status, error);
-                            alert('Đã xảy ra lỗi khi đặt sân: ' + error);
+                if (filter === 'multi') {
+                    $('.slot-checkbox').change(function () {
+                        var caId = $(this).val();
+                        var sanCaId = $(this).data('sanca-id');
+                        var slotDate = $(this).data('date');
+                        var isChecked = $(this).is(':checked');
+                        // Áp dụng trạng thái checked cho tất cả các ngày trong selectedDates
+                        selectedDates.forEach(d => {
+                            slotCheckStates[`${caId}_${sanCaId}_${d}`] = isChecked;
                         });
                     });
+                }
+
+                if (!uniqueSlots.some(s => s.isActive)) {
+                    $('#noSlotsMessage').removeClass('d-none').text('Không còn ca nào trống cho các ngày đã chọn.');
+                }
+            } else {
+                $('#noSlotsMessage').removeClass('d-none').text('Không còn ca nào trống cho các ngày đã chọn.');
+            }
+        }).catch(function (xhr, status, error) {
+            console.error('GetAvailableSlots Error:', status, error, xhr.responseText);
+            $('#noSlotsMessage').removeClass('d-none').text('Đã xảy ra lỗi khi tải danh sách ca.');
+        });
+    }
+
+    // Confirm Slots
+    $('#confirmSlots').click(function () {
+        var filter = $('#slotFilter').val();
+        var newSlots = [];
+
+        var selectedCaIds = $('.slot-checkbox:checked').map(function () {
+            return parseInt($(this).val());
+        }).get();
+        var selectedSanCaIds = $('.slot-checkbox:checked').map(function () {
+            return parseInt($(this).data('sanca-id'));
+        }).get();
+        var selectedDatesForSlots = $('.slot-checkbox:checked').map(function () {
+            return $(this).data('date');
+        }).get();
+
+        console.log('Selected CaIds:', selectedCaIds);
+        console.log('Selected SanCaIds:', selectedSanCaIds);
+        console.log('Selected Dates for Slots:', selectedDatesForSlots);
+
+        if (selectedCaIds.length === 0 || selectedSanCaIds.length === 0) {
+            alert('Vui lòng chọn ít nhất một ca.');
+            return;
+        }
+
+        if (!selectedDates.length || selectedDates.some(date => !isValidDate(date))) {
+            alert('Vui lòng chọn ít nhất một ngày hợp lệ.');
+            return;
+        }
+
+        // Tạo payload với ca và ngày tương ứng
+        var payload = {
+            sanBongId: @Model.Id,
+            dates: selectedDates,
+            caIds: selectedCaIds,
+            sanCaIds: selectedSanCaIds
+        };
+
+        console.log('BookSlots Payload:', JSON.stringify(payload, null, 2));
+
+        $.ajax({
+            url: '/SanBong/BookSlots',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function (response) {
+                console.log('BookSlots Response:', response);
+                if (response.success) {
+                    response.data.cas.forEach(ca => {
+                        if (isValidDate(ca.date) && ca.isActive && ca.sanCaId) {
+                            newSlots.push({
+                                date: ca.date,
+                                caId: ca.caId,
+                                sanCaId: ca.sanCaId,
+                                tenCa: ca.tenCa,
+                                startTime: ca.startTime,
+                                endTime: ca.endTime,
+                                nuocUongSelections: ca.nuocUongSelections || [],
+                                doThueSelections: ca.doThueSelections || []
+                            });
+                        }
+                    });
+
+                    console.log('New Slots:', newSlots);
+                    if (newSlots.length > 0) {
+                        selectedSlots = newSlots; // Thay thế selectedSlots để đảm bảo đồng bộ
+                        console.log('Updated selectedSlots:', selectedSlots);
+                        $('#slotModal').modal('hide');
+                        $('#selectedSlotsCard').show();
+                        $('#bookButton').prop('disabled', false);
+                        updateSelectedSlotsTable({
+                            tenSan: '@Model.TenSan',
+                            gia: @Model.Gia,
+                            dates: selectedDates,
+                            cas: selectedSlots
+                        });
+                        updateSelectedDatesList();
+                        calendar.refetchEvents();
+                        miniCalendar.refetchEvents();
+                    } else {
+                        alert('Không có ca nào được chọn.');
+                    }
                 } else {
                     alert(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('BookSlots Error:', status, error, xhr.responseText);
+                alert('Đã xảy ra lỗi khi lưu ca: ' + (xhr.responseJSON?.message || error));
+            }
+        });
+    });
+        // Add Service Modals
+        $('#addNuocUong').click(function () {
+            $('#serviceModalLabel').text('Chọn Nước Uống');
+            $('#serviceList').html(nuocUongs.map(nu => `
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input service-checkbox nuocuong-checkbox" value="${nu.id}" id="nuocuong_${nu.id}" data-id="${nu.id}">
+                    <label class="form-check-label" for="nuocuong_${nu.id}">${nu.tenNuocUong} (${nu.giaBan.toLocaleString('vi-VN')} VNĐ)</label>
+                    <input type="number" class="form-control service-quantity nuocuong-quantity" id="nuocuong_qty_${nu.id}" min="1" max="${nu.soluong}" value="1" style="width: 80px; display: inline-block;" disabled>
+                </div>
+            `).join(''));
+            $('.nuocuong-checkbox').change(function () {
+                var qtyInput = $(this).closest('.form-check').find('.nuocuong-quantity');
+                qtyInput.prop('disabled', !this.checked);
+                if (!this.checked) qtyInput.val(1);
+            });
+            $('#serviceModal').modal('show');
+        });
+
+        $('#addDoThue').click(function () {
+            $('#serviceModalLabel').text('Chọn Đồ Thuê');
+            $('#serviceList').html(doThues.map(dt => `
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input service-checkbox dothue-checkbox" value="${dt.id}" id="dothue_${dt.id}" data-id="${dt.id}">
+                    <label class="form-check-label" for="dothue_${dt.id}">${dt.tenDoThue} (${dt.donGia.toLocaleString('vi-VN')} VNĐ)</label>
+                    <input type="number" class="form-control service-quantity dothue-quantity" id="dothue_qty_${dt.id}" min="1" max="${dt.soLuong}" value="1" style="width: 80px; display: inline-block;" disabled>
+                </div>
+            `).join(''));
+            $('.dothue-checkbox').change(function () {
+                var qtyInput = $(this).closest('.form-check').find('.dothue-quantity');
+                qtyInput.prop('disabled', !this.checked);
+                if (!this.checked) qtyInput.val(1);
+            });
+            $('#serviceModal').modal('show');
+        });
+
+        $('#confirmServices').click(function () {
+            var isNuocUong = $('#serviceModalLabel').text() === 'Chọn Nước Uống';
+            var selections = [];
+            if (isNuocUong) {
+                selections = $('.nuocuong-checkbox:checked').map(function () {
+                    var id = parseInt($(this).val());
+                    var nuocUong = nuocUongs.find(nu => nu.id === id);
+                    var quantity = parseInt($(this).closest('.form-check').find('.nuocuong-quantity').val() || 1);
+                    return { id: id, tenNuocUong: nuocUong.tenNuocUong, giaBan: nuocUong.giaBan, quantity: quantity };
+                }).get();
+            } else {
+                selections = $('.dothue-checkbox:checked').map(function () {
+                    var id = parseInt($(this).val());
+                    var doThue = doThues.find(dt => dt.id === id);
+                    var quantity = parseInt($(this).closest('.form-check').find('.dothue-quantity').val() || 1);
+                    return { id: id, tenDoThue: doThue.tenDoThue, donGia: doThue.donGia, quantity: quantity };
+                }).get();
+            }
+
+            if (selections.length === 0) {
+                alert('Vui lòng chọn ít nhất một dịch vụ.');
+                return;
+            }
+            if (selections.some(s => s.quantity <= 0)) {
+                alert('Số lượng phải lớn hơn 0.');
+                return;
+            }
+
+            if (!currentCaId || !currentDate) {
+                alert('Vui lòng chọn ca và ngày trước khi thêm dịch vụ.');
+                return;
+            }
+
+            var slot = selectedSlots.find(s => s.caId === currentCaId && s.date === currentDate);
+            if (isNuocUong) {
+                slot.nuocUongSelections = slot.nuocUongSelections.concat(selections);
+            } else {
+                slot.doThueSelections = slot.doThueSelections.concat(selections);
+            }
+
+            updateSelectedSlotsTable({
+                tenSan: '@Model.TenSan',
+                gia: @Model.Gia,
+                dates: selectedDates,
+                cas: selectedSlots
+            });
+
+            $('#serviceModal').modal('hide');
+        });
+
+        // Update Selected Slots Table
+        function updateSelectedSlotsTable(data) {
+            $('#selectedSlotsBody').empty();
+            var grandTotal = 0;
+
+            data.cas.forEach(function (ca) {
+                var nuocUongList = ca.nuocUongSelections.length > 0
+                    ? ca.nuocUongSelections.map(nu => `${nu.tenNuocUong} (x${nu.quantity})`).join(', ')
+                    : 'Chưa chọn';
+                var doThueList = ca.doThueSelections.length > 0
+                    ? ca.doThueSelections.map(dt => `${dt.tenDoThue} (x${dt.quantity})`).join(', ')
+                    : 'Chưa chọn';
+                var duration = (new Date(`1970-01-01T${ca.endTime}:00`) - new Date(`1970-01-01T${ca.startTime}:00`)) / 3600000;
+                var slotCost = duration * data.gia;
+                var nuocUongCost = ca.nuocUongSelections.reduce((s, nu) => s + nu.giaBan * nu.quantity, 0);
+                var doThueCost = ca.doThueSelections.reduce((s, dt) => s + dt.donGia * dt.quantity, 0);
+                var totalCost = slotCost + nuocUongCost + doThueCost;
+                grandTotal += totalCost;
+
+                $('#selectedSlotsBody').append(`
+                    <tr data-ca-id="${ca.caId}" data-date="${ca.date}">
+                        <td>${data.tenSan}</td>
+                        <td>${data.gia.toLocaleString('vi-VN')} VNĐ/giờ</td>
+                        <td>${ca.date}</td>
+                        <td>${ca.tenCa}</td>
+                        <td>${ca.startTime} - ${ca.endTime}</td>
+                        <td>${nuocUongList}</td>
+                        <td>${doThueList}</td>
+                        <td>${totalCost.toLocaleString('vi-VN')} VNĐ</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary edit-services" data-ca-id="${ca.caId}" data-date="${ca.date}" data-type="nuocuong">Sửa Nước Uống</button>
+                            <button class="btn btn-sm btn-primary edit-services" data-ca-id="${ca.caId}" data-date="${ca.date}" data-type="dothue">Sửa Đồ Thuê</button>
+                        </td>
+                    </tr>
+                `);
+            });
+
+            // Update grand total display
+            $('#grandTotal').text(grandTotal.toLocaleString('vi-VN'));
+            $('#bookButton').prop('disabled', data.cas.length === 0);
+
+            $('.edit-services').click(function () {
+                currentCaId = parseInt($(this).data('ca-id'));
+                currentDate = $(this).data('date');
+                var type = $(this).data('type');
+                if (type === 'nuocuong') {
+                    $('#addNuocUong').click();
+                } else {
+                    $('#addDoThue').click();
+                }
+            });
+        }
+
+        // Book Button
+        $('#bookButton').click(function () {
+            if (!selectedSlots.length) {
+                alert('Vui lòng chọn ít nhất một ca trước khi đặt sân.');
+                return;
+            }
+
+            var selectedCas = selectedSlots.map(slot => ({
+                date: slot.date,
+                caId: slot.caId,
+                sanCaId: slot.sanCaId,
+                tenCa: slot.tenCa,
+                startTime: slot.startTime,
+                endTime: slot.endTime,
+                doThueSelections: slot.doThueSelections,
+                nuocUongSelections: slot.nuocUongSelections
+            }));
+
+            var payload = {
+                sanBongId: @Model.Id,
+                dates: selectedDates,
+                caIds: selectedSlots.map(slot => slot.caId),
+                sanCaIds: selectedSlots.map(slot => slot.sanCaId),
+                selections: [{
+                    sanBongId: @Model.Id,
+                    tenSan: '@Model.TenSan',
+                    gia: @Model.Gia,
+                    dates: selectedDates,
+                    cas: selectedCas
+                }],
+                ghiChu: $('#ghiChu').val()
+            };
+
+            console.log('ConfirmAndBook Payload:', JSON.stringify(payload, null, 2));
+
+            $.ajax({
+                url: '/SanBong/ConfirmAndBook',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(payload),
+                success: function (response) {
+                    console.log('ConfirmAndBook Response:', response);
+                    if (response.success) {
+                        window.location.href = response.redirectUrl;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('ConfirmAndBook Error:', status, error, xhr.responseText);
+                    alert('Đã xảy ra lỗi khi đặt sân: ' + (xhr.responseJSON?.message || error));
                 }
             });
         });
     });
 </script>
+

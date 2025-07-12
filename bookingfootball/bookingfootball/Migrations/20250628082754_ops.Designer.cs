@@ -12,8 +12,8 @@ using bookingfootball.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    [Migration("20250622083021_thuaaram")]
-    partial class thuaaram
+    [Migration("20250628082754_ops")]
+    partial class ops
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -294,6 +294,10 @@ namespace bookingfootball.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
 
@@ -309,6 +313,13 @@ namespace bookingfootball.Migrations
 
                     b.Property<int?>("NhanVienId")
                         .HasColumnType("int");
+
+                    b.Property<int>("SoDienThoaiNguoiDat")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenNguoiDat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("TienCoc")
                         .HasColumnType("decimal(18,2)");
@@ -827,6 +838,32 @@ namespace bookingfootball.Migrations
                     b.ToTable("TaiKhoans");
                 });
 
+            modelBuilder.Entity("bookingfootball.Db_QL.ThoiGianDatSan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IdHoaDon")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdSanCa")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("NgayDat")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdHoaDon");
+
+                    b.HasIndex("IdSanCa");
+
+                    b.ToTable("ThoiGianDatSans");
+                });
+
             modelBuilder.Entity("bookingfootball.Db_QL.Thue", b =>
                 {
                     b.Property<int>("Id")
@@ -1077,6 +1114,25 @@ namespace bookingfootball.Migrations
                     b.Navigation("NhanVien");
                 });
 
+            modelBuilder.Entity("bookingfootball.Db_QL.ThoiGianDatSan", b =>
+                {
+                    b.HasOne("bookingfootball.Db_QL.HoaDon", "HoaDon")
+                        .WithMany("ThoiGianDatSans")
+                        .HasForeignKey("IdHoaDon")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bookingfootball.Db_QL.SanCa", "SanCa")
+                        .WithMany()
+                        .HasForeignKey("IdSanCa")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HoaDon");
+
+                    b.Navigation("SanCa");
+                });
+
             modelBuilder.Entity("bookingfootball.Db_QL.Ca", b =>
                 {
                     b.Navigation("SanCas");
@@ -1087,6 +1143,8 @@ namespace bookingfootball.Migrations
                     b.Navigation("HoaDonChiTiets");
 
                     b.Navigation("LichSuHoaDons");
+
+                    b.Navigation("ThoiGianDatSans");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.HoaDonChiTiet", b =>

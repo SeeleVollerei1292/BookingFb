@@ -140,6 +140,16 @@ namespace bookingfootball.Data
                 .WithMany(h => h.DoThues)
                 .HasForeignKey(d => d.HoaDonChiTietId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<ThoiGianDatSan>()
+                .HasOne(t => t.HoaDon)
+                .WithMany(h => h.ThoiGianDatSans)
+                .HasForeignKey(t => t.IdHoaDon)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<ThoiGianDatSan>()
+                .HasOne(t => t.SanCa)
+                .WithMany()
+                .HasForeignKey(t => t.IdSanCa)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public DbSet<Sanbong> Sanbongs { get; set; }
@@ -158,5 +168,6 @@ namespace bookingfootball.Data
         public DbSet<DiaChiKhachHang> DiaChiKhachHangs { get; set; }
         public DbSet<NuocUong> NuocUongs { get; set; }
         public DbSet<DoThue> DoThues { get; set; }
+        public DbSet<ThoiGianDatSan> ThoiGianDatSans { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookingfootball.Data;
 
@@ -11,9 +12,11 @@ using bookingfootball.Data;
 namespace bookingfootball.Migrations
 {
     [DbContext(typeof(SbDbcontext))]
-    partial class SbDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250628093029_ajajajaj")]
+    partial class ajajajaj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,15 +328,6 @@ namespace bookingfootball.Migrations
                     b.Property<decimal?>("TongTienThanhToan")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("TrangThaiHoaDon")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TrangThaiThanhToan")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VNPayTransactionId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("KhachHangId");
@@ -377,9 +371,6 @@ namespace bookingfootball.Migrations
                     b.Property<int?>("SanBongId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SanCaId")
-                        .HasColumnType("int");
-
                     b.Property<decimal?>("TienThueSan")
                         .HasColumnType("decimal(18,2)");
 
@@ -398,8 +389,6 @@ namespace bookingfootball.Migrations
                     b.HasIndex("PhieuGiamGiaId");
 
                     b.HasIndex("SanBongId");
-
-                    b.HasIndex("SanCaId");
 
                     b.ToTable("HoaDonChiTiets");
                 });
@@ -1020,10 +1009,6 @@ namespace bookingfootball.Migrations
                         .WithMany("HoaDonChiTiets")
                         .HasForeignKey("SanBongId");
 
-                    b.HasOne("bookingfootball.Db_QL.SanCa", "SanCa")
-                        .WithMany()
-                        .HasForeignKey("SanCaId");
-
                     b.Navigation("HoaDon");
 
                     b.Navigation("NhanVien");
@@ -1031,8 +1016,6 @@ namespace bookingfootball.Migrations
                     b.Navigation("PhieuGiamGia");
 
                     b.Navigation("SanBong");
-
-                    b.Navigation("SanCa");
                 });
 
             modelBuilder.Entity("bookingfootball.Db_QL.LichLamViec", b =>
